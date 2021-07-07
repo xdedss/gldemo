@@ -106,8 +106,8 @@ void Widget::fixedUpdate() {
         glm::vec3 z = glm::normalize(camPos - camTarget);
         glm::vec3 x = glm::normalize(glm::cross(camUp, z));//叉乘确定Y轴
         glm::vec3 y = glm::normalize(camUp);
-        camTarget += (float)camDx * 0.05f * x;
-        camTarget += (float)camDy * 0.05f * y;
+        camTarget += (float)camDx * 0.05f * x * distance;
+        camTarget += (float)camDy * 0.05f * y * distance;
     }
     update();//重新渲染
 }
@@ -170,7 +170,7 @@ void Widget::paintGL()
     //rotate(起始矩阵，旋转角度，旋转轴)
     model = glm::rotate(glm::identity<glm::mat4>(), modelAngle, glm::vec3(0.0f, 0.0f, 1.0f));
     //透视(视锥上下面之间的夹角，宽高比，即视窗的宽/高，近截面、远截面的深度)
-    projection = glm::perspective(glm::radians(45.0f), screenWidth / (float)screenHeight, 0.1f, 100.0f);
+    projection = glm::perspective(glm::radians(45.0f), screenWidth / (float)screenHeight, 0.2f, 200.0f);
     //相机位置更新
     //相机旋转矩阵，pos旋转后 = camRotation * pos旋转前
     auto camRotation = glm::angleAxis(yaw, glm::vec3(0, 1, 0)) * glm::angleAxis(pitch, glm::vec3(1, 0, 0));
