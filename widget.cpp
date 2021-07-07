@@ -7,7 +7,7 @@ Widget::Widget(QWidget *parent)
     : QOpenGLWidget(parent)
 {
     setMouseTracking(true);
-
+    setMinimumSize(100, 100);
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(fixedUpdate()));
     timer->start(20);
