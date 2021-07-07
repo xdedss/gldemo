@@ -121,7 +121,9 @@ void Widget::initializeGL()
     pointCloud[1].shader = m_program;
     pointCloud[1].vertices = readTxt("uwo.txt");
     pointCloud[1].applyVertices();
-    pointCloud[1].transform = glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * 0.1f);
+    pointCloud[1].transform = glm::rotate(
+        glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * 0.1f), 
+        3.5f, { 1.0f, 0.0f, 0.0f });
 
     m_program->release();
 
