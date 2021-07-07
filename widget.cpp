@@ -20,16 +20,7 @@ Widget::~Widget()
 
 //滚轮
 void Widget::wheelEvent(QWheelEvent* wheel) {
-    /*
-    if (LeftMouseDown) {
-        windowX = this->x();
-        windowY = this->y();
-        wheeldelta = (float)wheel->delta();
-    }
-    else {
-        distance *= exp(0.001 * wheel->delta());
-    }*/
-    wheeldelta = (float)wheel->delta();
+    wheeldelta = (float)wheel->delta();//记录滚轮转动
 }
 //鼠标 点击
 void Widget::mousePressEvent(QMouseEvent* e)
@@ -40,26 +31,25 @@ void Widget::mousePressEvent(QMouseEvent* e)
     }
     else if (e->button() == Qt::MidButton) {
         MidMouseDown = true;
+        qDebug() << "滚轮" << e->pos();
     }
     else if (e->button() == Qt::LeftButton) {
         LeftMouseDown = true;
+        qDebug() << "左键" << e->pos();
     }
-    //获取点击的下标
-    //qDebug() << e->x() << ":" << e->y();
 }
 //鼠标 移动
 void Widget::mouseMoveEvent(QMouseEvent* e)
 {
-    //qDebug() << "move" << e->x() << ":" << e->y();
-    mousex = e->x(); mousey = e->y();
+    mousex = e->x(); mousey = e->y();//获取鼠标坐标
 }
 //鼠标 松开
 void Widget::mouseReleaseEvent(QMouseEvent* e)
 {
+    //恢复初始状态
     RightMouseDown = false;
     MidMouseDown = false;
     LeftMouseDown = false;
-    //qDebug() << "Release" << e->x() << ":" << e->y();
 }
 //键盘 事件
 void Widget::keyPressEvent(QKeyEvent* key) {
@@ -79,11 +69,9 @@ void Widget::keyPressEvent(QKeyEvent* key) {
     }
 }
 
-
-
 void Widget::keyReleaseEvent(QKeyEvent* key) {
-    if (key->key() == Qt::Key_A || key->key() == Qt::Key_W || key->key() == Qt::Key_S || key->key() == Qt::Key_D)
-    {
+    //恢复初始状态
+    if (key->key() == Qt::Key_A || key->key() == Qt::Key_W || key->key() == Qt::Key_S || key->key() == Qt::Key_D){
         camDx = 0;
         camDy = 0;
     }
@@ -100,20 +88,19 @@ void Widget::fixedUpdate() {
         
     }
     
-    // 键盘平移与鼠标滚轮缩放
+    //滚轮旋转 结合鼠标位置进行摄像机平移和视角缩放，同时可以用wasd平移摄像机
+  
     if (camDx != 0 || camDy != 0 || (wheeldelta)) {
         glm::vec3 z = glm::normalize(camPos - camTarget);
-        glm::vec3 x = glm::normalize(glm::cross(camUp, z));//叉乘确定Y轴
+        glm::vec3 x = glm::normalize(glm::cross(camUp, z));//叉乘确定X轴
         glm::vec3 y = glm::normalize(camUp);
-        if (wheeldelta) {
-            qDebug() << mousex<<windowX;
+        if (wheeldelta) {//滚轮、鼠标控制
             camTarget += -0.03f * (mousex  - (int)screenWidth / 2) * ((float)exp(0.001 * wheeldelta)-1)* (float)(log10(1 + 0.3*distance)+0.1*distance) * x ;
             camTarget += 0.03f * (mousey - (int)screenHeight/2) * ((float)exp(0.001 * wheeldelta)-1) * (float)(log10(1 + 0.3*distance)+0.1*distance) * y;
             distance *= exp(0.001 * wheeldelta);
             wheeldelta = 0.0f;
-            qDebug() << camTarget.x << camTarget.y << camTarget.z;
         }
-        else {
+        else {//wasd控制
             camTarget += (float)camDx * 0.05f * x * distance;
             camTarget += (float)camDy * 0.05f * y * distance;
             qDebug() << camTarget.x << camTarget.y << camTarget.z;
