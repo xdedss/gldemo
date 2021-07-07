@@ -31,13 +31,19 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+
+
 private:
     unsigned int screenWidth, screenHeight;
     glm::vec3 camPos, camTarget, camUp;
     glm::mat4 view, model, projection;
     float pitch = 0, yaw = 0;
     float modelAngle = 0;
-    bool mouseDown = false;
+    int camDx = 0, camDy = 0;//wasd ÉãÏñ»úÂþÓÎ
+    bool RightMouseDown = false;
+    bool MidMouseDown = false;
+    bool WheelRotate = false;
+    float distance = 5;
     int mouselastx = 0, mouselasty = 0, mousex = 0, mousey = 0;
     QOpenGLShaderProgram* m_program;
     //QOpenGLVertexArrayObject m_vao;
@@ -52,8 +58,15 @@ protected:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
     void paintGL() override;
+
+
     void mousePressEvent(QMouseEvent * e);
     void mouseMoveEvent(QMouseEvent * e);
     void mouseReleaseEvent(QMouseEvent * e);
+
+    void wheelEvent(QWheelEvent* wheel);
+
+    void keyPressEvent(QKeyEvent* key);
+    void keyReleaseEvent(QKeyEvent* key);
 };
 #endif // WIDGET_H
