@@ -6,7 +6,7 @@
 #include <string>
 #include "vertex.h"
 
-// ¶ÁÈ¡´Ómatlabµ¼³öµÄtxtÎÄ¼ş£¬Ã¿ĞĞËÄ¸öÊıx y z w£¬Ö»Áôxyz
+// è¯»å–ä»matlabå¯¼å‡ºçš„txtæ–‡ä»¶ï¼Œæ¯è¡Œå››ä¸ªæ•°x y z wï¼Œåªç•™xyz
 inline std::vector<Vertex> readTxt(const std::string& fpath) {
     std::ifstream infile(fpath);
     assert(!infile.fail());
@@ -29,19 +29,19 @@ inline std::vector<Vertex> readTxt(const std::string& fpath) {
     return res;
 }
 
-// ºöÂÔÎÄ¼şÍ·µÄÒ»¶ÑĞÅÏ¢£¬Ö»¶ÁÈ¡ËùÓĞµãµÄ×ø±ê
+// å¿½ç•¥æ–‡ä»¶å¤´çš„ä¸€å †ä¿¡æ¯ï¼Œåªè¯»å–æ‰€æœ‰ç‚¹çš„åæ ‡
 inline std::vector<Vertex> readPly(const std::string& fpath) {
     std::ifstream infile(fpath);
     assert(!infile.fail());
     std::vector<Vertex> res;
     std::string line, str;
     int numVertices;
-    // ÕÒµ½¶¥µãÊıËùÔÚĞĞ
+    // æ‰¾åˆ°é¡¶ç‚¹æ•°æ‰€åœ¨è¡Œ
     while (std::getline(infile, line))
     {
         if (std::string::npos != line.find("element vertex")) {
             std::istringstream iss(line);
-            // ¶Á³ö¶¥µãÊıÁ¿
+            // è¯»å‡ºé¡¶ç‚¹æ•°é‡
             if (!(iss >> str >> str >> numVertices)) {
                 qDebug() << "error reading element vertex";
                 // error
@@ -50,14 +50,14 @@ inline std::vector<Vertex> readPly(const std::string& fpath) {
             break;
         }
     }
-    // ÕÒµ½¶¥µãÊı¾İ¿ªÊ¼µÄĞĞ
+    // æ‰¾åˆ°é¡¶ç‚¹æ•°æ®å¼€å§‹çš„è¡Œ
     while (std::getline(infile, line))
     {
         if (std::string::npos != line.find("end_header")) {
             break;
         }
     }
-    // ¿ªÊ¼¶ÁÈ¡
+    // å¼€å§‹è¯»å–
     float x, y, z;
     for (int i = 0; i < numVertices; i++) {
         float t = (float)i / numVertices;

@@ -3,7 +3,7 @@
 
 #include <QApplication>
 
-// ³ÌĞòÈë¿Ú
+// ç¨‹åºå…¥å£
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
