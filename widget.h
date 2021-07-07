@@ -43,6 +43,11 @@ private:
     bool MidMouseDown = false;
     bool LeftMouseDown = false;
     bool WheelRotate = false;
+    //记录键盘状态
+    bool Key_ADown = false;
+    bool Key_WDown = false;
+    bool Key_SDown = false;
+    bool Key_DDown = false;
     // 相机姿态相关
     glm::vec3 camPos, camTarget, camUp;
     glm::mat4 view, projection;
