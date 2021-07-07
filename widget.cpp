@@ -57,8 +57,7 @@ void Widget::mousePressEvent(QMouseEvent* e)
 void Widget::mouseMoveEvent(QMouseEvent* e)
 {
     //qDebug() << "move" << e->x() << ":" << e->y();
-    if (RightMouseDown)
-        mousex = e->x(); mousey = e->y();
+    mousex = e->x(); mousey = e->y();
 }
 //鼠标 松开
 void Widget::mouseReleaseEvent(QMouseEvent* e)
