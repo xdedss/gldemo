@@ -6,7 +6,7 @@
 #include <string>
 #include "vertex.h"
 
-
+// 忽略文件头的一堆信息，只读取所有点的坐标
 inline std::vector<Vertex> readPly(const std::string& fpath) {
     std::ifstream infile(fpath);
     std::vector<Vertex> res;
