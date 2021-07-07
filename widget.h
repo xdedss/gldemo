@@ -17,6 +17,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 #include <QDebug>
 #include <QKeyEvent>
@@ -44,9 +45,9 @@ private:
     bool LeftMouseDown = false;
     bool WheelRotate = false;
     // 相机姿态相关
-    glm::vec3 camPos, camTarget, camUp;
+    glm::vec3 camPos, camTarget;
+    glm::quat camRot;
     glm::mat4 view, projection;
-    float pitch = 0, yaw = 0;
     //wasd 摄像机漫游
     int camDx = 0, camDy = 0;
     float distance = 5;
