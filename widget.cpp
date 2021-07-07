@@ -7,7 +7,7 @@ Widget::Widget(QWidget *parent)
     : QOpenGLWidget(parent)
 {
     setMouseTracking(true);
-
+    setMinimumSize(100, 100);
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(fixedUpdate()));
     timer->start(20);
@@ -18,36 +18,9 @@ Widget::~Widget()
 
 }
 
-
-static const Vertex sg_vertexes[] = {
-    Vertex(QVector3D(0.00f,  0.75f, 1.0f), QVector3D(1.0f, 0.0f, 0.0f)),
-    Vertex(QVector3D(0.75f, -0.75f, 1.0f), QVector3D(0.0f, 1.0f, 0.0f)),
-    Vertex(QVector3D(-0.75f, -0.75f, 1.0f), QVector3D(0.0f, 0.0f, 1.0f)),
-    Vertex(QVector3D(0.00f,  0.75f, 1.0f), QVector3D(1.0f, 1.0f, 0.0f)),
-    Vertex(QVector3D(0.75f, -0.75f, 2.0f), QVector3D(0.0f, 1.0f, 1.0f)),
-    Vertex(QVector3D(-0.75f, -0.75f, 0.0f), QVector3D(1.0f, 0.0f, 1.0f)),
-};
-static const Vertex sg_vertexes_2[] = {
-    Vertex(QVector3D(-1.00f,  -0.75f, -1.0f), QVector3D(1.0f, 0.0f, 0.0f)),
-    Vertex(QVector3D(-0.75f, 0.75f, -1.0f), QVector3D(0.0f, 1.0f, 0.0f)),
-    Vertex(QVector3D(0.75f, 0.75f, -1.0f), QVector3D(0.0f, 0.0f, 1.0f)),
-    Vertex(QVector3D(0.00f,  -0.75f, 1.0f), QVector3D(1.0f, 1.0f, 0.0f)),
-    Vertex(QVector3D(0.75f, 0.75f, 2.0f), QVector3D(0.0f, 1.0f, 1.0f)),
-    Vertex(QVector3D(-0.75f, 0.75f, 0.0f), QVector3D(1.0f, 0.0f, 1.0f)),
-};
-
 //滚轮
 void Widget::wheelEvent(QWheelEvent* wheel) {
-    /*
-    if (LeftMouseDown) {
-        windowX = this->x();
-        windowY = this->y();
-        wheeldelta = (float)wheel->delta();
-    }
-    else {
-        distance *= exp(0.001 * wheel->delta());
-    }*/
-    wheeldelta = (float)wheel->delta();
+    wheeldelta = (float)wheel->delta();//记录滚轮转动
 }
 //鼠标 点击
 void Widget::mousePressEvent(QMouseEvent* e)
@@ -58,26 +31,25 @@ void Widget::mousePressEvent(QMouseEvent* e)
     }
     else if (e->button() == Qt::MidButton) {
         MidMouseDown = true;
+        qDebug() << "滚轮" << e->pos();
     }
     else if (e->button() == Qt::LeftButton) {
         LeftMouseDown = true;
+        qDebug() << "左键" << e->pos();
     }
-    //获取点击的下标
-    //qDebug() << e->x() << ":" << e->y();
 }
 //鼠标 移动
 void Widget::mouseMoveEvent(QMouseEvent* e)
 {
-    //qDebug() << "move" << e->x() << ":" << e->y();
-    mousex = e->x(); mousey = e->y();
+    mousex = e->x(); mousey = e->y();//获取鼠标坐标
 }
 //鼠标 松开
 void Widget::mouseReleaseEvent(QMouseEvent* e)
 {
+    //恢复初始状态
     RightMouseDown = false;
     MidMouseDown = false;
     LeftMouseDown = false;
-    //qDebug() << "Release" << e->x() << ":" << e->y();
 }
 //键盘 事件
 void Widget::keyPressEvent(QKeyEvent* key) {
@@ -97,46 +69,47 @@ void Widget::keyPressEvent(QKeyEvent* key) {
     }
 }
 
-
-
 void Widget::keyReleaseEvent(QKeyEvent* key) {
-    if (key->key() == Qt::Key_A || key->key() == Qt::Key_W || key->key() == Qt::Key_S || key->key() == Qt::Key_D)
-    {
+    //恢复初始状态
+    if (key->key() == Qt::Key_A || key->key() == Qt::Key_W || key->key() == Qt::Key_S || key->key() == Qt::Key_D){
         camDx = 0;
         camDy = 0;
     }
 }
 
 void Widget::fixedUpdate() {
-    //modelAngle += 0.02f;//每次旋转0.02  //物体自转
+
+    //如果鼠标按下，记录鼠标走的方位，进行相机旋转操作 
     if (RightMouseDown) {
         float dx = mousex - mouselastx;
         float dy = mousey - mouselasty;
         pitch += -dy * 1.5 / sqrt(screenWidth * screenHeight);//与屏幕大小有关的因子
         yaw += -dx * 1.5 / sqrt(screenWidth * screenHeight);
         
-    }//如果鼠标按下，记录鼠标走的方位，进行相机旋转操作 
-    mouselastx = mousex;
-    mouselasty = mousey;
+    }
     
+    //滚轮旋转 结合鼠标位置进行摄像机平移和视角缩放，同时可以用wasd平移摄像机
+  
     if (camDx != 0 || camDy != 0 || (wheeldelta)) {
         glm::vec3 z = glm::normalize(camPos - camTarget);
-        glm::vec3 x = glm::normalize(glm::cross(camUp, z));//叉乘确定Y轴
+        glm::vec3 x = glm::normalize(glm::cross(camUp, z));//叉乘确定X轴
         glm::vec3 y = glm::normalize(camUp);
-        if (wheeldelta) {
-            qDebug() << mousex<<windowX;
+        if (wheeldelta) {//滚轮、鼠标控制
             camTarget += -0.03f * (mousex  - (int)screenWidth / 2) * ((float)exp(0.001 * wheeldelta)-1)* (float)(log10(1 + 0.3*distance)+0.1*distance) * x ;
             camTarget += 0.03f * (mousey - (int)screenHeight/2) * ((float)exp(0.001 * wheeldelta)-1) * (float)(log10(1 + 0.3*distance)+0.1*distance) * y;
             distance *= exp(0.001 * wheeldelta);
             wheeldelta = 0.0f;
-            qDebug() << camTarget.x << camTarget.y << camTarget.z;
         }
-        else {
+        else {//wasd控制
             camTarget += (float)camDx * 0.05f * x * distance;
             camTarget += (float)camDy * 0.05f * y * distance;
             qDebug() << camTarget.x << camTarget.y << camTarget.z;
         }
     }
+
+    // 更新lastx lasty
+    mouselastx = mousex;
+    mouselasty = mousey;
     update();//重新渲染
 }
 
@@ -153,26 +126,29 @@ void Widget::initializeGL()
     this->initializeOpenGLFunctions();    //为当前上下文初始化提供OpenGL函数解析
     glEnable(GL_DEPTH_TEST);
     
+    // 加载shader
     m_program = loadShader("foo");
 
+    // 加载两个模型
+    pointClouds.push_back(new PointCloud());
+    pointClouds[0]->init();
+    pointClouds[0]->shader = m_program;
+    pointClouds[0]->vertices = readPly("bun000.ply");
+    pointClouds[0]->applyVertices();
+    pointClouds[0]->transform = glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * 10.0f);
 
-    pointCloud = new PointCloud[2]();
-    pointCloud[0].init();
-    pointCloud[0].shader = m_program;
-    pointCloud[0].vertices = readPly("bun000.ply");
-    pointCloud[0].applyVertices();
-    pointCloud[0].transform = glm::mat4(10.0f);
-
-    pointCloud[1].init();
-    pointCloud[1].shader = m_program;
-    pointCloud[1].vertices = readTxt("uwo.txt");
-    pointCloud[1].applyVertices();
-    pointCloud[1].transform = glm::mat4(0.05f);
+    pointClouds.push_back(new PointCloud());
+    pointClouds[1]->init();
+    pointClouds[1]->shader = m_program;
+    pointClouds[1]->vertices = readTxt("uwo.txt");
+    pointClouds[1]->applyVertices();
+    pointClouds[1]->transform = glm::rotate(
+        glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * 0.1f), 
+        3.5f, { 1.0f, 0.0f, 0.0f });
 
     m_program->release();
 
-
-    model = glm::identity<glm::mat4>();
+    // 初始化相机位置姿态
     projection = glm::identity<glm::mat4>();
     view = glm::identity<glm::mat4>();
     camPos = { 0, 0, 3 };
@@ -194,9 +170,6 @@ void Widget::paintGL()
     glClearColor(0.2f, 0.5f, 0.9f, 1.0f);    //清屏
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    //清除颜色缓冲
 
-    //模型旋转
-    //rotate(起始矩阵，旋转角度，旋转轴)
-    model = glm::rotate(glm::identity<glm::mat4>(), modelAngle, glm::vec3(0.0f, 0.0f, 1.0f));
     //透视(视锥上下面之间的夹角，宽高比，即视窗的宽/高，近截面、远截面的深度)
     projection = glm::perspective(glm::radians(45.0f), screenWidth / (float)screenHeight, 0.01f, 300.0f);
     //相机位置更新
@@ -213,9 +186,9 @@ void Widget::paintGL()
         glUniformMatrix4fv(m_program->uniformLocation("MAT_PROJ"), 1, GL_FALSE, glm::value_ptr(projection));
         glUniformMatrix4fv(m_program->uniformLocation("MAT_VIEW"), 1, GL_FALSE, glm::value_ptr(view));
 
-        pointCloud[0].render();
-
-        pointCloud[1].render();
+        for (auto pointCloud : pointClouds) {
+            pointCloud->render();
+        }
     }
     m_program->release();
     //glUseProgram(shaderProgram);

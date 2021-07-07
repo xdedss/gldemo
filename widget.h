@@ -5,6 +5,8 @@
 #include <QOpenGLWidget>
 #include <qtimer.h>
 
+#include <vector>
+
 // OpenGL
 //#include <QOpenGLExtraFunctions>
 #include <qopenglfunctions_4_3_core.h>
@@ -34,24 +36,29 @@ public:
 
 
 private:
+    // 记录屏幕长宽
     unsigned int screenWidth, screenHeight;
-    glm::vec3 camPos, camTarget, camUp;
-    glm::mat4 view, model, projection;
-    float pitch = 0, yaw = 0;
-    float modelAngle = 0;
-    int camDx = 0, camDy = 0;//wasd 摄像机漫游
+    // 记录鼠标状态
     bool RightMouseDown = false;
     bool MidMouseDown = false;
     bool LeftMouseDown = false;
     bool WheelRotate = false;
+    // 相机姿态相关
+    glm::vec3 camPos, camTarget, camUp;
+    glm::mat4 view, projection;
+    float pitch = 0, yaw = 0;
+    //wasd 摄像机漫游
+    int camDx = 0, camDy = 0;
     float distance = 5;
     int mouselastx = 0, mouselasty = 0, mousex = 0, mousey = 0;
     float wheeldelta = 0;
     int windowX = 0,windowY = 0;
+
+    // shader
     QOpenGLShaderProgram* m_program;
-    //QOpenGLVertexArrayObject m_vao;
-    //QOpenGLBuffer m_vertexBuffer;
-    PointCloud* pointCloud;
+    // 模型
+    std::vector<PointCloud*> pointClouds;
+
 
 private slots:
     void fixedUpdate();
