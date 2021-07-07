@@ -133,10 +133,13 @@ void Widget::initializeGL()
     pointCloud[0].shader = m_program;
     pointCloud[0].vertices = readPly("bun000.ply");
     pointCloud[0].applyVertices();
+    pointCloud[0].transform = glm::mat4(10.0f);
+
     pointCloud[1].init();
     pointCloud[1].shader = m_program;
-    pointCloud[1].vertices = readPly("bun180.ply");
+    pointCloud[1].vertices = readTxt("uwo.txt");
     pointCloud[1].applyVertices();
+    pointCloud[1].transform = glm::mat4(0.05f);
 
     m_program->release();
 
@@ -179,14 +182,11 @@ void Widget::paintGL()
     // 开启着色器
     m_program->bind();
     {
-        glUniformMatrix4fv(m_program->uniformLocation("MAT_MODEL"), 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(m_program->uniformLocation("MAT_PROJ"), 1, GL_FALSE, glm::value_ptr(projection));
         glUniformMatrix4fv(m_program->uniformLocation("MAT_VIEW"), 1, GL_FALSE, glm::value_ptr(view));
 
-        pointCloud[0].transform = model;
         pointCloud[0].render();
 
-        pointCloud[1].transform = model;
         pointCloud[1].render();
     }
     m_program->release();
