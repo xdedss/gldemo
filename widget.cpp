@@ -18,24 +18,6 @@ Widget::~Widget()
 
 }
 
-
-static const Vertex sg_vertexes[] = {
-    Vertex(QVector3D(0.00f,  0.75f, 1.0f), QVector3D(1.0f, 0.0f, 0.0f)),
-    Vertex(QVector3D(0.75f, -0.75f, 1.0f), QVector3D(0.0f, 1.0f, 0.0f)),
-    Vertex(QVector3D(-0.75f, -0.75f, 1.0f), QVector3D(0.0f, 0.0f, 1.0f)),
-    Vertex(QVector3D(0.00f,  0.75f, 1.0f), QVector3D(1.0f, 1.0f, 0.0f)),
-    Vertex(QVector3D(0.75f, -0.75f, 2.0f), QVector3D(0.0f, 1.0f, 1.0f)),
-    Vertex(QVector3D(-0.75f, -0.75f, 0.0f), QVector3D(1.0f, 0.0f, 1.0f)),
-};
-static const Vertex sg_vertexes_2[] = {
-    Vertex(QVector3D(-1.00f,  -0.75f, -1.0f), QVector3D(1.0f, 0.0f, 0.0f)),
-    Vertex(QVector3D(-0.75f, 0.75f, -1.0f), QVector3D(0.0f, 1.0f, 0.0f)),
-    Vertex(QVector3D(0.75f, 0.75f, -1.0f), QVector3D(0.0f, 0.0f, 1.0f)),
-    Vertex(QVector3D(0.00f,  -0.75f, 1.0f), QVector3D(1.0f, 1.0f, 0.0f)),
-    Vertex(QVector3D(0.75f, 0.75f, 2.0f), QVector3D(0.0f, 1.0f, 1.0f)),
-    Vertex(QVector3D(-0.75f, 0.75f, 0.0f), QVector3D(1.0f, 0.0f, 1.0f)),
-};
-
 //滚轮
 void Widget::wheelEvent(QWheelEvent* wheel) {
     distance *= exp(0.002 * wheel->delta());
