@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+// 主窗口初始化
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -8,9 +9,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     statusBar()->showMessage("Done");
 
+    // 分割线默认比例
     ui->splitter_hor->setStretchFactor(0, 1);
     ui->splitter_hor->setStretchFactor(1, 3);
 
+    // 左侧树状结构 以后可以做成和场景内容相关联
     QStringList thead;
     thead << "Hierarchy";
     hierarchy = new QStandardItemModel();
@@ -30,5 +33,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionopen_triggered()
 {
+    // 菜单点击事件
     statusBar()->showMessage("actionopen");
 }

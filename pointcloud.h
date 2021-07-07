@@ -19,7 +19,7 @@ class PointCloud : protected QOpenGLFunctions_4_3_Core {
 
 private:
     //QOpenGLVertexArrayObject m_vao;
-    QOpenGLBuffer m_vertexBuffer;
+    QOpenGLBuffer* m_vertexBuffer = NULL;
 
 public:
     glm::mat4 transform;
@@ -43,19 +43,22 @@ public:
         assert(shader != NULL);
         assert(vertices.size() > 0);
 
-        if (m_vertexBuffer.isCreated()) {
-            m_vertexBuffer.destroy();
+        if (m_vertexBuffer != NULL && m_vertexBuffer->isCreated()) {
+            m_vertexBuffer->destroy();
+        }
+        if (m_vertexBuffer == NULL) {
+            m_vertexBuffer = new QOpenGLBuffer();
         }
 
-        m_vertexBuffer.create();
-        m_vertexBuffer.bind();
-        m_vertexBuffer.setUsagePattern(QOpenGLBuffer::StaticDraw);
-        m_vertexBuffer.allocate(vertices.data(), vertices.size() * sizeof(Vertex));
+        m_vertexBuffer->create();
+        m_vertexBuffer->bind();
+        m_vertexBuffer->setUsagePattern(QOpenGLBuffer::StaticDraw);
+        m_vertexBuffer->allocate(vertices.data(), vertices.size() * sizeof(Vertex));
 
         shader->enableAttributeArray(0);
         shader->enableAttributeArray(1);
 
-        m_vertexBuffer.release();
+        m_vertexBuffer->release();
     }
 
     void render() {
@@ -67,13 +70,13 @@ public:
 
     void bind() {
         //m_vao.bind();
-        m_vertexBuffer.bind();
+        m_vertexBuffer->bind();
         shader->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
         shader->setAttributeBuffer(1, GL_FLOAT, Vertex::colorOffset(), Vertex::ColorTupleSize, Vertex::stride());
     }
 
     void release() {
-        m_vertexBuffer.release();
+        m_vertexBuffer->release();
     }
 
 };

@@ -6,6 +6,7 @@
 #include <string>
 #include "vertex.h"
 
+// 读取从matlab导出的txt文件，每行四个数x y z w，只留xyz
 inline std::vector<Vertex> readTxt(const std::string& fpath) {
     std::ifstream infile(fpath);
     std::vector<Vertex> res;
@@ -33,10 +34,12 @@ inline std::vector<Vertex> readPly(const std::string& fpath) {
     std::vector<Vertex> res;
     std::string line, str;
     int numVertices;
+    // 找到顶点数所在行
     while (std::getline(infile, line))
     {
         if (std::string::npos != line.find("element vertex")) {
             std::istringstream iss(line);
+            // 读出顶点数量
             if (!(iss >> str >> str >> numVertices)) {
                 qDebug() << "error reading element vertex";
                 // error
@@ -45,13 +48,14 @@ inline std::vector<Vertex> readPly(const std::string& fpath) {
             break;
         }
     }
-
+    // 找到顶点数据开始的行
     while (std::getline(infile, line))
     {
         if (std::string::npos != line.find("end_header")) {
             break;
         }
     }
+    // 开始读取
     float x, y, z;
     for (int i = 0; i < numVertices; i++) {
         float t = (float)i / numVertices;
