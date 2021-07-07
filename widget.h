@@ -42,9 +42,12 @@ private:
     int camDx = 0, camDy = 0;//wasd ÉãÏñ»úÂþÓÎ
     bool RightMouseDown = false;
     bool MidMouseDown = false;
+    bool LeftMouseDown = false;
     bool WheelRotate = false;
     float distance = 5;
     int mouselastx = 0, mouselasty = 0, mousex = 0, mousey = 0;
+    float wheeldelta = 0;
+    int windowX = 0,windowY = 0;
     QOpenGLShaderProgram* m_program;
     //QOpenGLVertexArrayObject m_vao;
     //QOpenGLBuffer m_vertexBuffer;

@@ -20,7 +20,16 @@ Widget::~Widget()
 
 //滚轮
 void Widget::wheelEvent(QWheelEvent* wheel) {
-    distance *= exp(0.002 * wheel->delta());
+    /*
+    if (LeftMouseDown) {
+        windowX = this->x();
+        windowY = this->y();
+        wheeldelta = (float)wheel->delta();
+    }
+    else {
+        distance *= exp(0.001 * wheel->delta());
+    }*/
+    wheeldelta = (float)wheel->delta();
 }
 //鼠标 点击
 void Widget::mousePressEvent(QMouseEvent* e)
@@ -31,6 +40,9 @@ void Widget::mousePressEvent(QMouseEvent* e)
     }
     else if (e->button() == Qt::MidButton) {
         MidMouseDown = true;
+    }
+    else if (e->button() == Qt::LeftButton) {
+        LeftMouseDown = true;
     }
     //获取点击的下标
     //qDebug() << e->x() << ":" << e->y();
@@ -46,6 +58,7 @@ void Widget::mouseReleaseEvent(QMouseEvent* e)
 {
     RightMouseDown = false;
     MidMouseDown = false;
+    LeftMouseDown = false;
     //qDebug() << "Release" << e->x() << ":" << e->y();
 }
 //键盘 事件
@@ -66,6 +79,8 @@ void Widget::keyPressEvent(QKeyEvent* key) {
     }
 }
 
+
+
 void Widget::keyReleaseEvent(QKeyEvent* key) {
     if (key->key() == Qt::Key_A || key->key() == Qt::Key_W || key->key() == Qt::Key_S || key->key() == Qt::Key_D)
     {
@@ -81,15 +96,28 @@ void Widget::fixedUpdate() {
         float dy = mousey - mouselasty;
         pitch += -dy * 1.5 / sqrt(screenWidth * screenHeight);//与屏幕大小有关的因子
         yaw += -dx * 1.5 / sqrt(screenWidth * screenHeight);
-    }//如果鼠标按下，记录鼠标走的方位，进行相机旋转操作
+        
+    }//如果鼠标按下，记录鼠标走的方位，进行相机旋转操作 
     mouselastx = mousex;
     mouselasty = mousey;
-    if (camDx != 0 || camDy != 0) {
+    
+    if (camDx != 0 || camDy != 0 || (wheeldelta)) {
         glm::vec3 z = glm::normalize(camPos - camTarget);
         glm::vec3 x = glm::normalize(glm::cross(camUp, z));//叉乘确定Y轴
         glm::vec3 y = glm::normalize(camUp);
-        camTarget += (float)camDx * 0.05f * x * distance;
-        camTarget += (float)camDy * 0.05f * y * distance;
+        if (wheeldelta) {
+            qDebug() << mousex<<windowX;
+            camTarget += -0.03f * (mousex  - (int)screenWidth / 2) * ((float)exp(0.001 * wheeldelta)-1)* (float)(log10(1 + 0.3*distance)+0.1*distance) * x ;
+            camTarget += 0.03f * (mousey - (int)screenHeight/2) * ((float)exp(0.001 * wheeldelta)-1) * (float)(log10(1 + 0.3*distance)+0.1*distance) * y;
+            distance *= exp(0.001 * wheeldelta);
+            wheeldelta = 0.0f;
+            qDebug() << camTarget.x << camTarget.y << camTarget.z;
+        }
+        else {
+            camTarget += (float)camDx * 0.05f * x * distance;
+            camTarget += (float)camDy * 0.05f * y * distance;
+            qDebug() << camTarget.x << camTarget.y << camTarget.z;
+        }
     }
     update();//重新渲染
 }
@@ -133,7 +161,7 @@ void Widget::initializeGL()
     view = glm::identity<glm::mat4>();
     camPos = { 0, 0, 3 };
     camUp = { 0, 1, 0 };
-    camTarget = { 0, 0, 0 };
+    camTarget = { 0.0, 0.0, 0.0 };
 }
 
 
@@ -154,7 +182,7 @@ void Widget::paintGL()
     //rotate(起始矩阵，旋转角度，旋转轴)
     model = glm::rotate(glm::identity<glm::mat4>(), modelAngle, glm::vec3(0.0f, 0.0f, 1.0f));
     //透视(视锥上下面之间的夹角，宽高比，即视窗的宽/高，近截面、远截面的深度)
-    projection = glm::perspective(glm::radians(45.0f), screenWidth / (float)screenHeight, 0.2f, 200.0f);
+    projection = glm::perspective(glm::radians(45.0f), screenWidth / (float)screenHeight, 0.01f, 300.0f);
     //相机位置更新
     //相机旋转矩阵，pos旋转后 = camRotation * pos旋转前
     auto camRotation = glm::angleAxis(yaw, glm::vec3(0, 1, 0)) * glm::angleAxis(pitch, glm::vec3(1, 0, 0));
