@@ -101,8 +101,8 @@ void Widget::fixedUpdate() {
     if (RightMouseDown) {
         float dx = mousex - mouselastx;
         float dy = mousey - mouselasty;
-        pitch += -dy * 1.5 / sqrt(screenWidth * screenHeight);//与屏幕大小有关的因子
-        yaw += -dx * 1.5 / sqrt(screenWidth * screenHeight);
+        camRot = glm::rotate(camRot, -dy * 1.5f / sqrtf(screenWidth * screenHeight), glm::vec3(1, 0, 0));
+        camRot = glm::rotate(camRot, -dx * 1.5f / sqrtf(screenWidth * screenHeight), glm::vec3(0, 1, 0));
         
     }
     
@@ -110,8 +110,8 @@ void Widget::fixedUpdate() {
   
     if (Key_WDown || Key_ADown || Key_SDown || Key_DDown || (wheeldelta)) {
         glm::vec3 z = glm::normalize(camPos - camTarget);
-        glm::vec3 x = glm::normalize(glm::cross(camUp, z));//叉乘确定X轴
-        glm::vec3 y = glm::normalize(camUp);
+        glm::vec3 x = glm::normalize(glm::cross(camRot * glm::vec3(0.0f, 1.0f, 0.0f), z));//叉乘确定X轴
+        glm::vec3 y = glm::normalize(camRot * glm::vec3(0.0f, 1.0f, 0.0f));
         if (wheeldelta) {//滚轮、鼠标控制
             camTarget += -0.03f * (mousex  - (int)screenWidth / 2) * ((float)exp(0.001 * wheeldelta)-1)* (float)(log10(1 + 0.3*distance)+0.1*distance) * x ;
             camTarget += 0.03f * (mousey - (int)screenHeight/2) * ((float)exp(0.001 * wheeldelta)-1) * (float)(log10(1 + 0.3*distance)+0.1*distance) * y;
@@ -173,7 +173,7 @@ void Widget::initializeGL()
     projection = glm::identity<glm::mat4>();
     view = glm::identity<glm::mat4>();
     camPos = { 0, 0, 3 };
-    camUp = { 0, 1, 0 };
+    camRot = glm::identity<glm::quat>();
     camTarget = { 0.0, 0.0, 0.0 };
 }
 
@@ -195,10 +195,10 @@ void Widget::paintGL()
     projection = glm::perspective(glm::radians(45.0f), screenWidth / (float)screenHeight, 0.01f, 300.0f);
     //相机位置更新
     //相机旋转矩阵，pos旋转后 = camRotation * pos旋转前
-    auto camRotation = glm::angleAxis(yaw, glm::vec3(0, 1, 0)) * glm::angleAxis(pitch, glm::vec3(1, 0, 0));
-    camPos = camRotation * glm::vec3(0, 0, distance) + camTarget;////可以实现绕不同点转 camTarget 表示相机拍摄视角的目标点
-    camUp = camRotation * glm::vec3(0, 1, 0);//相机y轴（相机正上方）的指向。。。默认相机永远在被观察物体的z轴上
-    view = glm::lookAt(camPos, camTarget, camUp);//相机在pos的位置上，看 camtarget ，以camUP的角度（这里可以实现目标点在视线的中心）
+    //auto camRotation = glm::angleAxis(yaw, glm::vec3(0, 1, 0)) * glm::angleAxis(pitch, glm::vec3(1, 0, 0));
+    camPos = camRot * glm::vec3(0, 0, distance) + camTarget;////可以实现绕不同点转 camTarget 表示相机拍摄视角的目标点
+    //glm::vec3 camUp = camRot * glm::vec3(0, 1, 0);//相机y轴（相机正上方）的指向。。。默认相机永远在被观察物体的z轴上
+    view = glm::transpose(glm::toMat4(camRot)) * glm::translate(glm::identity<glm::mat4>(), -camPos); //四元数转旋转矩阵
 
     //开始渲染
     // 开启着色器
