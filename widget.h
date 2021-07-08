@@ -37,18 +37,23 @@ public:
 
 
 private:
-    // ¼ÇÂ¼ÆÁÄ»³¤¿í
+    // è®°å½•å±å¹•é•¿å®½
     unsigned int screenWidth, screenHeight;
-    // ¼ÇÂ¼Êó±ê×´Ì¬
+    // è®°å½•é¼ æ ‡çŠ¶æ€
     bool RightMouseDown = false;
     bool MidMouseDown = false;
     bool LeftMouseDown = false;
     bool WheelRotate = false;
-    // Ïà»ú×ËÌ¬Ïà¹Ø
+    //è®°å½•é”®ç›˜çŠ¶æ€
+    bool Key_ADown = false;
+    bool Key_WDown = false;
+    bool Key_SDown = false;
+    bool Key_DDown = false;
+    // ç›¸æœºå§¿æ€ç›¸å…³
     glm::vec3 camPos, camTarget;
     glm::quat camRot;
     glm::mat4 view, projection;
-    //wasd ÉãÏñ»úÂşÓÎ
+    //wasd æ‘„åƒæœºæ¼«æ¸¸
     int camDx = 0, camDy = 0;
     float distance = 5;
     int mouselastx = 0, mouselasty = 0, mousex = 0, mousey = 0;
@@ -57,7 +62,7 @@ private:
 
     // shader
     QOpenGLShaderProgram* m_program;
-    // Ä£ĞÍ
+    // æ¨¡å‹
     std::vector<PointCloud*> pointClouds;
 
 

@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-// Ö÷´°¿Ú³õÊ¼»¯
+// ä¸»çª—å£åˆå§‹åŒ–
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -9,11 +9,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     statusBar()->showMessage("Done");
 
-    // ·Ö¸îÏßÄ¬ÈÏ±ÈÀı
+    // åˆ†å‰²çº¿é»˜è®¤æ¯”ä¾‹
     ui->splitter_hor->setStretchFactor(0, 1);
     ui->splitter_hor->setStretchFactor(1, 3);
 
-    // ×ó²àÊ÷×´½á¹¹ ÒÔºó¿ÉÒÔ×ö³ÉºÍ³¡¾°ÄÚÈİÏà¹ØÁª
+    // å·¦ä¾§æ ‘çŠ¶ç»“æ„ ä»¥åå¯ä»¥åšæˆå’Œåœºæ™¯å†…å®¹ç›¸å…³è”
     QStringList thead;
     thead << "Hierarchy";
     hierarchy = new QStandardItemModel();
@@ -33,6 +33,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionopen_triggered()
 {
-    // ²Ëµ¥µã»÷ÊÂ¼ş
+    // èœå•ç‚¹å‡»äº‹ä»¶
     statusBar()->showMessage("actionopen");
 }
