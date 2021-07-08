@@ -146,6 +146,7 @@ void Widget::initializeGL()
 {
     this->initializeOpenGLFunctions();    //为当前上下文初始化提供OpenGL函数解析
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_PROGRAM_POINT_SIZE);
     
     // 加载shader
     m_program = loadShader("foo");
