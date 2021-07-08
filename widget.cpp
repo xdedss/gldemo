@@ -55,23 +55,41 @@ void Widget::mouseReleaseEvent(QMouseEvent* e)
 void Widget::keyPressEvent(QKeyEvent* key) {
     switch (key->key()) {
     case Qt::Key_W:
-        camDy = 1;
+        //camDy = 1;
+        Key_WDown = true;
         break;
     case Qt::Key_A:
-        camDx = -1;
+        //camDx = -1;
+        Key_ADown = true;
         break;
     case Qt::Key_S:
-        camDy = -1;
+        //camDy = -1;
+        Key_SDown = true;
         break;
     case Qt::Key_D:
-        camDx = 1;
+        //camDx = 1;
+        Key_DDown = true;
         break;
     }
 }
 
 void Widget::keyReleaseEvent(QKeyEvent* key) {
     //恢复初始状态
-    if (key->key() == Qt::Key_A || key->key() == Qt::Key_W || key->key() == Qt::Key_S || key->key() == Qt::Key_D){
+    switch (key->key()) {
+    case Qt::Key_W:
+        Key_WDown = false;
+        break;
+    case Qt::Key_A:
+        Key_ADown = false;
+        break;
+    case Qt::Key_S:
+        Key_SDown = false;
+        break;
+    case Qt::Key_D:
+        Key_DDown = false;
+        break;
+    }
+    if (Key_WDown+Key_ADown+Key_SDown+Key_DDown == 0){
         camDx = 0;
         camDy = 0;
     }
@@ -90,7 +108,7 @@ void Widget::fixedUpdate() {
     
     //滚轮旋转 结合鼠标位置进行摄像机平移和视角缩放，同时可以用wasd平移摄像机
   
-    if (camDx != 0 || camDy != 0 || (wheeldelta)) {
+    if (Key_WDown || Key_ADown || Key_SDown || Key_DDown || (wheeldelta)) {
         glm::vec3 z = glm::normalize(camPos - camTarget);
         glm::vec3 x = glm::normalize(glm::cross(camRot * glm::vec3(0.0f, 1.0f, 0.0f), z));//叉乘确定X轴
         glm::vec3 y = glm::normalize(camRot * glm::vec3(0.0f, 1.0f, 0.0f));
@@ -101,6 +119,9 @@ void Widget::fixedUpdate() {
             wheeldelta = 0.0f;
         }
         else {//wasd控制
+            //实现wasd同时控制，ad同时按可抵消，ws同时按可抵消
+            camDx = -1 * Key_ADown + 1 * Key_DDown;
+            camDy = -1 * Key_SDown + 1 * Key_WDown;
             camTarget += (float)camDx * 0.05f * x * distance;
             camTarget += (float)camDy * 0.05f * y * distance;
             qDebug() << camTarget.x << camTarget.y << camTarget.z;
