@@ -139,6 +139,8 @@ QOpenGLShaderProgram* loadShader(const std::string& name) {
     res->addShaderFromSourceFile(QOpenGLShader::Vertex, ("./" + name + ".vert").c_str());
     res->addShaderFromSourceFile(QOpenGLShader::Fragment, ("./" + name + ".frag").c_str());
     res->link();
+    res->enableAttributeArray(0);
+    res->enableAttributeArray(1);
     return res;
 }
 
@@ -149,26 +151,8 @@ void Widget::initializeGL()
     glEnable(GL_PROGRAM_POINT_SIZE);
     
     // 加载shader
-    m_program = loadShader("foo");
+    shaders["default"] = loadShader("foo");
 
-    // 加载两个模型
-    pointClouds.push_back(new PointCloud());
-    pointClouds[0]->init();
-    pointClouds[0]->shader = m_program;
-    pointClouds[0]->vertices = readPly("bun000.ply");
-    pointClouds[0]->applyVertices();
-    pointClouds[0]->transform = glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * 10.0f);
-
-    pointClouds.push_back(new PointCloud());
-    pointClouds[1]->init();
-    pointClouds[1]->shader = m_program;
-    pointClouds[1]->vertices = readTxt("uwo.txt");
-    pointClouds[1]->applyVertices();
-    pointClouds[1]->transform = glm::rotate(
-        glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * 0.1f), 
-        3.5f, { 1.0f, 0.0f, 0.0f });
-
-    m_program->release();
 
     // 初始化相机位置姿态
     projection = glm::identity<glm::mat4>();
@@ -202,19 +186,9 @@ void Widget::paintGL()
     view = glm::transpose(glm::toMat4(camRot)) * glm::translate(glm::identity<glm::mat4>(), -camPos); //四元数转旋转矩阵
 
     //开始渲染
-    // 开启着色器
-    m_program->bind();
-    {
-        glUniformMatrix4fv(m_program->uniformLocation("MAT_PROJ"), 1, GL_FALSE, glm::value_ptr(projection));
-        glUniformMatrix4fv(m_program->uniformLocation("MAT_VIEW"), 1, GL_FALSE, glm::value_ptr(view));
-
-        for (auto pointCloud : pointClouds) {
-            pointCloud->render();
-        }
+    for (auto pointCloud : pointClouds) {
+        if (pointCloud->shader == NULL) pointCloud->shader = shaders["default"];
+        pointCloud->render(projection, view);
     }
-    m_program->release();
-    //glUseProgram(shaderProgram);
-    //glBindVertexArray(VAO);
-    //glDrawArrays(GL_TRIANGLES, 0, 3);
 
 }
