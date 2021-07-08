@@ -13,6 +13,8 @@ uniform mat4 MAT_PROJ;
 
 void main()
 {
-	gl_Position = MAT_PROJ * MAT_VIEW * MAT_MODEL * vec4(aPos, 1.0);
+	vec4 viewPos =  MAT_VIEW * MAT_MODEL * vec4(aPos, 1.0);
 	vertColor = aColor;
+	gl_Position = MAT_PROJ * viewPos;
+	gl_PointSize = 10.0 / abs(viewPos.z);
 }
