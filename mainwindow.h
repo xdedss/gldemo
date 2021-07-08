@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <qstandarditemmodel.h>
+#include <set>
+#include "pointcloud.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,6 +24,12 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QStandardItemModel* hierarchy;
+    QStandardItem* modelsParent;
+    QStandardItem* trailsParent;
+    std::set<PointCloud*> pointClouds;
+
+    PointCloud* importPointCloud(const QString& path, float initialScale);
+
 };
 
 #endif // MAINWINDOW_H

@@ -6,6 +6,7 @@
 #include <qtimer.h>
 
 #include <vector>
+#include <map>
 
 // OpenGL
 //#include <QOpenGLExtraFunctions>
@@ -35,6 +36,10 @@ public:
     ~Widget();
 
 
+    // shader
+    std::map<QString, QOpenGLShaderProgram*> shaders;
+    // 模型
+    std::vector<PointCloud*> pointClouds;
 
 private:
     // 记录屏幕长宽
@@ -60,10 +65,6 @@ private:
     float wheeldelta = 0;
     int windowX = 0,windowY = 0;
 
-    // shader
-    QOpenGLShaderProgram* m_program;
-    // 模型
-    std::vector<PointCloud*> pointClouds;
 
 
 private slots:
