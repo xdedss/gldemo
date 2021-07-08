@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>resources/rotate-orbit.png</file>
+        <file>resources/cursor-move.png</file>
+        <file>resources/arrow-top-right-bottom-left.png</file>
+        <file>resources/axis-arrow.png</file>
+        <file>resources/hand-right.png</file>
+        <file>resources/rotate-3d.png</file>
+        <file>resources/selection-drag.png</file>
+        <file>resources/arrow-expand.png</file>
+    </qresource>
+</RCC>
