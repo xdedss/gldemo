@@ -5,6 +5,11 @@
 #include <qstandarditemmodel.h>
 #include <set>
 #include "pointcloud.h"
+#include "nanoflann.hpp"
+#include "HierarchyModel.h"
+#include "HierarchyObject.h"
+#include "PointCloudRenderer.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -28,7 +33,7 @@ private:
     QStandardItem* trailsParent;
     std::set<PointCloud*> pointClouds;
 
-    PointCloud* importPointCloud(const QString& path, float initialScale);
+    PointCloudRenderer* MainWindow::importPointCloud(const QString& path, float initialScale);
 
 };
 

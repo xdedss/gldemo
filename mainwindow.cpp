@@ -2,8 +2,6 @@
 #include "ui_mainwindow.h"
 
 
-
-
 int matchRowData(QStandardItem* item, QVariant data) {
     for (int i = 0; i < item->rowCount(); i++) {
         if (item->child(i)->data() == data) {
@@ -15,26 +13,29 @@ int matchRowData(QStandardItem* item, QVariant data) {
 
 
 // 导入点云
-PointCloud* MainWindow::importPointCloud(const QString& path, float initialScale = 1) {
-    PointCloud* pointCloud = new PointCloud();
-    pointCloud->transform = glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * initialScale);
+PointCloudRenderer* MainWindow::importPointCloud(const QString& path, float initialScale = 1) {
+    HierarchyObject* obj = ui->openGLWidget->hierarchy->createObject(path.split(QRegularExpression("[/\\\\]")).last());
+    obj->transform = glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * initialScale);
+    PointCloudRenderer* renderer = new PointCloudRenderer();
+    obj->addComponent(renderer);
+
     if (path.endsWith(".ply")) {
         auto vertices = readPly(path.toStdString());
-        pointCloud->setVertices(vertices);
+        renderer->setVertices(vertices);
     }
     else if (path.endsWith(".txt")) {
-        pointCloud->setVertices(readTxt(path.toStdString()));
+        renderer->setVertices(readTxt(path.toStdString()));
     }
     else {
         throw "file format not supported";
     }
-    ui->openGLWidget->pointClouds.push_back(pointCloud);
+    //ui->openGLWidget->pointClouds.push_back(pointCloud);
 
-    QStandardItem* hierarchyItem = new QStandardItem(path.split(QRegularExpression("[/\\\\]")).last());
-    hierarchyItem->setData((intptr_t)pointCloud);
-    modelsParent->appendRow(hierarchyItem);
+    //QStandardItem* hierarchyItem = new QStandardItem(path.split(QRegularExpression("[/\\\\]")).last());
+    //hierarchyItem->setData((intptr_t)pointCloud);
+    //modelsParent->appendRow(hierarchyItem);
 
-    return pointCloud;
+    return renderer;
 }
 
 // 主窗口初始化
@@ -95,12 +96,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->treeView_prop->setEnabled(false);
 
+    // 测试：加载模型
+    ui->openGLWidget->setHierarchy(new HierarchyModel());
+
     auto bun = importPointCloud("bun180.ply", 10);
     auto building = importPointCloud("uwo.txt");
-    building->transform = glm::rotate(
+    building->hierarchyObject->transform = glm::rotate(
         glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * 0.1f),
         3.5f, { 1.0f, 0.0f, 0.0f });
     
+    
+
 }
 
 MainWindow::~MainWindow()
