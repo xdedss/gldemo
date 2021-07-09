@@ -52,6 +52,21 @@ void PointCloudRenderer::onRender(glm::mat4 projection, glm::mat4 view, glm::mat
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_PROJ"), 1, GL_FALSE, glm::value_ptr(projection));
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_VIEW"), 1, GL_FALSE, glm::value_ptr(view));
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_MODEL"), 1, GL_FALSE, glm::value_ptr(model));
+
+    // 画outline
+    if (highlight) {
+        gl->glDepthMask(GL_FALSE);
+        gl->glUniform1f(shader->uniformLocation("sizeScale"), sizeScale * 2);
+        gl->glUniform1f(shader->uniformLocation("sizeAbsolute"), 10);
+        gl->glUniform4f(shader->uniformLocation("colorOverride"), 1.0, 0.5, 0.0, 1.0);
+        gl->glDrawArrays(GL_POINTS, 0, vertices.size());
+        gl->glDepthMask(GL_TRUE);
+    }
+
+    // 正常画
+    gl->glUniform1f(shader->uniformLocation("sizeScale"), sizeScale);
+    gl->glUniform1f(shader->uniformLocation("sizeAbsolute"), 0);
+    gl->glUniform4f(shader->uniformLocation("colorOverride"), 1.0, 0.5, 0.0, 0.0);
     gl->glDrawArrays(GL_POINTS, 0, vertices.size());
 
     m_vertexBuffer->release();

@@ -11,6 +11,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <functional>
+#include <queue>
+
 #include "nesteddefs.h"
 
 
@@ -24,33 +27,47 @@ private:
 public:
     glm::mat4 transform;
     Widget* widget;
+    HierarchyModel* hierarchy;
     QString name;
 
     int childrenCount() { return children.size(); }
-    HierarchyObject* getChildren(int i) { return children[i]; }
+    HierarchyObject* getChildren(int i) { return (children.size() > i && i >= 0) ? children[i] : NULL; }
+    int findChild(HierarchyObject* child);
     int componentsCount() { return components.size(); }
     HierarchyObject* getParent() { return parent; }
 
     HierarchyObject(const QString& name);
 
 
-    // ´Ó¾Ö²¿×ø±ê×ªÊÀ½ç×ø±ê
+    // ä»å±€éƒ¨åæ ‡è½¬ä¸–ç•Œåæ ‡
     glm::mat4 localToWorld();
-    // ´ÓÊÀ½ç×ø±ê×ª¾Ö²¿×ø±ê
+    // ä»ä¸–ç•Œåæ ‡è½¬å±€éƒ¨åæ ‡
     glm::mat4 worldToLocal() {
         return glm::inverse(localToWorld());
     }
     
-    // ¸ü¸ÄÊ÷×´½á¹¹
+    // æ›´æ”¹æ ‘çŠ¶ç»“æ„
     void setParent(HierarchyObject* newParent);
 
-    // »ñÈ¡µÚi¸ö×é¼ş£¬cast³ÉÖ¸¶¨ÀàĞÍ
+    // è°ƒæ•´å­èŠ‚ç‚¹é¡ºåº
+    void moveChild(int oldIndex, int newIndex) {
+        Q_ASSERT(oldIndex >= 0 && oldIndex < children.size());
+        Q_ASSERT(newIndex >= 0 && newIndex < children.size());
+        auto& v = children;
+        if (oldIndex > newIndex)
+            std::rotate(v.rend() - oldIndex - 1, v.rend() - oldIndex, v.rend() - newIndex);
+        else
+            std::rotate(v.begin() + oldIndex, v.begin() + oldIndex + 1, v.begin() + newIndex + 1);
+    }
+
+    // è·å–ç¬¬iä¸ªç»„ä»¶ï¼ŒcastæˆæŒ‡å®šç±»å‹
     template <class T>
     T* getComponent(int i) {
+        if (i < 0 || i >= components.size()) return NULL;
         return dynamic_cast<T*>(components[i]);
     }
 
-    // »ñÈ¡µÚÒ»¸öÖ¸¶¨ÀàĞÍµÄ×é¼ş
+    // è·å–ç¬¬ä¸€ä¸ªæŒ‡å®šç±»å‹çš„ç»„ä»¶
     template <class T>
     T* getComponent() {
         for (auto component : components) {
@@ -61,13 +78,16 @@ public:
         return NULL;
     }
 
-    // Ìí¼Ó×é¼ş
-    void addComponent(Component* component);
+    // æ·»åŠ ç»„ä»¶
+    Component * addComponent(Component* component);
 
-    // ¸üĞÂ×ÓÊ÷
+    // æ›´æ–°å­æ ‘
     void updateRecursively();
 
-    // ´İ»Ù×ÓÊ÷
+    // éå†å­æ ‘
+    void callRecursively(const std::function<void(HierarchyObject*)>& func);
+
+    // æ‘§æ¯å­æ ‘
     void Destroy();
 
 };

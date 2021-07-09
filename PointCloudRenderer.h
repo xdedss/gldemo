@@ -20,6 +20,7 @@ private:
     std::vector<Vertex> vertices;
 
 public:
+    float sizeScale = 10.0f;
     QOpenGLShaderProgram* shader = NULL;
 
     void onRender(glm::mat4 projection, glm::mat4 view, glm::mat4 model) override;

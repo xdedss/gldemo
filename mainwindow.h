@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <qstandarditemmodel.h>
 #include <set>
+#include <qitemselectionmodel.h>
 #include "pointcloud.h"
 #include "nanoflann.hpp"
 #include "HierarchyModel.h"
@@ -28,10 +29,12 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QStandardItemModel* hierarchy;
-    QStandardItem* modelsParent;
-    QStandardItem* trailsParent;
-    std::set<PointCloud*> pointClouds;
+
+    //QStandardItemModel* hierarchy;
+    //QStandardItem* modelsParent;
+    //QStandardItem* trailsParent;
+
+    HierarchyModel* hierarchy;
 
     PointCloudRenderer* MainWindow::importPointCloud(const QString& path, float initialScale);
 

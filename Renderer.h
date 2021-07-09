@@ -21,6 +21,7 @@ private:
 
 
 public:
+    bool highlight = false;
     virtual void onRender(glm::mat4 projection, glm::mat4 view, glm::mat4 model) = 0;
 
     void onInit() override;

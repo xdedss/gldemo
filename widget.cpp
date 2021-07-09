@@ -210,13 +210,10 @@ void Widget::paintGL()
     assert(hierarchy);
 
     // update
-    auto rootObjects = hierarchy->rootObjects();
-    for (int i = 0; i < rootObjects.size(); i++) {
-        rootObjects[i]->updateRecursively();
-    }
+    hierarchy->root->updateRecursively();
     // 渲染
-    for (int i = 0; i < rootObjects.size(); i++) {
-        renderObjectRecursively(projection, view, glm::identity<glm::mat4>(), rootObjects[i]);
+    for (int i = 0; i < hierarchy->root->childrenCount(); i++) {
+        renderObjectRecursively(projection, view, glm::identity<glm::mat4>(), hierarchy->root->getChildren(i));
     }
 
 }

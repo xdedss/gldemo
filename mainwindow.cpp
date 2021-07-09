@@ -14,7 +14,7 @@ int matchRowData(QStandardItem* item, QVariant data) {
 
 // 导入点云
 PointCloudRenderer* MainWindow::importPointCloud(const QString& path, float initialScale = 1) {
-    HierarchyObject* obj = ui->openGLWidget->hierarchy->createObject(path.split(QRegularExpression("[/\\\\]")).last());
+    HierarchyObject* obj = hierarchy->createObject(path.split(QRegularExpression("[/\\\\]")).last());
     obj->transform = glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * initialScale);
     PointCloudRenderer* renderer = new PointCloudRenderer();
     obj->addComponent(renderer);
@@ -55,29 +55,29 @@ MainWindow::MainWindow(QWidget *parent) :
     // 左侧树状结构 以后可以做成和场景内容相关联
     QStringList thead;
     thead << "Hierarchy";
-    hierarchy = new QStandardItemModel();
-    hierarchy->setHorizontalHeaderLabels(thead);
-    modelsParent = new QStandardItem(QString::fromUtf8("模型"));
-    modelsParent->setEditable(false);
-    modelsParent->setSelectable(false);
-    trailsParent = new QStandardItem(QString::fromUtf8("轨迹"));
-    trailsParent->setEditable(false);
-    trailsParent->setSelectable(false);
-    hierarchy->appendRow(modelsParent);
-    hierarchy->appendRow(trailsParent);
-    // 自动展开
-    connect(hierarchy, &QAbstractItemModel::rowsInserted, [this](const QModelIndex &parent, int first, int last)
-    {
-        if (!ui->treeView_hierarchy->isExpanded(parent)) {
-            ui->treeView_hierarchy->expand(parent);
-        }
-    });
-    // 加入treeview
-    qDebug() << modelsParent->index();
-    ui->treeView_hierarchy->setExpanded(modelsParent->index(), true);
+    //hierarchy = new QStandardItemModel();
+    //hierarchy->setHorizontalHeaderLabels(thead);
+    //modelsParent = new QStandardItem(QString::fromUtf8("模型"));
+    //modelsParent->setEditable(false);
+    //modelsParent->setSelectable(false);
+    //trailsParent = new QStandardItem(QString::fromUtf8("轨迹"));
+    //trailsParent->setEditable(false);
+    //trailsParent->setSelectable(false);
+    //hierarchy->appendRow(modelsParent);
+    //hierarchy->appendRow(trailsParent);
+    //// 自动展开
+    //connect(hierarchy, &QAbstractItemModel::rowsInserted, [this](const QModelIndex &parent, int first, int last)
+    //{
+    //    if (!ui->treeView_hierarchy->isExpanded(parent)) {
+    //        ui->treeView_hierarchy->expand(parent);
+    //    }
+    //});
+    //// 加入treeview
+    //qDebug() << modelsParent->index();
+    //ui->treeView_hierarchy->setExpanded(modelsParent->index(), true);
 
-    ui->treeView_hierarchy->setModel(hierarchy);
-    ui->treeView_hierarchy->header()->setSectionResizeMode(QHeaderView::Stretch);
+    //ui->treeView_hierarchy->setModel(hierarchy);
+    //ui->treeView_hierarchy->header()->setSectionResizeMode(QHeaderView::Stretch);
 
     // 右侧属性面板
     QStringList thead2;
@@ -97,14 +97,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->treeView_prop->setEnabled(false);
 
     // 测试：加载模型
-    ui->openGLWidget->setHierarchy(new HierarchyModel());
+    hierarchy = new HierarchyModel();
+    ui->openGLWidget->setHierarchy(hierarchy);
+    ui->treeView_hierarchy->setModel(hierarchy);
+    ui->treeView_hierarchy->header()->setSectionResizeMode(QHeaderView::Stretch);
+    connect(ui->treeView_hierarchy->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), 
+        hierarchy, SLOT(selectionChanged(const QItemSelection&, const QItemSelection&)));
 
-    auto bun = importPointCloud("bun180.ply", 10);
-    auto building = importPointCloud("uwo.txt");
-    building->hierarchyObject->transform = glm::rotate(
+    auto buildingRoot = hierarchy->createObject("building");
+    buildingRoot->transform = glm::rotate(
         glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * 0.1f),
         3.5f, { 1.0f, 0.0f, 0.0f });
-    
+    auto bun = importPointCloud("bun180.ply", 10);
+    bun->sizeScale = 3;
+    auto building = importPointCloud("uwo.txt");
+    building->hierarchyObject->setParent(buildingRoot);
     
 
 }
