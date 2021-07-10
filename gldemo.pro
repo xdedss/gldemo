@@ -18,11 +18,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    widget.cpp
+    widget.cpp \
+    HierarchyModel.cpp \
+    HierarchyObject.cpp \
+
 
 HEADERS += \
     mainwindow.h \
-    widget.h
+    widget.h \
+    HierarchyModel.h \
+    HierarchyObject.h \
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

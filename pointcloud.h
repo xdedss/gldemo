@@ -7,6 +7,7 @@
 #include <qopenglshaderprogram.h>
 #include <qopenglvertexarrayobject.h>
 #include <qopenglbuffer.h>
+#include <qpoint.h>
 
 #include <vector>
 #include <glm/glm.hpp>
@@ -14,6 +15,8 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "vertex.h"
+#include "nanoflann.hpp"
+
 
 class PointCloud : protected QOpenGLFunctions_4_3_Core {
 
@@ -45,6 +48,7 @@ private:
         //shader->enableAttributeArray(1);
 
         m_vertexBuffer->release();
+
     }
 
 public:
@@ -56,6 +60,11 @@ public:
         vertices.clear();
         this->shader = shader;
     }
+
+    //~PointCloud() {
+    //    delete m_vertexBuffer;
+    //    delete index;
+    //}
 
     void setVertices(const std::vector<Vertex>& vertices) {
         this->vertices = vertices;
@@ -93,10 +102,41 @@ public:
         shader->release();
     }
 
+
+    // ---------nanoflann kdtree interface-----------
+    // Must return the number of data poins
+    inline size_t kdtree_get_point_count() const { return vertices.size(); }
+    // Must return the dim'th component of the idx'th point in the class:
+    inline float kdtree_get_pt(const size_t idx, int dim) const { 
+        if (dim == 0) return vertices[idx].position().x(); 
+        if (dim == 1) return vertices[idx].position().y(); 
+        if (dim == 2) return vertices[idx].position().z(); 
+    }
+    template <class BBOX>
+    bool kdtree_get_bbox(BBOX &bb) const { return false; }
+
+
+    //// kd search
+    //QVector3D nearestSearch(QVector3D startPoint) {
+    //    size_t ret_index;
+    //    float out_dist_sqr;
+    //    nanoflann::KNNResultSet<float> resultSet(1);
+    //    resultSet.init(&ret_index, &out_dist_sqr);
+    //    float inputPoint[3]{ startPoint.x(), startPoint.y(), startPoint.z() };
+    //    index->findNeighbors(resultSet, inputPoint, nanoflann::SearchParams(10));
+    //    qDebug() << "ret_index " << ret_index << " dist: " << out_dist_sqr << " | " << vertices[ret_index].position();
+    //    return vertices[ret_index].position();
+    //}
+
 };
 
 
 
+typedef nanoflann::KDTreeSingleIndexAdaptor<
+    nanoflann::L2_Simple_Adaptor<float, PointCloud>,
+    PointCloud,
+    3 /* dim */
+> kd_tree_t;
 
 
 

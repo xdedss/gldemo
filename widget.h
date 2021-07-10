@@ -24,10 +24,15 @@
 #include <QKeyEvent>
 
 #include "vertex.h"
-#include "pointcloud.h"
+//#include "pointcloud.h"
 #include "futils.h"
+#include "HierarchyModel.h"
+#include "HierarchyObject.h"
+#include "Renderer.h"
 
-class Widget : public QOpenGLWidget, protected QOpenGLFunctions_4_3_Core
+using OpenGLFunctions = QOpenGLFunctions_4_3_Core;
+
+class Widget : public QOpenGLWidget, protected OpenGLFunctions
 {
     Q_OBJECT
 
@@ -35,11 +40,18 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+    OpenGLFunctions* functions() const;
 
     // shader
     std::map<QString, QOpenGLShaderProgram*> shaders;
     // 模型
-    std::vector<PointCloud*> pointClouds;
+    //std::vector<PointCloud*> pointClouds;
+    HierarchyModel* hierarchy;
+
+    void setHierarchy(HierarchyModel* hierarchy) {
+        hierarchy->widget = this;
+        this->hierarchy = hierarchy;
+    }
 
 private:
     // 记录屏幕长宽

@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <iostream>
 
-
 Widget::Widget(QWidget *parent)
     : QOpenGLWidget(parent)
 {
@@ -16,6 +15,13 @@ Widget::Widget(QWidget *parent)
 Widget::~Widget()
 {
 
+}
+
+OpenGLFunctions * Widget::functions() const
+{
+    //qDebug << ((intptr_t)this);
+    assert(context());
+    return context()->versionFunctions<OpenGLFunctions>();
 }
 
 //滚轮
@@ -36,6 +42,7 @@ void Widget::mousePressEvent(QMouseEvent* e)
     else if (e->button() == Qt::LeftButton) {
         LeftMouseDown = true;
         qDebug() << "左键" << e->pos();
+        //pointClouds[0]->nearestSearch({ 0, 0, 0 });
     }
 }
 //鼠标 移动
@@ -146,6 +153,7 @@ QOpenGLShaderProgram* loadShader(const std::string& name) {
 
 void Widget::initializeGL()
 {
+    qDebug() << "-----------initialize GL--------------";
     this->initializeOpenGLFunctions();    //为当前上下文初始化提供OpenGL函数解析
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_PROGRAM_POINT_SIZE);
@@ -170,9 +178,23 @@ void Widget::resizeGL(int w, int h)
     screenHeight = h;
 }
 
+void renderObjectRecursively(const glm::mat4& proj, const glm::mat4& view, const glm::mat4& parentTransform, HierarchyObject* obj) {
+    assert(obj);
+    glm::mat4 transform = parentTransform * obj->transform;
+    for (int i = 0; i < obj->componentsCount(); i++) {
+        Renderer* renderer = obj->getComponent<Renderer>(i);
+        if (renderer) {
+            renderer->onRender(proj, view, transform);
+        }
+    }
+    for (int i = 0; i < obj->childrenCount(); i++) {
+        renderObjectRecursively(proj, view, transform, obj->getChildren(i));
+    }
+}
+
 void Widget::paintGL()
 {
-
+    assert(context());
     glClearColor(0.2f, 0.5f, 0.9f, 1.0f);    //清屏
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    //清除颜色缓冲
 
@@ -185,10 +207,13 @@ void Widget::paintGL()
     //glm::vec3 camUp = camRot * glm::vec3(0, 1, 0);//相机y轴（相机正上方）的指向。。。默认相机永远在被观察物体的z轴上
     view = glm::transpose(glm::toMat4(camRot)) * glm::translate(glm::identity<glm::mat4>(), -camPos); //四元数转旋转矩阵
 
-    //开始渲染
-    for (auto pointCloud : pointClouds) {
-        if (pointCloud->shader == NULL) pointCloud->shader = shaders["default"];
-        pointCloud->render(projection, view);
+    assert(hierarchy);
+
+    // update
+    hierarchy->root->updateRecursively();
+    // 渲染
+    for (int i = 0; i < hierarchy->root->childrenCount(); i++) {
+        renderObjectRecursively(projection, view, glm::identity<glm::mat4>(), hierarchy->root->getChildren(i));
     }
 
 }
