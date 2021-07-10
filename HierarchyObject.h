@@ -36,7 +36,7 @@ public:
     int componentsCount() { return components.size(); }
     HierarchyObject* getParent() { return parent; }
 
-    HierarchyObject(const QString& name);
+    HierarchyObject(const QString& name, HierarchyObject* parent = NULL);
 
 
     // 从局部坐标转世界坐标
@@ -46,19 +46,15 @@ public:
         return glm::inverse(localToWorld());
     }
     
-    // 更改树状结构
-    void setParent(HierarchyObject* newParent);
-
-    // 调整子节点顺序
-    void moveChild(int oldIndex, int newIndex) {
-        Q_ASSERT(oldIndex >= 0 && oldIndex < children.size());
-        Q_ASSERT(newIndex >= 0 && newIndex < children.size());
-        auto& v = children;
-        if (oldIndex > newIndex)
-            std::rotate(v.rend() - oldIndex - 1, v.rend() - oldIndex, v.rend() - newIndex);
-        else
-            std::rotate(v.begin() + oldIndex, v.begin() + oldIndex + 1, v.begin() + newIndex + 1);
-    }
+    // 以下不应单独调用，应该调用HierarchyModel中的相应方法
+    //// 更改父节点（仅调整，未通知treeview，不应被单独调用）
+    //void setParent(HierarchyObject* newParent);
+    // 取出子节点（仅调整，未通知treeview，不应被单独调用）
+    HierarchyObject* popChild(int index);
+    // 放入子节点（仅调整，未通知treeview，不应被单独调用）
+    void insertChild(int index, HierarchyObject* child);
+    // 调整子节点顺序（仅调整，未通知treeview，不应被单独调用）
+    void moveChild(int oldIndex, int newIndex);
 
     // 获取第i个组件，cast成指定类型
     template <class T>
@@ -86,6 +82,9 @@ public:
 
     // 遍历子树
     void callRecursively(const std::function<void(HierarchyObject*)>& func);
+
+    // 从场景移除
+    void Remove();
 
     // 摧毁子树
     void Destroy();

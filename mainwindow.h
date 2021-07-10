@@ -5,6 +5,7 @@
 #include <qstandarditemmodel.h>
 #include <set>
 #include <qitemselectionmodel.h>
+#include <qabstractitemmodel.h>
 #include "pointcloud.h"
 #include "nanoflann.hpp"
 #include "HierarchyModel.h"
@@ -26,9 +27,16 @@ public:
 
 private slots:
     void on_actionopen_triggered();
+    void onTreeViewCustomContextMenu(const QPoint &);
+
+    void onTreeViewAddObject();
+    void onTreeViewRemoveObject();
 
 private:
     Ui::MainWindow *ui;
+
+    QMenu* treeContextMenu;//节点上右键
+    QMenu* treeContextMenuSpace;//空白处右键
 
     //QStandardItemModel* hierarchy;
     //QStandardItem* modelsParent;

@@ -9,7 +9,6 @@
 #include "nesteddefs.h"
 #include "qabstractitemmodel.h"
 #include "qitemselectionmodel.h"
-
 class HierarchyModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -25,15 +24,21 @@ public slots:
 public:
     HierarchyObject* root;
     Widget* widget;
+    QModelIndex lastRightClick;
     int objectCount() { return objects.size(); }
     HierarchyObject* getObject(int i) { return objects[i]; }
 
     HierarchyModel();
     // 创建HierarchyObject并进行一些初始化操作
     HierarchyObject* createObject(const QString& name);
-
+    // 移动树结构
+    void moveObject(HierarchyObject* obj, HierarchyObject* toParent, int toIndex);
+    // 移除
+    void removeObject(HierarchyObject* obj);
     // 根据QModelIndex取出对应HierarchyObject
     HierarchyObject* index2obj(const QModelIndex &index) const;
+    // 根据obj创建index
+    QModelIndex obj2index(HierarchyObject* obj) const;
     // 取出mime里面的拖放来源
     bool HierarchyModel::retrieveDroppedObjects(const QMimeData * data, std::vector<HierarchyObject*>& out_objects) const;
 

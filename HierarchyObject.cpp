@@ -10,10 +10,11 @@ int HierarchyObject::findChild(HierarchyObject * child)
     return -1;
 }
 
-HierarchyObject::HierarchyObject(const QString & name)
+HierarchyObject::HierarchyObject(const QString & name, HierarchyObject* parent)
 {
     transform = glm::identity<glm::mat4>();
     this->name = name;
+    this->parent = parent;
 }
 
 glm::mat4 HierarchyObject::localToWorld()
@@ -27,15 +28,40 @@ glm::mat4 HierarchyObject::localToWorld()
     return res;
 }
 
-void HierarchyObject::setParent(HierarchyObject * newParent)
-{
-    if (parent != NULL) {
-        std::vector<HierarchyObject*>& tempchildren = parent->children;
-        tempchildren.erase(std::find(tempchildren.begin(), tempchildren.end(), this));
-    }
-    if (newParent == NULL) newParent = hierarchy->root;
-    parent = newParent;
-    newParent->children.push_back(this);
+//void HierarchyObject::setParent(HierarchyObject * newParent)
+//{
+//    //assert(parent != NULL);
+//    if (parent != NULL) { // 初始添加时会出现parent==NULL
+//        std::vector<HierarchyObject*>& tempchildren = parent->children;
+//        tempchildren.erase(std::find(tempchildren.begin(), tempchildren.end(), this));
+//    }
+//    if (newParent == NULL) newParent = hierarchy->root;
+//    parent = newParent;
+//    newParent->children.push_back(this);
+//}
+
+HierarchyObject* HierarchyObject::popChild(int index) {
+    Q_ASSERT(index < children.size() && index >= 0);
+    HierarchyObject* child = children[index];
+    children.erase(children.begin() + index);
+    child->parent = NULL;
+    return child;
+}
+
+void HierarchyObject::insertChild(int index, HierarchyObject* child) {
+    Q_ASSERT(index <= children.size() && index >= 0);
+    children.insert(children.begin() + index, child);
+    child->parent = this;
+}
+
+void HierarchyObject::moveChild(int oldIndex, int newIndex) {
+    Q_ASSERT(oldIndex >= 0 && oldIndex < children.size());
+    Q_ASSERT(newIndex >= 0 && newIndex < children.size());
+    auto& v = children;
+    if (oldIndex > newIndex)
+        std::rotate(v.rend() - oldIndex - 1, v.rend() - oldIndex, v.rend() - newIndex);
+    else
+        std::rotate(v.begin() + oldIndex, v.begin() + oldIndex + 1, v.begin() + newIndex + 1);
 }
 
 Component * HierarchyObject::addComponent(Component * component)
@@ -75,6 +101,10 @@ void HierarchyObject::callRecursively(const std::function<void(HierarchyObject*)
             throw "this must be broken";
         }
     }
+}
+
+void HierarchyObject::Remove() {
+    throw "not implemented";
 }
 
 void HierarchyObject::Destroy()

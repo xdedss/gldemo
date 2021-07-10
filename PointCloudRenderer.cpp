@@ -43,12 +43,13 @@ void PointCloudRenderer::onRender(glm::mat4 projection, glm::mat4 view, glm::mat
         shader = hierarchyObject->widget->shaders["default"];
     }
 
-
+    // 绑定shader
     shader->bind();
     m_vertexBuffer->bind();
     shader->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
     shader->setAttributeBuffer(1, GL_FLOAT, Vertex::colorOffset(), Vertex::ColorTupleSize, Vertex::stride());
-    
+
+    // 准备shader中的矩阵
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_PROJ"), 1, GL_FALSE, glm::value_ptr(projection));
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_VIEW"), 1, GL_FALSE, glm::value_ptr(view));
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_MODEL"), 1, GL_FALSE, glm::value_ptr(model));
@@ -69,6 +70,7 @@ void PointCloudRenderer::onRender(glm::mat4 projection, glm::mat4 view, glm::mat
     gl->glUniform4f(shader->uniformLocation("colorOverride"), 1.0, 0.5, 0.0, 0.0);
     gl->glDrawArrays(GL_POINTS, 0, vertices.size());
 
+    // 释放
     m_vertexBuffer->release();
     shader->release();
     
