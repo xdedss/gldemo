@@ -40,6 +40,7 @@ void HierarchyModel::moveObject(HierarchyObject* obj, HierarchyObject* toParent,
             return;
         }
         //QModelIndex changeBegin = obj2index(obj), changeEnd = obj2index(toParent->getChildren(toIndex));
+        // https://bugreports.qt.io/browse/QTBUG-6940
         QModelIndex parentIndex = obj2index(toParent);
         beginMoveRows(parentIndex, fromIndex, fromIndex, parentIndex, toIndex);
         toParent->moveChild(fromIndex, realToIndex);
