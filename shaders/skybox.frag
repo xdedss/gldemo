@@ -18,10 +18,10 @@ void main()
 	float azimuth = atan(-worldDir.z, worldDir.x);
 	
 	vec3 skyColor = vec3(1.0, 0.0, 1.0);
-	if CONDITION_LERP(elevation, skyColor, -pi/2, 0, vec3(0.5, 0.5, 0.5), vec3(0.5, 0.5, 0.5))
-	else if CONDITION_LERP(elevation, skyColor, 0, 0.08, vec3(0.5, 0.5, 0.5), vec3(0.8, 1.0, 1.0))
-	else if CONDITION_LERP(elevation, skyColor, 0.08, 0.3, vec3(0.8, 1.0, 1.0), vec3(0.5, 0.5, 0.8))
-	else if CONDITION_LERP(elevation, skyColor, 0.3, pi / 2, vec3(0.5, 0.5, 0.8), vec3(0.0, 0.4, 0.7))
+	if CONDITION_LERP(elevation, skyColor, -pi/2, -0.1, vec3(0.5, 0.5, 0.5), vec3(0.5, 0.5, 0.5))
+	else if CONDITION_LERP(elevation, skyColor, -0.1, 0.0, vec3(0.5, 0.5, 0.5), vec3(0.8, 1.0, 1.0))
+	else if CONDITION_LERP(elevation, skyColor, 0.0, 0.2, vec3(0.8, 1.0, 1.0), vec3(0.5, 0.5, 0.8))
+	else if CONDITION_LERP(elevation, skyColor, 0.2, pi / 2, vec3(0.5, 0.5, 0.8), vec3(0.0, 0.4, 0.7))
 	
 	FragColor = vec4(skyColor, 1.0);
 }
