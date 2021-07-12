@@ -154,15 +154,26 @@ glm::vec4 Widget::mousepick(int mousex, int mousey) {
     int n = 1;
     hierarchy->root->callRecursively([&](HierarchyObject* obj) -> void {
         pointcloud = obj->getComponent<PointCloudRenderer>();
-        
+        LineRenderer* l = obj->getComponent<LineRenderer>();
         if (pointcloud == nullptr)
             return;
+        qDebug() << obj->name;
+        //if (obj->name != "bun180.ply")
+            //return;
+
         qDebug() << "NO " << n;
         n++;
         glm::vec4 init_point(0, 0, 0, 0);
         //获取射线的单位向量
         glm::vec3 ray = get_ray(mousex, mousey, screenWidth, screenHeight, obj->worldToLocal(), init_point);
+        std::vector<Vertex> lvertices;
+        lvertices.push_back({ {init_point.x,init_point.y,init_point.z},{0,1.0,1.0} });
+        lvertices.push_back({ {init_point.x + 300 * ray.x,init_point.y + 300 * ray.y,init_point.z + 300 * ray.z }, { 0,1.0,1.0 } });
         
+
+        l->continuous = false;
+
+
         //求射线上最近的点
         int pointI = pointcloud->nearestSearch({init_point.x,init_point.y, init_point.z});
         auto qpoint = pointcloud->getVertex(pointI).position();
@@ -170,6 +181,7 @@ glm::vec4 Widget::mousepick(int mousex, int mousey) {
 
         //每次搜索的起点
         glm::vec3 search(init_point.x, init_point.y, init_point.z);
+
         //获取包含模型的立方体
         QVector3D xmin, xmax, ymin, ymax, zmin, zmax;
         xmin = pointcloud->getVertex(pointcloud->nearestSearch({ -10000,0,0 })).position();
@@ -179,13 +191,19 @@ glm::vec4 Widget::mousepick(int mousex, int mousey) {
         zmin = pointcloud->getVertex(pointcloud->nearestSearch({ 0,0,-10000 })).position();
         zmax = pointcloud->getVertex(pointcloud->nearestSearch({ 0,0, 10000 })).position();
         int num = pointcloud->vertexCount();
-        float thre = 3*pow((xmax[0]-xmin[0])*(ymax[1]-ymin[1])*(zmax[2]-zmin[2])/(float)num,1.0/3.0);
+        float thre = 0.1*pow((xmax[0]-xmin[0])*(ymax[1]-ymin[1])*(zmax[2]-zmin[2])/(float)num,1.0/3.0);
         qDebug() <<"thre" <<thre;
         //在点云的三维空间范围内搜索，小于阈值即停止
+
+
+
         while (true) {
             //算距离
             qDebug() << "search:" << search.x << search.y << search.z;
-            float d = glm::l2Norm(glm::cross(glm::vec3(qpoint[0] - init_point.x, qpoint[1] - init_point.y, qpoint[2] - init_point.z), search));
+            
+            lvertices.push_back({ {search.x , search.y , search.z} ,{0,0,1.0} });
+            lvertices.push_back({ {qpoint[0] , qpoint[1] , qpoint[2]} ,{0,0,1.0} });
+            float d = glm::l2Norm(glm::cross(glm::vec3(qpoint[0] - search.x, qpoint[1] - search.y, qpoint[2] - search.z), ray));
             qDebug() << "d:" << d;
             if ( d < thre) {
                 qDebug() << "d:" << d;
@@ -196,18 +214,24 @@ glm::vec4 Widget::mousepick(int mousex, int mousey) {
                 break;
             }
             
-            float deltaDistance = d - thre;
+            float deltaDistance = glm::l2Norm(glm::vec3(qpoint[0] - search.x, qpoint[1] - search.y, qpoint[2] - search.z)) - thre;
             //改变搜索的起点
             search += deltaDistance * ray;
+
+            lvertices.push_back({ {search.x , search.y , search.z} ,{0,0,1.0} });
+            lvertices.push_back({ {qpoint[0] , qpoint[1] , qpoint[2]} ,{0,0,1.0} });
             
             if (search.x < xmin[0] * 1.5 || search.x > xmax[0] * 1.5
                 || search.y < ymin[1] * 1.5 || search.y > ymax[1] * 1.5
                 || search.z < zmin[2] * 1.5 || search.z > zmax[2] * 1.5)
                 break;
+
             //更新搜索点
             pointI = pointcloud->nearestSearch({ search.x,search.y, search.z });
             qpoint = pointcloud->getVertex(pointI).position();
         }
+
+        l->setVertices(lvertices);
     });
     //在世界坐标系下比较和摄像机之间的距离
     if (getpoints.size() == 0)
@@ -248,7 +272,7 @@ void Widget::fixedUpdate() {
         glm::vec3 x = glm::normalize(glm::cross(camRot * glm::vec3(0.0f, 1.0f, 0.0f), z));//叉乘确定X轴
         glm::vec3 y = glm::normalize(camRot * glm::vec3(0.0f, 1.0f, 0.0f));
         if (wheeldelta) {//滚轮、鼠标控制
-            camTarget += 0.01f * (float)wheeldelta * z;
+            camTarget += 0.002f * (float)wheeldelta * z;
             camTarget += -0.02f * (mousex  - (int)screenWidth / 2) * ((float)exp(0.001 * wheeldelta)-1)* (float)(log10(1 + 0.3*distance)+0.1*distance) * x ;
             camTarget += 0.02f * (mousey - (int)screenHeight/2) * ((float)exp(0.001 * wheeldelta)-1) * (float)(log10(1 + 0.3*distance)+0.1*distance) * y;
             wheeldelta = 0.0f;
