@@ -96,13 +96,23 @@ QModelIndex HierarchyModel::obj2index(HierarchyObject* obj) const
 void HierarchyModel::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) {
     QModelIndexList selectedIndices = selected.indexes();
     QModelIndexList deselectedIndices = deselected.indexes();
-    // 取消所有高亮  
-    root->callRecursively([](HierarchyObject* o) -> void {
-        Renderer* renderer = o->getComponent<Renderer>();
-        if (renderer != NULL) {
-            renderer->highlight = false;
-        }
-    });
+    //// 取消所有高亮  
+    //root->callRecursively([](HierarchyObject* o) -> void {
+    //    Renderer* renderer = o->getComponent<Renderer>();
+    //    if (renderer != NULL) {
+    //        renderer->highlight = false;
+    //    }
+    //});
+    for (auto& index : deselectedIndices) {
+        HierarchyObject* obj = index2obj(index);
+        assert(obj);
+        obj->callRecursively([](HierarchyObject* o) -> void {
+            Renderer* renderer = o->getComponent<Renderer>();
+            if (renderer != NULL) {
+                renderer->highlight = false;
+            }
+        });
+    }
     // 重新高亮  
     for (auto& index : selectedIndices) {
         HierarchyObject* obj = index2obj(index);

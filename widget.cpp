@@ -75,9 +75,6 @@ void Widget::mousePressEvent(QMouseEvent* e)
     else if (e->button() == Qt::LeftButton) {
         LeftMouseDown = true;
         qDebug() << "左键" << e->pos();
-        auto cloud = hierarchy->root->getChildren("bun180.ply")->getComponent<PointCloudRenderer>();
-        int idx = cloud->nearestSearch({ 0, 0, 0 });
-        qDebug() << "search " << idx << "  " << cloud->getVertex(idx).position();
     }
 }
 //鼠标 移动
@@ -157,7 +154,7 @@ glm::vec3 Widget::get_ray(int mousex, int mousey, int screenWidth, int screenHei
 
 bool Widget::mousepick(int mousex, int mousey, HierarchyObject *& objout, int &iout) {
     std::vector < glm::vec4 >  getpoints;
-    std::vector <QString> objnames;
+    std::vector < HierarchyObject* > hitObjects;
     std::vector <int> pointIs;
     PointCloudRenderer* pointcloud;
     
@@ -195,7 +192,8 @@ bool Widget::mousepick(int mousex, int mousey, HierarchyObject *& objout, int &i
             float d = glm::l2Norm(glm::cross(glm::vec3(qpoint[0] - search.x, qpoint[1] - search.y, qpoint[2] - search.z), ray));
             if ( d < thre) {
                 getpoints.push_back(obj->localToWorld() * glm::vec4(search.x,search.y,search.z,1));
-                objnames.push_back(obj->name);
+                // 记录下命中点所在的obj和序号， 退出循环  
+                hitObjects.push_back(obj);
                 pointIs.push_back(pointI);  
                 break;
             }
@@ -221,7 +219,7 @@ bool Widget::mousepick(int mousex, int mousey, HierarchyObject *& objout, int &i
         return false;
     }
     else {
-        int flag = 0;
+        int flag = 0; // 最近命中点所在的obj序号
         float d = sqrt(pow(getpoints[0].x - camPos.x, 2) + pow(getpoints[0].y - camPos.y, 2) + pow(getpoints[0].z - camPos.z, 2));
         for (int i = 1; i < getpoints.size(); i++) {
             float d1 = sqrt(pow(getpoints[i].x - camPos.x, 2) + pow(getpoints[i].y - camPos.y, 2) + pow(getpoints[i].z - camPos.z, 2));
@@ -231,18 +229,17 @@ bool Widget::mousepick(int mousex, int mousey, HierarchyObject *& objout, int &i
             }
         }
 
-        hierarchy->root->callRecursively([&](HierarchyObject* obj) -> void {
-            pointcloud = obj->getComponent<PointCloudRenderer>();
-            if (pointcloud == nullptr || obj->name != objnames[flag])
-                return;
-            else {
-                std::vector<Vertex> vertices = pointcloud->getVertices();
-                vertices[pointIs[flag]] = Vertex(vertices[pointIs[flag]].position(), QVector3D(1.0, 0.0, 0.0));
-                pointcloud->setVertices(vertices);
-                objout = obj;
-                iout = pointIs[flag];
-            }
-            });
+        // debug：标红点
+        //pointcloud = hitObjects[flag]->getComponent<PointCloudRenderer>();
+        //std::vector<Vertex> vertices = pointcloud->getVertices();
+        //vertices[pointIs[flag]] = Vertex(vertices[pointIs[flag]].position(), QVector3D(1.0, 0.0, 0.0));
+        //pointcloud->setVertices(vertices);
+
+        // 输出
+        objout = hitObjects[flag];
+        iout = pointIs[flag];
+
+
         return true;
     }   
 }
@@ -260,9 +257,14 @@ void Widget::fixedUpdate() {
     if (LeftMouseDown) {
         HierarchyObject * objout;
         int iout;
-        bool find = mousepick(mousex, mousey,objout,iout);
-        if(find)
-            qDebug() << objout->name << iout;
+        bool found = mousepick(mousex, mousey,objout,iout);
+        if (found) {
+            qDebug() << " 左键选中  " << objout->name << " #" << iout;
+            emit(onSelection(objout));
+        }
+        else {
+            emit(onSelection(NULL));
+        }
     }
     //滚轮旋转 结合鼠标位置进行摄像机平移和视角缩放，同时可以用wasd平移摄像机
   

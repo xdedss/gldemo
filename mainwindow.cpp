@@ -46,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     statusBar()->showMessage("Done");
 
+    connect(ui->openGLWidget, SIGNAL(onSelection(HierarchyObject*)), this, SLOT(onWidgetSelection(HierarchyObject*)));
+
     // 分割线默认比例
     ui->splitter_hor->setStretchFactor(0, 1);
     ui->splitter_hor->setStretchFactor(1, 3);
@@ -142,6 +144,16 @@ void MainWindow::onTreeViewRemoveObject() {
     //QModelIndex index = QModelIndex(-1, -1, nullptr, hierarchy);
 
     //emit(hierarchy->dataChanged(index, index));
+}
+
+void MainWindow::onWidgetSelection(HierarchyObject * obj)
+{
+    if (obj) {
+        ui->treeView_hierarchy->selectionModel()->select(hierarchy->obj2index(obj), QItemSelectionModel::ClearAndSelect);
+    }
+    else {
+        ui->treeView_hierarchy->selectionModel()->clearSelection();
+    }
 }
 
 void MainWindow::on_actionopen_triggered()
