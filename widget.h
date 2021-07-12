@@ -49,6 +49,8 @@ public:
     //std::vector<PointCloud*> pointClouds;
     HierarchyModel* hierarchy;
 
+    HierarchyObject* gizmosRoot;
+
     void setHierarchy(HierarchyModel* hierarchy) {
         hierarchy->widget = this;
         this->hierarchy = hierarchy;

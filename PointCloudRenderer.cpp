@@ -29,6 +29,12 @@ void PointCloudRenderer::applyVertices()
 
 }
 
+PointCloudRenderer::PointCloudRenderer()
+{
+    kdtree = new kd_tree_t(3, adaptor, nanoflann::KDTreeSingleIndexAdaptorParams(10));
+    qDebug() << ((intptr_t)&kdtree->dataset.vertices);
+}
+
 void PointCloudRenderer::onRender(glm::mat4 projection, glm::mat4 view, glm::mat4 model)
 {
     auto gl = hierarchyObject->widget->functions();
@@ -81,4 +87,29 @@ void PointCloudRenderer::setVertices(const std::vector<Vertex>& vertices)
 {
     this->vertices = vertices;
     this->modified = true;
+
+    //qDebug() << ((intptr_t)&kdtree->dataset.vertices);
+    adaptor.vertices = vertices;
+    kdtree->buildIndex();
+}
+
+int PointCloudRenderer::vertexCount()
+{
+    return vertices.size();
+}
+
+Vertex PointCloudRenderer::getVertex(int i)
+{
+    return vertices[i];
+}
+
+size_t PointCloudRenderer::nearestSearch(QVector3D pos)
+{
+    size_t ret_index;
+    float out_dist_sqr;
+    nanoflann::KNNResultSet<float> resultSet(1);
+    resultSet.init(&ret_index, &out_dist_sqr);
+    float queryPoints[3] = { pos.x(), pos.y(), pos.z() };
+    kdtree->findNeighbors(resultSet, &queryPoints[0], nanoflann::SearchParams(10));
+    return ret_index;
 }
