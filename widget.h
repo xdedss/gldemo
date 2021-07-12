@@ -29,6 +29,7 @@
 #include "HierarchyModel.h"
 #include "HierarchyObject.h"
 #include "Renderer.h"
+#include "PointCloudRenderer.h"
 
 using OpenGLFunctions = QOpenGLFunctions_4_3_Core;
 
@@ -81,6 +82,14 @@ private:
 
 private slots:
     void fixedUpdate();
+
+
+
+private:
+    glm::vec4 mousepick(int mousex, int mousey);
+    glm::vec4 get_ray(int mousex, int mousey, int screenWidth, int screenHeight,
+        glm::mat4 matModel, glm::vec4& init_point);
+    void show(glm::vec4);
 
 
 protected:

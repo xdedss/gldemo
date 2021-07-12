@@ -102,6 +102,57 @@ void Widget::keyReleaseEvent(QKeyEvent* key) {
     }
 }
 
+
+//射线单位矢量，在模型坐标系下的分量列阵
+glm::vec4 Widget::get_ray(int mousex, int mousey, int screenWidth, int screenHeight, glm::mat4 matModel, glm::vec4& init_point) {
+    glm::vec4 ndc((float)mousex * 2 / (float)screenWidth - 1, (float)mousey * 2 / (float)screenHeight - 1, 1.0f, 1.0f);//获取归一化坐标
+    glm::vec4 pointView = glm::inverse(projection) * ndc;//获取相机坐标系的分量列阵
+    pointView.y *= -1;//左手系转右手系
+    pointView /= pointView.w;//把第四维度转成1
+    glm::vec4 rayView = pointView - glm::vec4(0, 0, 0, 1);
+    init_point = matModel * glm::inverse(view) * glm::vec4(0, 0, 0, 1);
+    //show(rayView);;
+    //返回归一化向量
+    return glm::normalize(matModel * glm::inverse(view) * rayView);
+}
+
+glm::vec4 Widget::mousepick(int mousex, int mousey) {
+    std::vector < glm::vec4 >  getpoints;
+    PointCloudRenderer* pointcloud;
+    hierarchy->root->callRecursively([&](HierarchyObject* obj) -> void {
+        pointcloud = obj->getComponent<PointCloudRenderer>();
+        if (pointcloud == nullptr)
+            return;
+        glm::vec4 init_point(0, 0, 0, 0);
+        //show(init_point);
+        //获取射线的单位向量
+        glm::vec4 ray = get_ray(mousex, mousey, screenWidth, screenHeight, obj->worldToLocal(), init_point);
+        //show(ray);
+        //show(init_point);
+        glm::vec4 point(0, 0, 0, 0);
+        if (point.w) {
+            getpoints.push_back(obj->localToWorld() * point);
+        }
+    });
+    //在世界坐标系下比较和摄像机之间的距离
+    if (getpoints.size() == 0)
+        return glm::vec4(0, 0, 0, 0);
+    else if (getpoints.size() == 1)
+        return getpoints[0];
+    else {
+        int flag = 0;
+        float d = sqrt(pow(getpoints[0].x - camPos.x, 2) + pow(getpoints[0].y - camPos.y, 2) + pow(getpoints[0].z - camPos.z, 2));
+        for (int i = 1; i < getpoints.size(); i++) {
+            float d1 = sqrt(pow(getpoints[i].x - camPos.x, 2) + pow(getpoints[i].y - camPos.y, 2) + pow(getpoints[i].z - camPos.z, 2));
+            if (d > d1) {
+                flag = i;
+                d = d1;
+            }
+        }
+        return getpoints[flag];
+    }   
+}
+
 void Widget::fixedUpdate() {
 
     //如果鼠标按下，记录鼠标走的方位，进行相机旋转操作 
@@ -112,7 +163,9 @@ void Widget::fixedUpdate() {
         camRot = glm::rotate(camRot, -dx * 1.5f / sqrtf(screenWidth * screenHeight), glm::vec3(0, 1, 0));
         
     }
-    
+    if (LeftMouseDown) {
+        glm::vec4 pickPoint = mousepick(mousex, mousey);
+    }
     //滚轮旋转 结合鼠标位置进行摄像机平移和视角缩放，同时可以用wasd平移摄像机
   
     if (Key_WDown || Key_ADown || Key_SDown || Key_DDown || (wheeldelta)) {
