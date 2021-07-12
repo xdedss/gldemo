@@ -34,6 +34,8 @@ private slots:
     void onTreeViewAddObject();
     void onTreeViewRemoveObject();
 
+    void onWidgetSelection(HierarchyObject* obj);
+
 private:
     Ui::MainWindow *ui;
 

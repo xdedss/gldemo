@@ -87,7 +87,8 @@ private:
 private slots:
     void fixedUpdate();
 
-
+signals:
+    void onSelection(HierarchyObject* obj);
 
 private:
     bool mousepick(int mousex, int mousey, HierarchyObject*& objout, int& iout);
