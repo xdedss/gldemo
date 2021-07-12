@@ -12,6 +12,11 @@ Widget::Widget(QWidget *parent)
     timer->start(20);
 
     gizmosRoot = new HierarchyObject("gizmos");
+
+    // 天空盒子
+    skybox = new SkyboxRenderer();
+
+    // 坐标轴和网格
     LineRenderer* xyzAxis = new LineRenderer();
     xyzAxis->continuous = false;
     std::vector<Vertex> xyAxisVertices = {
@@ -36,6 +41,8 @@ Widget::Widget(QWidget *parent)
     }
     xyzAxis->setVertices(xyAxisVertices);
     gizmosRoot->addComponent(xyzAxis);
+
+
 }
 
 Widget::~Widget()
@@ -188,6 +195,7 @@ void Widget::initializeGL()
     
     // 加载shader
     shaders["default"] = loadShader("default");
+    shaders["skybox"] = loadShader("skybox");
 
 
     // 初始化相机位置姿态
@@ -256,6 +264,9 @@ void Widget::paintGL()
     // update
     hierarchy->root->updateRecursively();
     // 渲染
+    skybox->shader = shaders["skybox"];
+    skybox->onRender(functions(), projection, view, view);// 第三个参数没用
+
     for (int i = 0; i < hierarchy->root->childrenCount(); i++) {
         renderObjectRecursively(projection, view, glm::identity<glm::mat4>(), hierarchy->root->getChildren(i));
     }
