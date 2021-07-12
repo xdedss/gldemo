@@ -68,9 +68,9 @@ void Widget::mousePressEvent(QMouseEvent* e)
     else if (e->button() == Qt::LeftButton) {
         LeftMouseDown = true;
         qDebug() << "左键" << e->pos();
-        auto cloud = hierarchy->root->getChildren("bun180.ply")->getComponent<PointCloudRenderer>();
-        int idx = cloud->nearestSearch({ 0, 0, 0 });
-        qDebug() << "search " << idx << "  " << cloud->getVertex(idx).position();
+        //auto cloud = hierarchy->root->getChildren("bun180.ply")->getComponent<PointCloudRenderer>();
+        //int idx = cloud->nearestSearch({ 0, 0, 0 });
+        //qDebug() << "search " << idx << "  " << cloud->getVertex(idx).position();
     }
 }
 //鼠标 移动
@@ -217,13 +217,12 @@ glm::vec4 Widget::mousepick(int mousex, int mousey) {
             float deltaDistance = glm::l2Norm(glm::vec3(qpoint[0] - search.x, qpoint[1] - search.y, qpoint[2] - search.z)) - thre;
             //改变搜索的起点
             search += deltaDistance * ray;
+            assert(glm::l2Norm(search) < 1e10);
 
             lvertices.push_back({ {search.x , search.y , search.z} ,{0,0,1.0} });
             lvertices.push_back({ {qpoint[0] , qpoint[1] , qpoint[2]} ,{0,0,1.0} });
             
-            if (search.x < xmin[0] * 1.5 || search.x > xmax[0] * 1.5
-                || search.y < ymin[1] * 1.5 || search.y > ymax[1] * 1.5
-                || search.z < zmin[2] * 1.5 || search.z > zmax[2] * 1.5)
+            if (sqrt(pow(init_point.x-search.x,2)+ pow(init_point.y - search.y, 2) + pow(init_point.z - search.z, 2) )>10000)
                 break;
 
             //更新搜索点

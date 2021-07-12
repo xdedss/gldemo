@@ -80,6 +80,7 @@ void PointCloudRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm
 
 void PointCloudRenderer::setVertices(const std::vector<Vertex>& vertices)
 {
+    assert(vertices.size() > 0);
     this->vertices = vertices;
     this->modified = true;
 
@@ -100,12 +101,14 @@ Vertex PointCloudRenderer::getVertex(int i)
 
 size_t PointCloudRenderer::nearestSearch(QVector3D pos)
 {
-    size_t ret_index;
+    size_t ret_index = 114514;
+    assert(vertices.size() > 0);
     float out_dist_sqr;
     nanoflann::KNNResultSet<float> resultSet(1);
     resultSet.init(&ret_index, &out_dist_sqr);
     float queryPoints[3] = { pos.x(), pos.y(), pos.z() };
     kdtree->findNeighbors(resultSet, &queryPoints[0], nanoflann::SearchParams(10));
+    assert(ret_index != 114514);
     return ret_index;
 }
 
