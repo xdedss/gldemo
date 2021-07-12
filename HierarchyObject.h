@@ -30,12 +30,20 @@ public:
     HierarchyModel* hierarchy;
     QString name;
 
+    // 子节点数量
     int childrenCount() { return children.size(); }
+    // 获取第i个子节点
     HierarchyObject* getChildren(int i) { return (children.size() > i && i >= 0) ? children[i] : NULL; }
+    // 寻找指定名称子节点
+    HierarchyObject* getChildren(const QString& name);
+    // 找到子节点序号
     int findChild(HierarchyObject* child);
+    // 本节点挂载的组件数量
     int componentsCount() { return components.size(); }
+    // 获取父节点
     HierarchyObject* getParent() { return parent; }
 
+    // ctor
     HierarchyObject(const QString& name, HierarchyObject* parent = NULL);
 
 

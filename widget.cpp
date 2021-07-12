@@ -10,6 +10,8 @@ Widget::Widget(QWidget *parent)
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(fixedUpdate()));
     timer->start(20);
+
+    gizmosRoot = new HierarchyObject("gizmos");
 }
 
 Widget::~Widget()
@@ -42,7 +44,9 @@ void Widget::mousePressEvent(QMouseEvent* e)
     else if (e->button() == Qt::LeftButton) {
         LeftMouseDown = true;
         qDebug() << "左键" << e->pos();
-        //pointClouds[0]->nearestSearch({ 0, 0, 0 });
+        auto cloud = hierarchy->root->getChildren("bun180.ply")->getComponent<PointCloudRenderer>();
+        int idx = cloud->nearestSearch({ 0, 0, 0 });
+        qDebug() << "search " << idx << "  " << cloud->getVertex(idx).position();
     }
 }
 //鼠标 移动
@@ -213,6 +217,10 @@ void Widget::paintGL()
     hierarchy->root->updateRecursively();
     // 渲染
     for (int i = 0; i < hierarchy->root->childrenCount(); i++) {
+        renderObjectRecursively(projection, view, glm::identity<glm::mat4>(), hierarchy->root->getChildren(i));
+    }
+
+    for (int i = 0; i < gizmosRoot->childrenCount(); i++) {
         renderObjectRecursively(projection, view, glm::identity<glm::mat4>(), hierarchy->root->getChildren(i));
     }
 

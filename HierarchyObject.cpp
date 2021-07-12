@@ -2,6 +2,16 @@
 #include "HierarchyModel.h"
 #include "Component.h"
 
+HierarchyObject * HierarchyObject::getChildren(const QString & name)
+{
+    for (auto child : children) {
+        if (child->name == name) {
+            return child;
+        }
+    }
+    return nullptr;
+}
+
 int HierarchyObject::findChild(HierarchyObject * child)
 {
     for (int i = 0; i < children.size(); i++) {
