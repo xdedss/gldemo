@@ -6,7 +6,7 @@
 #include "vertex.h"
 #include "nanoflann.hpp"
 
-// kd树定义
+// nanoflann的kd树接口实现   
 class VerticesAdaptor {
 public:
     std::vector<Vertex> vertices;
@@ -24,7 +24,7 @@ public:
         if (dim == 2) return vertices[idx].position().z();
         return 0;
     }
-
+    // 不计算bbox，返回false  
     template <class BBOX>
     bool kdtree_get_bbox(BBOX &bb) const
     {
@@ -33,6 +33,7 @@ public:
 
 };
 
+// nanoflann查询用模板定义  
 typedef nanoflann::KDTreeSingleIndexAdaptor<
     nanoflann::L2_Simple_Adaptor<float, VerticesAdaptor>,
     VerticesAdaptor,
@@ -41,13 +42,14 @@ typedef nanoflann::KDTreeSingleIndexAdaptor<
 
 
 
-
+//  渲染点云   
 class PointCloudRenderer :
     public Renderer
 {
 
 private:
 
+    // 更新顶点，放入显存    
     void applyVertices();
 
     QOpenGLBuffer* m_vertexBuffer = NULL;
@@ -59,7 +61,9 @@ private:
     VerticesAdaptor adaptor;
 
 public:
+    // 随距离变化的缩放系数  
     float sizeScale = 10.0f;
+    // 高亮颜色 默认橙色   
     QVector3D highlightColor = { 1.0, 0.5, 0.0 };
     QOpenGLShaderProgram* shader = NULL;
 
@@ -73,7 +77,9 @@ public:
     int vertexCount();
     Vertex getVertex(int i);
 
+    // 最邻近搜索点
     size_t nearestSearch(QVector3D pos);
+    
 
 };
 

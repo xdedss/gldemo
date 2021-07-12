@@ -6,7 +6,7 @@
 #include <string>
 #include "vertex.h"
 
-// 读取从matlab导出的txt文件，每行四个数x y z w，只留xyz
+// 读取从matlab导出的txt文件，每行四个数x y z w，只留xyz   
 inline std::vector<Vertex> readTxt(const std::string& fpath) {
     std::ifstream infile(fpath);
     assert(!infile.fail());
@@ -29,7 +29,7 @@ inline std::vector<Vertex> readTxt(const std::string& fpath) {
     return res;
 }
 
-// 忽略文件头的一堆信息，只读取所有点的坐标
+// 忽略文件头的一堆信息，只读取所有点的坐标   
 inline std::vector<Vertex> readPly(const std::string& fpath) {
     std::ifstream infile(fpath);
     assert(!infile.fail());

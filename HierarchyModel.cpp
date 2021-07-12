@@ -11,9 +11,9 @@ HierarchyModel::HierarchyModel()
 
 HierarchyObject * HierarchyModel::createObject(const QString& name)
 {
-    Q_ASSERT(widget); // 此时必须已经添加到widget上
+    Q_ASSERT(widget); // 此时必须已经添加到widget上  
 
-    // 默认挂到root上
+    // 默认挂到root上  
     beginInsertRows(QModelIndex(), root->childrenCount(), root->childrenCount() + 1);
 
     HierarchyObject * res = new HierarchyObject(name);
@@ -31,12 +31,12 @@ void HierarchyModel::moveObject(HierarchyObject* obj, HierarchyObject* toParent,
     Q_ASSERT(toIndex >= 0 && toIndex <= toParent->childrenCount());
     
     if (obj->getParent() == toParent) {
-        // 同级移动
+        // 同级移动  
         //assert(toIndex < toParent->childrenCount());
         int fromIndex = toParent->findChild(obj);
-        int realToIndex = (fromIndex < toIndex) ? (toIndex - 1) : toIndex; // 目标在后，向前挪一个
+        int realToIndex = (fromIndex < toIndex) ? (toIndex - 1) : toIndex; // 目标在后，向前挪一个  
         if (fromIndex == realToIndex) {
-            // 不用移
+            // 不用移  
             return;
         }
         //QModelIndex changeBegin = obj2index(obj), changeEnd = obj2index(toParent->getChildren(toIndex));
@@ -48,14 +48,15 @@ void HierarchyModel::moveObject(HierarchyObject* obj, HierarchyObject* toParent,
         //emit(dataChanged(changeBegin, changeEnd, { Qt::EditRole }));
     }
     else {
-        // 先移除，再添加
+        // 移动到别的子树上  
+        // 先移除，再添加  
         QModelIndex originalParentIndex = obj2index(obj->getParent());
         int objIndex = obj->getParent()->findChild(obj);
         beginRemoveRows(originalParentIndex, objIndex, objIndex);
         obj->getParent()->popChild(objIndex);
         endRemoveRows();
 
-        // 添加
+        // 添加  
         QModelIndex toParentIndex = obj2index(toParent);
         beginInsertRows(toParentIndex, toIndex, toIndex);
         toParent->insertChild(toIndex, obj);
@@ -95,14 +96,14 @@ QModelIndex HierarchyModel::obj2index(HierarchyObject* obj) const
 void HierarchyModel::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) {
     QModelIndexList selectedIndices = selected.indexes();
     QModelIndexList deselectedIndices = deselected.indexes();
-    // 取消所有高亮
+    // 取消所有高亮  
     root->callRecursively([](HierarchyObject* o) -> void {
         Renderer* renderer = o->getComponent<Renderer>();
         if (renderer != NULL) {
             renderer->highlight = false;
         }
     });
-    // 重新高亮
+    // 重新高亮  
     for (auto& index : selectedIndices) {
         HierarchyObject* obj = index2obj(index);
         assert(obj);
@@ -130,7 +131,7 @@ QModelIndex HierarchyModel::index(int row, int column, const QModelIndex & paren
 
 QModelIndex HierarchyModel::parent(const QModelIndex & index) const
 {
-    if (!index.isValid())
+    if (!index.isValid()) //传入节点是根节点  
         return QModelIndex();
 
 

@@ -14,6 +14,7 @@
 #include "LineRenderer.h"
 
 
+// 主窗口定义
 namespace Ui {
 class MainWindow;
 }
@@ -36,16 +37,16 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    QMenu* treeContextMenu;//节点上右键
-    QMenu* treeContextMenuSpace;//空白处右键
+    QMenu* treeContextMenu;//节点上右键菜单  
+    QMenu* treeContextMenuSpace;//空白处右键菜单  
 
     //QStandardItemModel* hierarchy;
     //QStandardItem* modelsParent;
     //QStandardItem* trailsParent;
 
-    HierarchyModel* hierarchy;
+    HierarchyModel* hierarchy; // 场景树  
 
-    PointCloudRenderer* MainWindow::importPointCloud(const QString& path, float initialScale);
+    PointCloudRenderer* MainWindow::importPointCloud(const QString& path, float initialScale); // 直接向场景中放入一个点云模型  
 
 };
 
