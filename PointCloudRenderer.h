@@ -22,6 +22,7 @@ public:
         if (dim == 0) return vertices[idx].position().x();
         if (dim == 1) return vertices[idx].position().y();
         if (dim == 2) return vertices[idx].position().z();
+        return 0;
     }
 
     template <class BBOX>
@@ -59,12 +60,13 @@ private:
 
 public:
     float sizeScale = 10.0f;
+    QVector3D highlightColor = { 1.0, 0.5, 0.0 };
     QOpenGLShaderProgram* shader = NULL;
 
     //ctor
     PointCloudRenderer();
 
-    void onRender(glm::mat4 projection, glm::mat4 view, glm::mat4 model) override;
+    void onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4 view, glm::mat4 model) override;
 
     void setVertices(const std::vector<Vertex>& vertices);
 

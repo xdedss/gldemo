@@ -17,8 +17,8 @@ HierarchyObject * HierarchyModel::createObject(const QString& name)
     beginInsertRows(QModelIndex(), root->childrenCount(), root->childrenCount() + 1);
 
     HierarchyObject * res = new HierarchyObject(name);
-    res->widget = widget;
-    res->hierarchy = this;
+    //res->widget = widget;
+    //res->hierarchy = this;
     objects.push_back(res);
     root->insertChild(root->childrenCount(), res);
 
@@ -298,7 +298,7 @@ bool HierarchyModel::dropMimeData(const QMimeData * data, Qt::DropAction action,
     for (auto& droppedNode : droppedNodes) {
         moveObject(droppedNode, parentNode, row);
     }
-
+    return true;
 }
 
 QStringList HierarchyModel::mimeTypes() const
