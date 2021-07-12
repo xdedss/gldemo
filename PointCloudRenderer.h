@@ -57,6 +57,7 @@ private:
     kd_tree_t* kdtree;
     VerticesAdaptor adaptor;
 
+
 public:
     float sizeScale = 10.0f;
     QOpenGLShaderProgram* shader = NULL;
@@ -73,5 +74,6 @@ public:
 
     size_t nearestSearch(QVector3D pos);
 
+    std::vector<Vertex> getVertices();
 };
 

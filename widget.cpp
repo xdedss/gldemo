@@ -108,7 +108,7 @@ void Widget::keyReleaseEvent(QKeyEvent* key) {
 
 
 //射线单位矢量，在模型坐标系下的分量列阵
-glm::vec4 Widget::get_ray(int mousex, int mousey, int screenWidth, int screenHeight, glm::mat4 matModel, glm::vec4& init_point) {
+glm::vec3 Widget::get_ray(int mousex, int mousey, int screenWidth, int screenHeight, glm::mat4 matModel, glm::vec4& init_point) {
     glm::vec4 ndc((float)mousex * 2 / (float)screenWidth - 1, (float)mousey * 2 / (float)screenHeight - 1, 1.0f, 1.0f);//获取归一化坐标
     glm::vec4 pointView = glm::inverse(projection) * ndc;//获取相机坐标系的分量列阵
     pointView.y *= -1;//左手系转右手系
@@ -117,25 +117,72 @@ glm::vec4 Widget::get_ray(int mousex, int mousey, int screenWidth, int screenHei
     init_point = matModel * glm::inverse(view) * glm::vec4(0, 0, 0, 1);
     //show(rayView);;
     //返回归一化向量
-    return glm::normalize(matModel * glm::inverse(view) * rayView);
+    glm::vec4 ray = glm::normalize(matModel * glm::inverse(view) * rayView);
+    return glm::vec3(ray.x, ray.y, ray.z);
 }
+
+
+
 
 glm::vec4 Widget::mousepick(int mousex, int mousey) {
     std::vector < glm::vec4 >  getpoints;
     PointCloudRenderer* pointcloud;
+    int n = 1;
     hierarchy->root->callRecursively([&](HierarchyObject* obj) -> void {
         pointcloud = obj->getComponent<PointCloudRenderer>();
+        
         if (pointcloud == nullptr)
             return;
+        qDebug() << "NO " << n;
+        n++;
         glm::vec4 init_point(0, 0, 0, 0);
-        //show(init_point);
         //获取射线的单位向量
-        glm::vec4 ray = get_ray(mousex, mousey, screenWidth, screenHeight, obj->worldToLocal(), init_point);
-        //show(ray);
-        //show(init_point);
-        glm::vec4 point(0, 0, 0, 0);
-        if (point.w) {
-            getpoints.push_back(obj->localToWorld() * point);
+        glm::vec3 ray = get_ray(mousex, mousey, screenWidth, screenHeight, obj->worldToLocal(), init_point);
+        
+        //求射线上最近的点
+        int pointI = pointcloud->nearestSearch({init_point.x,init_point.y, init_point.z});
+        auto qpoint = pointcloud->getVertex(pointI).position();
+
+
+        //每次搜索的起点
+        glm::vec3 search(init_point.x, init_point.y, init_point.z);
+        //获取包含模型的立方体
+        QVector3D xmin, xmax, ymin, ymax, zmin, zmax;
+        xmin = pointcloud->getVertex(pointcloud->nearestSearch({ -10000,0,0 })).position();
+        xmax = pointcloud->getVertex(pointcloud->nearestSearch({  10000,0,0 })).position();
+        ymin = pointcloud->getVertex(pointcloud->nearestSearch({ 0,-10000,0 })).position();
+        ymax = pointcloud->getVertex(pointcloud->nearestSearch({ 0, 10000,0 })).position();
+        zmin = pointcloud->getVertex(pointcloud->nearestSearch({ 0,0,-10000 })).position();
+        zmax = pointcloud->getVertex(pointcloud->nearestSearch({ 0,0, 10000 })).position();
+        int num = pointcloud->vertexCount();
+        float thre = 3*pow((xmax[0]-xmin[0])*(ymax[1]-ymin[1])*(zmax[2]-zmin[2])/(float)num,1.0/3.0);
+        qDebug() <<"thre" <<thre;
+        //在点云的三维空间范围内搜索，小于阈值即停止
+        while (true) {
+            //算距离
+            qDebug() << "search:" << search.x << search.y << search.z;
+            float d = glm::l2Norm(glm::cross(glm::vec3(qpoint[0] - init_point.x, qpoint[1] - init_point.y, qpoint[2] - init_point.z), search));
+            qDebug() << "d:" << d;
+            if ( d < thre) {
+                qDebug() << "d:" << d;
+                getpoints.push_back(obj->localToWorld() * glm::vec4(search.x,search.y,search.z,1));
+                std::vector<Vertex> vertices = pointcloud->getVertices();
+                vertices[pointI] = Vertex(vertices[pointI].position(), QVector3D(1.0, 0.0, 0.0));
+                pointcloud->setVertices(vertices);
+                break;
+            }
+            
+            float deltaDistance = d - thre;
+            //改变搜索的起点
+            search += deltaDistance * ray;
+            
+            if (search.x < xmin[0] * 1.5 || search.x > xmax[0] * 1.5
+                || search.y < ymin[1] * 1.5 || search.y > ymax[1] * 1.5
+                || search.z < zmin[2] * 1.5 || search.z > zmax[2] * 1.5)
+                break;
+            //更新搜索点
+            pointI = pointcloud->nearestSearch({ search.x,search.y, search.z });
+            qpoint = pointcloud->getVertex(pointI).position();
         }
     });
     //在世界坐标系下比较和摄像机之间的距离
@@ -177,9 +224,9 @@ void Widget::fixedUpdate() {
         glm::vec3 x = glm::normalize(glm::cross(camRot * glm::vec3(0.0f, 1.0f, 0.0f), z));//叉乘确定X轴
         glm::vec3 y = glm::normalize(camRot * glm::vec3(0.0f, 1.0f, 0.0f));
         if (wheeldelta) {//滚轮、鼠标控制
-            camTarget += -0.03f * (mousex  - (int)screenWidth / 2) * ((float)exp(0.001 * wheeldelta)-1)* (float)(log10(1 + 0.3*distance)+0.1*distance) * x ;
-            camTarget += 0.03f * (mousey - (int)screenHeight/2) * ((float)exp(0.001 * wheeldelta)-1) * (float)(log10(1 + 0.3*distance)+0.1*distance) * y;
-            distance *= exp(0.001 * wheeldelta);
+            camTarget += 0.01f * (float)wheeldelta * z;
+            camTarget += -0.02f * (mousex  - (int)screenWidth / 2) * ((float)exp(0.001 * wheeldelta)-1)* (float)(log10(1 + 0.3*distance)+0.1*distance) * x ;
+            camTarget += 0.02f * (mousey - (int)screenHeight/2) * ((float)exp(0.001 * wheeldelta)-1) * (float)(log10(1 + 0.3*distance)+0.1*distance) * y;
             wheeldelta = 0.0f;
         }
         else {//wasd控制
