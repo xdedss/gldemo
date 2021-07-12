@@ -132,11 +132,6 @@ public:
 
 
 
-typedef nanoflann::KDTreeSingleIndexAdaptor<
-    nanoflann::L2_Simple_Adaptor<float, PointCloud>,
-    PointCloud,
-    3 /* dim */
-> kd_tree_t;
 
 
 

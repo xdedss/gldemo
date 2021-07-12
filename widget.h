@@ -29,6 +29,7 @@
 #include "HierarchyModel.h"
 #include "HierarchyObject.h"
 #include "Renderer.h"
+#include "PointCloudRenderer.h"
 
 using OpenGLFunctions = QOpenGLFunctions_4_3_Core;
 
@@ -47,6 +48,8 @@ public:
     // 模型
     //std::vector<PointCloud*> pointClouds;
     HierarchyModel* hierarchy;
+
+    HierarchyObject* gizmosRoot;
 
     void setHierarchy(HierarchyModel* hierarchy) {
         hierarchy->widget = this;
