@@ -8,12 +8,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <qopenglfunctions_4_3_core.h>
 #include <qopenglshaderprogram.h>
 #include <qopenglvertexarrayobject.h>
 #include <qopenglbuffer.h>
 
 #include "Component.h"
+#include "commondefs.h"
 
 class Renderer : public Component {
 
@@ -22,7 +22,7 @@ private:
 
 public:
     bool highlight = false;
-    virtual void onRender(glm::mat4 projection, glm::mat4 view, glm::mat4 model) = 0;
+    virtual void onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4 view, glm::mat4 model) = 0;
 
     void onInit() override;
     void onUpdate() override;

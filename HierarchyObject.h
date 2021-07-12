@@ -26,8 +26,8 @@ private:
 
 public:
     glm::mat4 transform;
-    Widget* widget;
-    HierarchyModel* hierarchy;
+    //Widget* widget;
+    //HierarchyModel* hierarchy;
     QString name;
 
     // 子节点数量
@@ -84,6 +84,7 @@ public:
 
     // 添加组件
     Component * addComponent(Component* component);
+
 
     // 更新子树
     void updateRecursively();

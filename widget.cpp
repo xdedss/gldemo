@@ -12,6 +12,30 @@ Widget::Widget(QWidget *parent)
     timer->start(20);
 
     gizmosRoot = new HierarchyObject("gizmos");
+    LineRenderer* xyzAxis = new LineRenderer();
+    xyzAxis->continuous = false;
+    std::vector<Vertex> xyAxisVertices = {
+        // x axis
+        {{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}},
+        {{5.0, 0.0, 0.0}, {1.0, 0.0, 0.0}},
+        // y axis
+        {{0.0, 0.0, 0.0}, {0.0, 1.0, 0.0}},
+        {{0.0, 5.0, 0.0}, {0.0, 1.0, 0.0}},
+        // z axis
+        {{0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}},
+        {{0.0, 0.0, 5.0}, {0.0, 0.0, 1.0}},
+    };
+    float meshGap = 1;
+    int meshCount = 10;
+    QVector3D meshColor = { 0.4, 0.4, 0.4 };
+    for (int i = -meshCount; i <= meshCount; i++) {
+        xyAxisVertices.push_back({ {meshGap * i, 0, -meshGap * meshCount}, meshColor });
+        xyAxisVertices.push_back({ {meshGap * i, 0, meshGap * meshCount}, meshColor });
+        xyAxisVertices.push_back({ {-meshGap * meshCount, 0, meshGap * i}, meshColor });
+        xyAxisVertices.push_back({ {meshGap * meshCount, 0, meshGap * i}, meshColor });
+    }
+    xyzAxis->setVertices(xyAxisVertices);
+    gizmosRoot->addComponent(xyzAxis);
 }
 
 Widget::~Widget()
@@ -247,8 +271,8 @@ void Widget::fixedUpdate() {
 
 QOpenGLShaderProgram* loadShader(const std::string& name) {
     auto res = new QOpenGLShaderProgram();
-    res->addShaderFromSourceFile(QOpenGLShader::Vertex, ("./" + name + ".vert").c_str());
-    res->addShaderFromSourceFile(QOpenGLShader::Fragment, ("./" + name + ".frag").c_str());
+    res->addShaderFromSourceFile(QOpenGLShader::Vertex, ("./shaders/" + name + ".vert").c_str());
+    res->addShaderFromSourceFile(QOpenGLShader::Fragment, ("./shaders/" + name + ".frag").c_str());
     res->link();
     res->enableAttributeArray(0);
     res->enableAttributeArray(1);
@@ -263,7 +287,7 @@ void Widget::initializeGL()
     glEnable(GL_PROGRAM_POINT_SIZE);
     
     // 加载shader
-    shaders["default"] = loadShader("foo");
+    shaders["default"] = loadShader("default");
 
 
     // 初始化相机位置姿态
@@ -282,13 +306,29 @@ void Widget::resizeGL(int w, int h)
     screenHeight = h;
 }
 
-void renderObjectRecursively(const glm::mat4& proj, const glm::mat4& view, const glm::mat4& parentTransform, HierarchyObject* obj) {
+void Widget::handleDefaultShader(Renderer* renderer) {
+    PointCloudRenderer* cloud = dynamic_cast<PointCloudRenderer*>(renderer);
+    if (cloud) {
+        if (cloud->shader == NULL) {
+            cloud->shader = shaders["default"];
+        }
+    }
+    LineRenderer * line = dynamic_cast<LineRenderer*>(renderer);
+    if (line) {
+        if (line->shader == NULL) {
+            line->shader = shaders["default"];
+        }
+    }
+}
+
+void Widget::renderObjectRecursively(const glm::mat4& proj, const glm::mat4& view, const glm::mat4& parentTransform, HierarchyObject* obj) {
     assert(obj);
     glm::mat4 transform = parentTransform * obj->transform;
     for (int i = 0; i < obj->componentsCount(); i++) {
         Renderer* renderer = obj->getComponent<Renderer>(i);
         if (renderer) {
-            renderer->onRender(proj, view, transform);
+            handleDefaultShader(renderer);
+            renderer->onRender(functions(), proj, view, transform);
         }
     }
     for (int i = 0; i < obj->childrenCount(); i++) {
@@ -320,8 +360,6 @@ void Widget::paintGL()
         renderObjectRecursively(projection, view, glm::identity<glm::mat4>(), hierarchy->root->getChildren(i));
     }
 
-    for (int i = 0; i < gizmosRoot->childrenCount(); i++) {
-        renderObjectRecursively(projection, view, glm::identity<glm::mat4>(), hierarchy->root->getChildren(i));
-    }
+    renderObjectRecursively(projection, view, glm::identity<glm::mat4>(), gizmosRoot);
 
 }

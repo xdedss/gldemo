@@ -11,6 +11,7 @@
 #include "HierarchyModel.h"
 #include "HierarchyObject.h"
 #include "PointCloudRenderer.h"
+#include "LineRenderer.h"
 
 
 namespace Ui {
