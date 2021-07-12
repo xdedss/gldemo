@@ -10,7 +10,6 @@
 
 // OpenGL
 //#include <QOpenGLExtraFunctions>
-#include <qopenglfunctions_4_3_core.h>
 #include <qopenglshaderprogram.h>
 #include <qopenglvertexarrayobject.h>
 #include <qopenglbuffer.h>
@@ -30,8 +29,8 @@
 #include "HierarchyObject.h"
 #include "Renderer.h"
 #include "PointCloudRenderer.h"
-
-using OpenGLFunctions = QOpenGLFunctions_4_3_Core;
+#include "LineRenderer.h"
+#include "commondefs.h"
 
 class Widget : public QOpenGLWidget, protected OpenGLFunctions
 {
@@ -97,6 +96,8 @@ private:
 protected:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
+    void handleDefaultShader(Renderer * renderer);
+    void renderObjectRecursively(const glm::mat4 & proj, const glm::mat4 & view, const glm::mat4 & parentTransform, HierarchyObject * obj);
     void paintGL() override;
 
 

@@ -1,11 +1,7 @@
-#include "PointCloudRenderer.h"
-#include "Component.h"
-#include "HierarchyObject.h"
-#include "widget.h"
+#include "LineRenderer.h"
 
-void PointCloudRenderer::applyVertices()
+void LineRenderer::applyVertices()
 {
-
     //assert(shader != NULL);
     assert(vertices.size() > 0);
 
@@ -25,17 +21,13 @@ void PointCloudRenderer::applyVertices()
     //shader->enableAttributeArray(1);
 
     m_vertexBuffer->release();
-
-
 }
 
-PointCloudRenderer::PointCloudRenderer()
+LineRenderer::LineRenderer()
 {
-    kdtree = new kd_tree_t(3, adaptor, nanoflann::KDTreeSingleIndexAdaptorParams(10));
-    //qDebug() << ((intptr_t)&kdtree->dataset.vertices);
 }
 
-void PointCloudRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4 view, glm::mat4 model)
+void LineRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4 view, glm::mat4 model)
 {
     if (modified) {
         applyVertices();
@@ -44,67 +36,45 @@ void PointCloudRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm
 
     assert(shader != NULL);
 
-    // ç»‘å®šshader
+    // °ó¶¨shader
     shader->bind();
     m_vertexBuffer->bind();
     shader->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
     shader->setAttributeBuffer(1, GL_FLOAT, Vertex::colorOffset(), Vertex::ColorTupleSize, Vertex::stride());
 
-    // å‡†å¤‡shaderä¸­çš„çŸ©é˜µ
+    // ×¼±¸shaderÖÐµÄ¾ØÕó
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_PROJ"), 1, GL_FALSE, glm::value_ptr(projection));
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_VIEW"), 1, GL_FALSE, glm::value_ptr(view));
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_MODEL"), 1, GL_FALSE, glm::value_ptr(model));
-
-    // ç”»outline
+    
+    // »­outline
     if (highlight) {
         gl->glDepthMask(GL_FALSE);
-        gl->glUniform1f(shader->uniformLocation("sizeScale"), sizeScale * 2);
-        gl->glUniform1f(shader->uniformLocation("sizeAbsolute"), 10);
+        //gl->glUniform1f(shader->uniformLocation("sizeScale"), sizeScale * 2);
+        //gl->glUniform1f(shader->uniformLocation("sizeAbsolute"), 10);
         gl->glUniform4f(shader->uniformLocation("colorOverride"), highlightColor.x(), highlightColor.y(), highlightColor.z(), 1.0);
-        gl->glDrawArrays(GL_POINTS, 0, vertices.size());
+        gl->glLineWidth(lineWidth * 2);
+        gl->glDrawArrays(continuous ? GL_LINE_STRIP : GL_LINES, 0, vertices.size());
         gl->glDepthMask(GL_TRUE);
     }
 
-    // æ­£å¸¸ç”»
-    gl->glUniform1f(shader->uniformLocation("sizeScale"), sizeScale);
-    gl->glUniform1f(shader->uniformLocation("sizeAbsolute"), 0);
+    // Õý³£»­
+    //gl->glUniform1f(shader->uniformLocation("sizeScale"), sizeScale);
+    //gl->glUniform1f(shader->uniformLocation("sizeAbsolute"), 0);
     gl->glUniform4f(shader->uniformLocation("colorOverride"), 1.0, 0.5, 0.0, 0.0);
-    gl->glDrawArrays(GL_POINTS, 0, vertices.size());
+    gl->glLineWidth(lineWidth);
+    gl->glDrawArrays(continuous ? GL_LINE_STRIP : GL_LINES, 0, vertices.size());
 
-    // é‡Šæ”¾
+    gl->glLineWidth(0);
+
+    // ÊÍ·Å
     m_vertexBuffer->release();
     shader->release();
-    
 
 }
 
-void PointCloudRenderer::setVertices(const std::vector<Vertex>& vertices)
+void LineRenderer::setVertices(const std::vector<Vertex>& vertices)
 {
     this->vertices = vertices;
     this->modified = true;
-
-    //qDebug() << ((intptr_t)&kdtree->dataset.vertices);
-    adaptor.vertices = vertices;
-    kdtree->buildIndex();
-}
-
-int PointCloudRenderer::vertexCount()
-{
-    return vertices.size();
-}
-
-Vertex PointCloudRenderer::getVertex(int i)
-{
-    return vertices[i];
-}
-
-size_t PointCloudRenderer::nearestSearch(QVector3D pos)
-{
-    size_t ret_index;
-    float out_dist_sqr;
-    nanoflann::KNNResultSet<float> resultSet(1);
-    resultSet.init(&ret_index, &out_dist_sqr);
-    float queryPoints[3] = { pos.x(), pos.y(), pos.z() };
-    kdtree->findNeighbors(resultSet, &queryPoints[0], nanoflann::SearchParams(10));
-    return ret_index;
 }
