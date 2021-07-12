@@ -94,8 +94,17 @@ MainWindow::MainWindow(QWidget *parent) :
         glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * 0.1f),
         3.5f, { 1.0f, 0.0f, 0.0f });
     auto bun = importPointCloud("bun180.ply", 10);
-    bun->sizeScale = 3;
+    bun->sizeScale = 2;
+    LineRenderer* l1 = new LineRenderer();
+    
+    l1->setVertices({ {{0,0,0},{0,0,0}} });
+    bun->hierarchyObject->addComponent(l1);
+
+    LineRenderer* l2 = new LineRenderer();
+    l2->setVertices({ {{0,0,0},{0,0,0}} });
     auto building = importPointCloud("uwo.txt");
+    building->hierarchyObject->addComponent(l2);
+    building->sizeScale = 2;
     hierarchy->moveObject(building->hierarchyObject, buildingRoot, 0);
     
     //ui->treeView_hierarchy->addAction(ui->actionbar);

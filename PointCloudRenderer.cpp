@@ -108,3 +108,8 @@ size_t PointCloudRenderer::nearestSearch(QVector3D pos)
     kdtree->findNeighbors(resultSet, &queryPoints[0], nanoflann::SearchParams(10));
     return ret_index;
 }
+
+std::vector<Vertex> PointCloudRenderer::getVertices()
+{
+    return vertices;
+}

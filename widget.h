@@ -90,8 +90,8 @@ private slots:
 
 
 private:
-    glm::vec4 mousepick(int mousex, int mousey);
-    glm::vec4 get_ray(int mousex, int mousey, int screenWidth, int screenHeight,
+    bool mousepick(int mousex, int mousey, HierarchyObject*& objout, int& iout);
+    glm::vec3 get_ray(int mousex, int mousey, int screenWidth, int screenHeight,
         glm::mat4 matModel, glm::vec4& init_point);
     void show(glm::vec4);
 

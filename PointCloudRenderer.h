@@ -60,6 +60,7 @@ private:
     kd_tree_t* kdtree;
     VerticesAdaptor adaptor;
 
+
 public:
     // 随距离变化的缩放系数  
     float sizeScale = 10.0f;
@@ -81,5 +82,6 @@ public:
     size_t nearestSearch(QVector3D pos);
     
 
+    std::vector<Vertex> getVertices();
 };
 
