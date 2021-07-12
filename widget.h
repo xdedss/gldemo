@@ -30,6 +30,7 @@
 #include "Renderer.h"
 #include "PointCloudRenderer.h"
 #include "LineRenderer.h"
+#include "SkyboxRenderer.h"
 #include "commondefs.h"
 
 class Widget : public QOpenGLWidget, protected OpenGLFunctions
@@ -49,6 +50,8 @@ public:
     HierarchyModel* hierarchy;
 
     HierarchyObject* gizmosRoot;
+
+    SkyboxRenderer* skybox;
 
     void setHierarchy(HierarchyModel* hierarchy) {
         hierarchy->widget = this;
