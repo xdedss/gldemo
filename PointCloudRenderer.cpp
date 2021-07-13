@@ -42,6 +42,8 @@ void PointCloudRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm
         modified = false;
     }
 
+    if (m_vertexBuffer == NULL) return; // 没有设定顶点，不渲染  
+
     assert(shader != NULL);
 
     // 绑定shader
@@ -107,6 +109,22 @@ size_t PointCloudRenderer::nearestSearch(QVector3D pos)
     float queryPoints[3] = { pos.x(), pos.y(), pos.z() };
     kdtree->findNeighbors(resultSet, &queryPoints[0], nanoflann::SearchParams(10));
     return ret_index;
+}
+
+std::vector<size_t> PointCloudRenderer::nearestSearch(QVector3D pos, int k)
+{
+    size_t* ret_index = new size_t[k]();
+    float* out_dist_sqr = new float[k]();
+    nanoflann::KNNResultSet<float> resultSet(k);
+    resultSet.init(ret_index, out_dist_sqr);
+    float queryPoints[3] = { pos.x(), pos.y(), pos.z() };
+    kdtree->findNeighbors(resultSet, &queryPoints[0], nanoflann::SearchParams(10));
+    std::vector<size_t> res;
+    for (int i = 0; i < k; i++) {
+        res.push_back(ret_index[i]);
+    }
+    delete[] ret_index;
+    return res;
 }
 
 std::vector<Vertex> PointCloudRenderer::getVertices()

@@ -26,9 +26,8 @@ private:
 
 public:
     glm::mat4 transform;
-    //Widget* widget;
-    //HierarchyModel* hierarchy;
     QString name;
+    bool enabled;
 
     // 子节点数量
     int childrenCount() { return children.size(); }
@@ -90,7 +89,7 @@ public:
     void updateRecursively();
 
     // 遍历子树  
-    void callRecursively(const std::function<void(HierarchyObject*)>& func);
+    void callRecursively(const std::function<void(HierarchyObject*)>& func, bool requireEnabled = false);
 
     // 从场景移除  
     void Remove();
