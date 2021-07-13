@@ -192,6 +192,15 @@ glm::vec4 Widget::mousepick(int mousex, int mousey) {
         zmax = pointcloud->getVertex(pointcloud->nearestSearch({ 0,0, 10000 })).position();
         int num = pointcloud->vertexCount();
         float thre = 0.1*pow((xmax[0]-xmin[0])*(ymax[1]-ymin[1])*(zmax[2]-zmin[2])/(float)num,1.0/3.0);
+        //计算最远距离
+        float maxthre = 0;
+        maxthre += (abs(init_point.x - xmin[0]) >  abs(init_point.x - xmax[0])) * pow(init_point.x - xmin[0], 2);
+        maxthre += (abs(init_point.x - xmin[0]) <= abs(init_point.x - xmax[0])) * pow(init_point.x - xmax[0], 2);
+        maxthre += (abs(init_point.y - ymin[1]) >  abs(init_point.y - ymax[1])) * pow(init_point.y - ymin[1], 2);
+        maxthre += (abs(init_point.y - ymin[1]) <= abs(init_point.y - ymax[1])) * pow(init_point.y - ymax[1], 2);
+        maxthre += (abs(init_point.z - zmin[2]) >  abs(init_point.z - zmax[2])) * pow(init_point.z - zmin[2], 2);
+        maxthre += (abs(init_point.z - zmin[2]) <= abs(init_point.z - zmax[2])) * pow(init_point.z - zmax[2], 2);
+        maxthre = sqrt(maxthre);
         qDebug() <<"thre" <<thre;
         //在点云的三维空间范围内搜索，小于阈值即停止
 
@@ -222,7 +231,7 @@ glm::vec4 Widget::mousepick(int mousex, int mousey) {
             lvertices.push_back({ {search.x , search.y , search.z} ,{0,0,1.0} });
             lvertices.push_back({ {qpoint[0] , qpoint[1] , qpoint[2]} ,{0,0,1.0} });
             
-            if (sqrt(pow(init_point.x-search.x,2)+ pow(init_point.y - search.y, 2) + pow(init_point.z - search.z, 2) )>10000)
+            if (sqrt(pow(init_point.x-search.x,2)+ pow(init_point.y - search.y, 2) + pow(init_point.z - search.z, 2) )>maxthre)
                 break;
 
             //更新搜索点
@@ -271,7 +280,7 @@ void Widget::fixedUpdate() {
         glm::vec3 x = glm::normalize(glm::cross(camRot * glm::vec3(0.0f, 1.0f, 0.0f), z));//叉乘确定X轴
         glm::vec3 y = glm::normalize(camRot * glm::vec3(0.0f, 1.0f, 0.0f));
         if (wheeldelta) {//滚轮、鼠标控制
-            camTarget += 0.002f * (float)wheeldelta * z;
+            camTarget -= 0.002f * (float)wheeldelta * z;
             camTarget += -0.02f * (mousex  - (int)screenWidth / 2) * ((float)exp(0.001 * wheeldelta)-1)* (float)(log10(1 + 0.3*distance)+0.1*distance) * x ;
             camTarget += 0.02f * (mousey - (int)screenHeight/2) * ((float)exp(0.001 * wheeldelta)-1) * (float)(log10(1 + 0.3*distance)+0.1*distance) * y;
             wheeldelta = 0.0f;
