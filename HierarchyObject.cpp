@@ -117,11 +117,7 @@ void HierarchyObject::callRecursively(const std::function<void(HierarchyObject*)
     }
 }
 
-void HierarchyObject::Remove() {
-    throw "not implemented";
-}
-
-void HierarchyObject::Destroy()
+HierarchyObject::~HierarchyObject()
 {
     for (auto component : components) {
         assert(component);
@@ -129,6 +125,6 @@ void HierarchyObject::Destroy()
     }
     for (auto child : children) {
         assert(child);
-        child->Destroy();
+        delete child;
     }
 }

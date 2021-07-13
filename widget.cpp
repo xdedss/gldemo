@@ -52,7 +52,7 @@ Widget::Widget(QWidget *parent)
 
 Widget::~Widget()
 {
-
+    delete gizmosRoot;
 }
 
 OpenGLFunctions * Widget::functions() const

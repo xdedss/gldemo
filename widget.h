@@ -46,7 +46,7 @@ public:
 
     // shader
     std::map<QString, QOpenGLShaderProgram*> shaders;
-    // 模型
+    // 模型  
     //std::vector<PointCloud*> pointClouds;
     HierarchyModel* hierarchy;
 
@@ -60,23 +60,13 @@ public:
     }
 
 private:
-    // 记录屏幕长宽
+    // 记录屏幕长宽  
     unsigned int screenWidth, screenHeight;
-    //// 记录鼠标状态
-    //bool RightMouseDown = false;
-    //bool MidMouseDown = false;
-    //bool LeftMouseDown = false;
-    //bool WheelRotate = false;
-    ////记录键盘状态
-    //bool Key_ADown = false;
-    //bool Key_WDown = false;
-    //bool Key_SDown = false;
-    //bool Key_DDown = false;
-    // 相机姿态相关
+    // 相机姿态相关  
     glm::vec3 camPos, camTarget;
     glm::quat camRot;
     glm::mat4 view, projection;
-    //wasd 摄像机漫游
+    //wasd 摄像机漫游  
     int camDx = 0, camDy = 0;
     float distance = 5;
     int mouselastx = 0, mouselasty = 0, mousex = 0, mousey = 0;
@@ -95,8 +85,6 @@ private:
     bool mousepick(int mousex, int mousey, HierarchyObject*& objout, int& iout);
     glm::vec3 get_ray(int mousex, int mousey, int screenWidth, int screenHeight,
         glm::mat4 matModel, glm::vec4& init_point);
-    void show(glm::vec4);
-
 
 protected:
     void initializeGL() override;

@@ -35,6 +35,14 @@ PointCloudRenderer::PointCloudRenderer()
     //qDebug() << ((intptr_t)&kdtree->dataset.vertices);
 }
 
+PointCloudRenderer::~PointCloudRenderer()
+{
+    if (m_vertexBuffer != NULL) {
+        m_vertexBuffer->destroy();
+        delete m_vertexBuffer;
+    }
+}
+
 void PointCloudRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4 view, glm::mat4 model)
 {
     if (modified) {
