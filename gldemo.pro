@@ -21,6 +21,11 @@ SOURCES += \
     widget.cpp \
     HierarchyModel.cpp \
     HierarchyObject.cpp \
+    Input.cpp \
+    Renderer.cpp \
+    LineRenderer.cpp \
+    PointCloudRenderer.cpp \
+    SkyboxRenderer.cpp \
 
 
 HEADERS += \

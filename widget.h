@@ -32,6 +32,7 @@
 #include "LineRenderer.h"
 #include "SkyboxRenderer.h"
 #include "commondefs.h"
+#include "Input.h"
 
 class Widget : public QOpenGLWidget, protected OpenGLFunctions
 {
@@ -61,16 +62,16 @@ public:
 private:
     // 记录屏幕长宽
     unsigned int screenWidth, screenHeight;
-    // 记录鼠标状态
-    bool RightMouseDown = false;
-    bool MidMouseDown = false;
-    bool LeftMouseDown = false;
-    bool WheelRotate = false;
-    //记录键盘状态
-    bool Key_ADown = false;
-    bool Key_WDown = false;
-    bool Key_SDown = false;
-    bool Key_DDown = false;
+    //// 记录鼠标状态
+    //bool RightMouseDown = false;
+    //bool MidMouseDown = false;
+    //bool LeftMouseDown = false;
+    //bool WheelRotate = false;
+    ////记录键盘状态
+    //bool Key_ADown = false;
+    //bool Key_WDown = false;
+    //bool Key_SDown = false;
+    //bool Key_DDown = false;
     // 相机姿态相关
     glm::vec3 camPos, camTarget;
     glm::quat camRot;
@@ -79,7 +80,7 @@ private:
     int camDx = 0, camDy = 0;
     float distance = 5;
     int mouselastx = 0, mouselasty = 0, mousex = 0, mousey = 0;
-    float wheeldelta = 0;
+    //float wheeldelta = 0;
     int windowX = 0,windowY = 0;
 
 
