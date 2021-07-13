@@ -59,83 +59,30 @@ OpenGLFunctions * Widget::functions() const
 
 //滚轮
 void Widget::wheelEvent(QWheelEvent* wheel) {
-    wheeldelta = (float)wheel->delta();//记录滚轮转动
+    Input::setMouseWheelDelta(wheel->delta());
 }
-//鼠标 点击
-void Widget::mousePressEvent(QMouseEvent* e)
-{
-    if (e->button() == Qt::RightButton) {
-        RightMouseDown = true;
-        qDebug() << "右键" << e->pos();
-    }
-    else if (e->button() == Qt::MidButton) {
-        MidMouseDown = true;
-        qDebug() << "滚轮" << e->pos();
-    }
-    else if (e->button() == Qt::LeftButton) {
-        LeftMouseDown = true;
-        qDebug() << "左键" << e->pos();
-    }
+//鼠标 按下  
+void Widget::mousePressEvent(QMouseEvent* e) {
+    Input::setMouseButton(e->button(), true);
 }
-//鼠标 移动
-void Widget::mouseMoveEvent(QMouseEvent* e)
-{
-    mousex = e->x(); mousey = e->y();//获取鼠标坐标
+//鼠标 移动  
+void Widget::mouseMoveEvent(QMouseEvent* e) {
+    mousex = e->x(); mousey = e->y();//获取鼠标坐标  
 }
-//鼠标 松开
-void Widget::mouseReleaseEvent(QMouseEvent* e)
-{
-    //恢复初始状态
-    RightMouseDown = false;
-    MidMouseDown = false;
-    LeftMouseDown = false;
+//鼠标 松开  
+void Widget::mouseReleaseEvent(QMouseEvent* e) {
+    Input::setMouseButton(e->button(), false);
 }
-//键盘 事件
+//键盘 事件  
 void Widget::keyPressEvent(QKeyEvent* key) {
-    switch (key->key()) {
-    case Qt::Key_W:
-        //camDy = 1;
-        Key_WDown = true;
-        break;
-    case Qt::Key_A:
-        //camDx = -1;
-        Key_ADown = true;
-        break;
-    case Qt::Key_S:
-        //camDy = -1;
-        Key_SDown = true;
-        break;
-    case Qt::Key_D:
-        //camDx = 1;
-        Key_DDown = true;
-        break;
-    }
+    Input::setKey((Qt::Key) key->key(), true);
 }
-
 void Widget::keyReleaseEvent(QKeyEvent* key) {
-    //恢复初始状态
-    switch (key->key()) {
-    case Qt::Key_W:
-        Key_WDown = false;
-        break;
-    case Qt::Key_A:
-        Key_ADown = false;
-        break;
-    case Qt::Key_S:
-        Key_SDown = false;
-        break;
-    case Qt::Key_D:
-        Key_DDown = false;
-        break;
-    }
-    if (Key_WDown+Key_ADown+Key_SDown+Key_DDown == 0){
-        camDx = 0;
-        camDy = 0;
-    }
+    Input::setKey((Qt::Key) key->key(), false);
 }
 
 
-//射线单位矢量，在模型坐标系下的分量列阵
+//射线单位矢量，在模型坐标系下的分量列阵  
 glm::vec3 Widget::get_ray(int mousex, int mousey, int screenWidth, int screenHeight, glm::mat4 matModel, glm::vec4& init_point) {
     glm::vec4 ndc((float)mousex * 2 / (float)screenWidth - 1, (float)mousey * 2 / (float)screenHeight - 1, 1.0f, 1.0f);//获取归一化坐标
     glm::vec4 pointView = glm::inverse(projection) * ndc;//获取相机坐标系的分量列阵
@@ -250,6 +197,12 @@ bool Widget::mousepick(int mousex, int mousey, HierarchyObject *& objout, int &i
 }
 
 void Widget::fixedUpdate() {
+    Input::beforeUpdate();
+    bool RightMouseDown = Input::getMouseButton(Qt::MouseButton::RightButton);
+    bool LeftMouseDown = Input::getMouseButton(Qt::MouseButton::LeftButton);
+    bool Key_WDown = Input::getKey(Qt::Key::Key_W), Key_ADown = Input::getKey(Qt::Key::Key_A),
+        Key_SDown = Input::getKey(Qt::Key::Key_S), Key_DDown = Input::getKey(Qt::Key::Key_D);
+    float wheeldelta = Input::getMouseWheelDelta();
 
     //如果鼠标按下，记录鼠标走的方位，进行相机旋转操作 
     if (RightMouseDown) {
@@ -289,7 +242,7 @@ void Widget::fixedUpdate() {
             camDy = -1 * Key_SDown + 1 * Key_WDown;
             camTarget += (float)camDx * 0.05f * x * distance;
             camTarget += (float)camDy * 0.05f * y * distance;
-            qDebug() << camTarget.x << camTarget.y << camTarget.z;
+            //qDebug() << camTarget.x << camTarget.y << camTarget.z;
         }
     }
 
