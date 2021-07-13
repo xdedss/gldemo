@@ -150,8 +150,6 @@ glm::vec3 Widget::get_ray(int mousex, int mousey, int screenWidth, int screenHei
 }
 
 
-
-
 bool Widget::mousepick(int mousex, int mousey, HierarchyObject *& objout, int &iout) {
     std::vector < glm::vec4 >  getpoints;
     std::vector < HierarchyObject* > hitObjects;
@@ -184,7 +182,16 @@ bool Widget::mousepick(int mousex, int mousey, HierarchyObject *& objout, int &i
         zmin = pointcloud->getVertex(pointcloud->nearestSearch({ 0,0,-10000 })).position();
         zmax = pointcloud->getVertex(pointcloud->nearestSearch({ 0,0, 10000 })).position();
         int num = pointcloud->vertexCount();
-        float thre = 0.1*pow((xmax[0]-xmin[0])*(ymax[1]-ymin[1])*(zmax[2]-zmin[2])/(float)num,1.0/3.0);
+        float thre = 0.1 * pow((xmax[0] - xmin[0]) * (ymax[1] - ymin[1]) * (zmax[2] - zmin[2]) / (float)num, 1.0 / 3.0);
+        //计算最远距离
+        float maxthre = 0;
+        maxthre += (abs(init_point.x - xmin[0]) > abs(init_point.x - xmax[0])) * pow(init_point.x - xmin[0], 2);
+        maxthre += (abs(init_point.x - xmin[0]) <= abs(init_point.x - xmax[0])) * pow(init_point.x - xmax[0], 2);
+        maxthre += (abs(init_point.y - ymin[1]) > abs(init_point.y - ymax[1])) * pow(init_point.y - ymin[1], 2);
+        maxthre += (abs(init_point.y - ymin[1]) <= abs(init_point.y - ymax[1])) * pow(init_point.y - ymax[1], 2);
+        maxthre += (abs(init_point.z - zmin[2]) > abs(init_point.z - zmax[2])) * pow(init_point.z - zmin[2], 2);
+        maxthre += (abs(init_point.z - zmin[2]) <= abs(init_point.z - zmax[2])) * pow(init_point.z - zmax[2], 2);
+        maxthre = sqrt(maxthre);
         //在点云的三维空间范围内搜索，小于阈值即停止
 
         while (true) {
@@ -201,10 +208,8 @@ bool Widget::mousepick(int mousex, int mousey, HierarchyObject *& objout, int &i
             float deltaDistance = glm::l2Norm(glm::vec3(qpoint[0] - search.x, qpoint[1] - search.y, qpoint[2] - search.z)) - thre;
             //改变搜索的起点
             search += deltaDistance * ray;
-          
-            if (search.x < xmin[0] * 1.5 || search.x > xmax[0] * 1.5
-                || search.y < ymin[1] * 1.5 || search.y > ymax[1] * 1.5
-                || search.z < zmin[2] * 1.5 || search.z > zmax[2] * 1.5)
+            assert(glm::l2Norm(search) < 1e10);
+            if (sqrt(pow(init_point.x - search.x, 2) + pow(init_point.y - search.y, 2) + pow(init_point.z - search.z, 2)) > maxthre)
                 break;
 
             //更新搜索点
@@ -273,7 +278,7 @@ void Widget::fixedUpdate() {
         glm::vec3 x = glm::normalize(glm::cross(camRot * glm::vec3(0.0f, 1.0f, 0.0f), z));//叉乘确定X轴
         glm::vec3 y = glm::normalize(camRot * glm::vec3(0.0f, 1.0f, 0.0f));
         if (wheeldelta) {//滚轮、鼠标控制
-            camTarget += 0.002f * (float)wheeldelta * z;
+            camTarget -= 0.002f * (float)wheeldelta * z;
             camTarget += -0.02f * (mousex  - (int)screenWidth / 2) * ((float)exp(0.001 * wheeldelta)-1)* (float)(log10(1 + 0.3*distance)+0.1*distance) * x ;
             camTarget += 0.02f * (mousey - (int)screenHeight/2) * ((float)exp(0.001 * wheeldelta)-1) * (float)(log10(1 + 0.3*distance)+0.1*distance) * y;
             wheeldelta = 0.0f;
