@@ -109,6 +109,22 @@ size_t PointCloudRenderer::nearestSearch(QVector3D pos)
     return ret_index;
 }
 
+std::vector<size_t> PointCloudRenderer::nearestSearch(QVector3D pos, int k)
+{
+    size_t* ret_index = new size_t[k]();
+    float* out_dist_sqr = new float[k]();
+    nanoflann::KNNResultSet<float> resultSet(k);
+    resultSet.init(ret_index, out_dist_sqr);
+    float queryPoints[3] = { pos.x(), pos.y(), pos.z() };
+    kdtree->findNeighbors(resultSet, &queryPoints[0], nanoflann::SearchParams(10));
+    std::vector<size_t> res;
+    for (int i = 0; i < k; i++) {
+        res.push_back(ret_index[i]);
+    }
+    delete[] ret_index;
+    return res;
+}
+
 std::vector<Vertex> PointCloudRenderer::getVertices()
 {
     return vertices;

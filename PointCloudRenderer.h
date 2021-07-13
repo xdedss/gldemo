@@ -80,7 +80,8 @@ public:
 
     // 最邻近搜索点
     size_t nearestSearch(QVector3D pos);
-    
+    // N最邻近
+    std::vector<size_t> nearestSearch(QVector3D pos, int k);
 
     std::vector<Vertex> getVertices();
 };
