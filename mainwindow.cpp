@@ -48,14 +48,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->openGLWidget, SIGNAL(onSelection(HierarchyObject*)), this, SLOT(onWidgetSelection(HierarchyObject*)));
 
-    // 分割线默认比例
+    // 分割线默认比例  
     ui->splitter_hor->setStretchFactor(0, 1);
     ui->splitter_hor->setStretchFactor(1, 3);
     ui->splitter_hor->setStretchFactor(2, 1);
 
     
 
-    // 右侧属性面板
+    // 右侧属性面板  
     QStringList thead2;
     thead2 << "Properties" << "Values";
     QStandardItemModel* propModel = new QStandardItemModel();
@@ -66,31 +66,31 @@ MainWindow::MainWindow(QWidget *parent) :
     parent2->setEditable(false);
     propModel->appendRow(parent2);
     propModel->appendRow({ new QStandardItem("sdf"), new QStandardItem("wwww1") });
-    // 加入treeview
+    // 加入treeview  
     ui->treeView_prop->setModel(propModel);
     ui->treeView_prop->header()->setSectionResizeMode(QHeaderView::Stretch);
 
     ui->treeView_prop->setEnabled(false);
 
-    // 初始化场景
+    // 初始化场景  
     hierarchy = new HierarchyModel();
     ui->openGLWidget->setHierarchy(hierarchy);
     ui->treeView_hierarchy->setModel(hierarchy);
     ui->treeView_hierarchy->header()->setSectionResizeMode(QHeaderView::Stretch);
-    // 初始化菜单
+    // 初始化菜单  
     ui->treeView_hierarchy->setContextMenuPolicy(Qt::CustomContextMenu);
     treeContextMenu = new QMenu(ui->openGLWidget);
     treeContextMenu->addAction("add child", this, SLOT(onTreeViewAddObject()));
     treeContextMenu->addAction("delete", this, SLOT(onTreeViewRemoveObject()));
     treeContextMenuSpace = new QMenu(ui->openGLWidget);
     treeContextMenuSpace->addAction("add child", this, SLOT(onTreeViewAddObject()));
-    // 链接选择信号槽
+    // 链接选择信号槽  
     connect(ui->treeView_hierarchy->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), 
         hierarchy, SLOT(selectionChanged(const QItemSelection&, const QItemSelection&)));
-    // 链接右键菜单信号槽
+    // 链接右键菜单信号槽  
     connect(ui->treeView_hierarchy, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onTreeViewCustomContextMenu(const QPoint &)));
 
-    // 测试用：加载模型
+    // 测试用：加载模型  
     auto buildingRoot = hierarchy->createObject("building");
     buildingRoot->transform = glm::rotate(
         glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * 0.1f),
@@ -158,6 +158,6 @@ void MainWindow::onWidgetSelection(HierarchyObject * obj)
 
 void MainWindow::on_actionopen_triggered()
 {
-    // 菜单点击事件
+    // 菜单点击事件  
     statusBar()->showMessage("actionopen");\
 }
