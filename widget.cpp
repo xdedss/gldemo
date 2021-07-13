@@ -312,6 +312,7 @@ void Widget::handleDefaultShader(Renderer* renderer) {
 
 void Widget::renderObjectRecursively(const glm::mat4& proj, const glm::mat4& view, const glm::mat4& parentTransform, HierarchyObject* obj) {
     assert(obj);
+    if (!obj->enabled) return;
     glm::mat4 transform = parentTransform * obj->transform;
     for (int i = 0; i < obj->componentsCount(); i++) {
         Renderer* renderer = obj->getComponent<Renderer>(i);

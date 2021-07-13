@@ -25,6 +25,7 @@ HierarchyObject::HierarchyObject(const QString & name, HierarchyObject* parent)
     transform = glm::identity<glm::mat4>();
     this->name = name;
     this->parent = parent;
+    this->enabled = true;
 }
 
 glm::mat4 HierarchyObject::localToWorld()
@@ -85,6 +86,7 @@ Component * HierarchyObject::addComponent(Component * component)
 
 void HierarchyObject::updateRecursively()
 {
+    if (!enabled) return;
     for (auto component : components) {
         assert(component);
         component->onUpdate();
@@ -95,17 +97,19 @@ void HierarchyObject::updateRecursively()
     }
 }
 
-void HierarchyObject::callRecursively(const std::function<void(HierarchyObject*)>& func)
+void HierarchyObject::callRecursively(const std::function<void(HierarchyObject*)>& func, bool requireEnabled)
 {
     std::queue<HierarchyObject*> todoList;
     todoList.push(this);
     int failsafe = 0;
     while (todoList.size() > 0) {
         auto obj = todoList.front();
-        for (auto child : obj->children) {
-            todoList.push(child);
+        if ((!requireEnabled) || obj->enabled) {
+            for (auto child : obj->children) {
+                todoList.push(child);
+            }
+            func(obj);
         }
-        func(obj);
         todoList.pop();
         if (++failsafe > 100000) {
             throw "this must be broken";
