@@ -99,11 +99,11 @@ MainWindow::MainWindow(QWidget *parent) :
     bun->sizeScale = 2;
     LineRenderer* l1 = new LineRenderer();
     
-    l1->setVertices({ {{0,0,0},{0,0,0}} });
+    //l1->setVertices({ {{0,0,0},{0,0,0}} });
     bun->hierarchyObject->addComponent(l1);
 
     LineRenderer* l2 = new LineRenderer();
-    l2->setVertices({ {{0,0,0},{0,0,0}} });
+    //l2->setVertices({ {{0,0,0},{0,0,0}} });
     auto building = importPointCloud("uwo.txt");
     building->hierarchyObject->addComponent(l2);
     building->sizeScale = 2;
@@ -159,5 +159,5 @@ void MainWindow::onWidgetSelection(HierarchyObject * obj)
 void MainWindow::on_actionopen_triggered()
 {
     // 菜单点击事件  
-    statusBar()->showMessage("actionopen");\
+    statusBar()->showMessage("actionopen");
 }

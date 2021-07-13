@@ -34,6 +34,8 @@ void LineRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4
         modified = false;
     }
 
+    if (m_vertexBuffer == NULL) return; // 没有设定顶点，不渲染  
+
     assert(shader != NULL);
 
     // 绑定shader
