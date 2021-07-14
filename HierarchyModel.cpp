@@ -117,6 +117,7 @@ void HierarchyModel::selectionChanged(const QItemSelection &selected, const QIte
                 renderer->highlight = false;
             }
         });
+        if (obj == lastSelected) lastSelected = NULL;
     }
     // 重新高亮  
     for (auto& index : selectedIndices) {
@@ -128,6 +129,7 @@ void HierarchyModel::selectionChanged(const QItemSelection &selected, const QIte
                 renderer->highlight = true;
             }
         });
+        lastSelected = obj;
     }
 }
 

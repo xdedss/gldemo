@@ -62,9 +62,11 @@ public:
     HierarchyObject* gizmosRoot;
 
     SkyboxRenderer* skybox;
-   
+    
     Trail* currentTrail = NULL;
     float currentTrailTime = 0;
+
+    HierarchyObject* handleObj;
 
     void setHierarchy(HierarchyModel* hierarchy) {
         hierarchy->widget = this;
@@ -98,6 +100,7 @@ private:
     bool mousepick(int mousex, int mousey, HierarchyObject*& objout, int& iout);
     glm::vec3 get_ray(int mousex, int mousey, int screenWidth, int screenHeight,
         glm::mat4 matModel, glm::vec4& init_point);
+    void getRayWorld(int mousex, int mousey, glm::vec3 out_source, glm::vec3 out_direction);
 
 protected:
     void initializeGL() override;

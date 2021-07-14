@@ -89,7 +89,9 @@ void HierarchyObject::updateRecursively()
     if (!enabled) return;
     for (auto component : components) {
         assert(component);
-        component->onUpdate();
+        if (component->getProp("enabled").toBool()) {
+            component->onUpdate();
+        }
     }
     for (auto child : children) {
         assert(child);

@@ -49,6 +49,24 @@ Widget::Widget(QWidget *parent)
     xyzAxis->setVertices(xyAxisVertices);
     gizmosRoot->addComponent(xyzAxis);
 
+    // 平移旋转用handle
+    handleObj = new HierarchyObject("handles");
+    LineRenderer* handle = new LineRenderer();
+    handleObj->addComponent(handle);
+    gizmosRoot->insertChild(0, handleObj);
+    handle->lineWidth = 5;
+    std::vector<Vertex> handleVertices = {
+        // x axis
+        {{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}},
+        {{1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}},
+        // y axis
+        {{0.0, 0.0, 0.0}, {0.0, 1.0, 0.0}},
+        {{0.0, 1.0, 0.0}, {0.0, 1.0, 0.0}},
+        // z axis
+        {{0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}},
+        {{0.0, 0.0, 1.0}, {0.0, 0.0, 1.0}},
+    };
+    handle->setVertices(handleVertices);
 
 }
 
@@ -101,6 +119,20 @@ glm::vec3 Widget::get_ray(int mousex, int mousey, int screenWidth, int screenHei
     //返回归一化向量  
     glm::vec4 ray = glm::normalize(matModel * glm::inverse(view) * rayView);
     return glm::vec3(ray.x, ray.y, ray.z);
+}
+
+void Widget::getRayWorld(int mousex, int mousey, glm::vec3 out_source, glm::vec3 out_direction)
+{
+    glm::vec4 ndc((float)mousex * 2 / (float)screenWidth - 1, (float)mousey * 2 / (float)screenHeight - 1, 1.0f, 1.0f);//获取归一化坐标  
+    glm::vec4 pointView = glm::inverse(projection) * ndc;//获取相机坐标系的分量列阵  
+    pointView.y *= -1;//左手系转右手系  
+    pointView /= pointView.w;//把第四维度转成1  
+    glm::mat4 invView = glm::inverse(view);
+    glm::vec4 rayView = pointView - glm::vec4(0, 0, 0, 1);
+    out_source = invView * glm::vec4(0, 0, 0, 1);
+    //返回归一化向量  
+    glm::vec3 ray = invView * rayView;
+    out_direction = glm::normalize(ray);
 }
 
 
@@ -256,6 +288,60 @@ void Widget::fixedUpdate() {
     // 更新lastx lasty   
     mouselastx = mousex;
     mouselasty = mousey;
+
+
+
+    // -------默认相机矩阵初始化--------
+    //透视(视锥上下面之间的夹角，宽高比，即视窗的宽/高，近截面、远截面的深度)   
+    projection = glm::perspective(glm::radians(45.0f), screenWidth / (float)screenHeight, 0.01f, 300.0f);
+    //相机位置更新   
+    //相机旋转矩阵，pos旋转后 = camRotation * pos旋转前   
+    //auto camRotation = glm::angleAxis(yaw, glm::vec3(0, 1, 0)) * glm::angleAxis(pitch, glm::vec3(1, 0, 0));   
+    camPos = camRot * glm::vec3(0, 0, distance) + camTarget;////可以实现绕不同点转 camTarget 表示相机拍摄视角的目标点   
+    //glm::vec3 camUp = camRot * glm::vec3(0, 1, 0);//相机y轴（相机正上方）的指向。。。默认相机永远在被观察物体的z轴上   
+    view = glm::transpose(glm::toMat4(camRot)) * glm::translate(glm::identity<glm::mat4>(), -camPos); //四元数转旋转矩阵   
+
+
+    // --------update------
+    hierarchy->root->updateRecursively();
+
+    // --------trail-------
+    if (Input::getKeyDown(Qt::Key::Key_T)) {
+        currentTrail = hierarchy->root->getChildren("trailTest")->getComponent<Trail>();
+        currentTrailTime = 0;
+    }
+    if (Input::getKeyDown(Qt::Key::Key_H)) {
+        auto r = hierarchy->root->getChildren("trailTest")->getComponent<LineRenderer>();
+        r->setProp("enabled", !r->getProp("enabled").toBool());
+    }
+    if (currentTrail != NULL) {
+        currentTrailTime += 0.01f;
+        if (currentTrailTime > currentTrail->keypoints.size() - 1) {
+            currentTrail = NULL;
+            currentTrailTime = 0;
+        }
+        else {
+            glm::mat4 camMat = currentTrail->interpolate(currentTrailTime);
+            view = glm::inverse(camMat);
+        }
+    }
+
+    // ----- handle -----
+    if (hierarchy->lastSelected == NULL) {
+        handleObj->enabled = false;
+    }
+    else {
+        handleObj->enabled = true;
+        glm::mat4 rawMat = hierarchy->lastSelected->localToWorld();
+        // 按屏幕内固定大小缩放   
+        glm::vec3 xw = rawMat * glm::vec4(1, 0, 0, 0);
+        glm::vec3 pos = rawMat * glm::vec4(0, 0, 0, 1);
+        glm::vec3 camPos = glm::inverse(view) * glm::vec4(0, 0, 0, 1);
+        float d = glm::length(pos - camPos);
+        handleObj->transform = glm::scale(rawMat, 0.1f / glm::length(xw) * d * glm::vec3(1, 1, 1));
+    }
+
+
     update();//重新渲染      
 }
 
@@ -314,11 +400,14 @@ void Widget::handleDefaultShader(Renderer* renderer) {
 
 void Widget::renderObjectRecursively(const glm::mat4& proj, const glm::mat4& view, const glm::mat4& parentTransform, HierarchyObject* obj) {
     assert(obj);
-    if (!obj->enabled) return;
+    if (!obj->enabled) {
+        qDebug() << "not rendering " << obj->name;
+        return;
+    }
     glm::mat4 transform = parentTransform * obj->transform;
     for (int i = 0; i < obj->componentsCount(); i++) {
         Renderer* renderer = obj->getComponent<Renderer>(i);
-        if (renderer) {
+        if (renderer && renderer->getProp("enabled").toBool()) {
             handleDefaultShader(renderer);
             renderer->onRender(functions(), proj, view, transform);
         }
@@ -334,36 +423,8 @@ void Widget::paintGL()
     glClearColor(0.2f, 0.5f, 0.9f, 1.0f);    //清屏   
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    //清除颜色缓冲   
 
-    //透视(视锥上下面之间的夹角，宽高比，即视窗的宽/高，近截面、远截面的深度)   
-    projection = glm::perspective(glm::radians(45.0f), screenWidth / (float)screenHeight, 0.01f, 300.0f);
-    //相机位置更新   
-    //相机旋转矩阵，pos旋转后 = camRotation * pos旋转前   
-    //auto camRotation = glm::angleAxis(yaw, glm::vec3(0, 1, 0)) * glm::angleAxis(pitch, glm::vec3(1, 0, 0));   
-    camPos = camRot * glm::vec3(0, 0, distance) + camTarget;////可以实现绕不同点转 camTarget 表示相机拍摄视角的目标点   
-    //glm::vec3 camUp = camRot * glm::vec3(0, 1, 0);//相机y轴（相机正上方）的指向。。。默认相机永远在被观察物体的z轴上   
-    view = glm::transpose(glm::toMat4(camRot)) * glm::translate(glm::identity<glm::mat4>(), -camPos); //四元数转旋转矩阵   
-
     assert(hierarchy);
 
-    // --------update------
-    hierarchy->root->updateRecursively();
-
-    // --------trail-------
-    if (Input::getKeyDown(Qt::Key::Key_T)) {
-        currentTrail = hierarchy->root->getChildren("trailTest")->getComponent<Trail>();
-        currentTrailTime = 0;
-    }
-    if (currentTrail != NULL) {
-        currentTrailTime += 0.01f;
-        if (currentTrailTime > currentTrail->keypoints.size() - 1) {
-            currentTrail = NULL;
-            currentTrailTime = 0;
-        }
-        else {
-            glm::mat4 camMat = currentTrail->interpolate(currentTrailTime);
-            view = glm::inverse(camMat);
-        }
-    }
 
     // --------渲染--------
     // 渲染天空   
