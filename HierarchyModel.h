@@ -25,6 +25,7 @@ public:
     HierarchyObject* root;
     Widget* widget;
     QModelIndex lastRightClick;
+    HierarchyObject* lastSelected = NULL;
     int objectCount() { return objects.size(); }
     HierarchyObject* getObject(int i) { return objects[i]; }
 

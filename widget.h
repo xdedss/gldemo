@@ -54,9 +54,11 @@ public:
     HierarchyObject* gizmosRoot;
 
     SkyboxRenderer* skybox;
-   
+    
     Trail* currentTrail = NULL;
     float currentTrailTime = 0;
+
+    HierarchyObject* handleObj;
 
     void setHierarchy(HierarchyModel* hierarchy) {
         hierarchy->widget = this;

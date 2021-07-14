@@ -47,6 +47,24 @@ Widget::Widget(QWidget *parent)
     xyzAxis->setVertices(xyAxisVertices);
     gizmosRoot->addComponent(xyzAxis);
 
+    // 平移旋转用handle
+    handleObj = new HierarchyObject("handles");
+    LineRenderer* handle = new LineRenderer();
+    handleObj->addComponent(handle);
+    gizmosRoot->insertChild(0, handleObj);
+    handle->lineWidth = 5;
+    std::vector<Vertex> handleVertices = {
+        // x axis
+        {{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}},
+        {{1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}},
+        // y axis
+        {{0.0, 0.0, 0.0}, {0.0, 1.0, 0.0}},
+        {{0.0, 1.0, 0.0}, {0.0, 1.0, 0.0}},
+        // z axis
+        {{0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}},
+        {{0.0, 0.0, 1.0}, {0.0, 0.0, 1.0}},
+    };
+    handle->setVertices(handleVertices);
 
 }
 
@@ -312,7 +330,10 @@ void Widget::handleDefaultShader(Renderer* renderer) {
 
 void Widget::renderObjectRecursively(const glm::mat4& proj, const glm::mat4& view, const glm::mat4& parentTransform, HierarchyObject* obj) {
     assert(obj);
-    if (!obj->enabled) return;
+    if (!obj->enabled) {
+        qDebug() << "not rendering " << obj->name;
+        return;
+    }
     glm::mat4 transform = parentTransform * obj->transform;
     for (int i = 0; i < obj->componentsCount(); i++) {
         Renderer* renderer = obj->getComponent<Renderer>(i);
@@ -361,6 +382,21 @@ void Widget::paintGL()
             glm::mat4 camMat = currentTrail->interpolate(currentTrailTime);
             view = glm::inverse(camMat);
         }
+    }
+
+    // ----- handle -----
+    if (hierarchy->lastSelected == NULL) {
+        handleObj->enabled = false;
+    }
+    else {
+        handleObj->enabled = true;
+        glm::mat4 rawMat = hierarchy->lastSelected->localToWorld();
+        // 按屏幕内固定大小缩放   
+        glm::vec3 xw = rawMat * glm::vec4(1, 0, 0, 0);
+        glm::vec3 pos = rawMat * glm::vec4(0, 0, 0, 1);
+        glm::vec3 camPos = glm::inverse(view) * glm::vec4(0, 0, 0, 1);
+        float d = glm::length(pos - camPos);
+        handleObj->transform = glm::scale(rawMat, 0.1f / glm::length(xw) * d * glm::vec3(1, 1, 1));
     }
 
     // --------渲染--------
