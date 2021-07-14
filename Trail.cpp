@@ -4,7 +4,7 @@
 void Trail::onUpdate()
 {
     if (compareDiff()) {
-        // Èç¹û×ÓÊ÷ÓĞ¸üĞÂ¾Í¸üĞÂ¹ì¼£   
+        // å¦‚æœå­æ ‘æœ‰æ›´æ–°å°±æ›´æ–°è½¨è¿¹   
         keypoints.clear();
         for (int i = 0; i < hierarchyObject->childrenCount(); i++) {
             HierarchyObject* child = hierarchyObject->getChildren(i);
@@ -28,11 +28,11 @@ bool Trail::compareDiff()
 
 void Trail::updateRenderer()
 {
-    // ´ÓhierarchyObjectÉÏ»ñÈ¡LineRenderer 
+    // ä»hierarchyObjectä¸Šè·å–LineRenderer 
     if (renderer == NULL) {
         renderer = hierarchyObject->getComponent<LineRenderer>();
     }
-    // Èç¹ûÃ»ÓĞµÄ»°¾ÍÌí¼ÓÒ»¸ö  
+    // å¦‚æœæ²¡æœ‰çš„è¯å°±æ·»åŠ ä¸€ä¸ª  
     if (renderer == NULL) {
         renderer = new LineRenderer();
         renderer->setProp("lineWidth", 1.0f);
@@ -40,7 +40,7 @@ void Trail::updateRenderer()
         hierarchyObject->addComponent(renderer);
     }
 
-    const int numSegments = 10; // Ã¿Á½¸ö¹Ø¼üµãÖ®¼äµÄäÖÈ¾¶ÎÊı
+    const int numSegments = 10; // æ¯ä¸¤ä¸ªå…³é”®ç‚¹ä¹‹é—´çš„æ¸²æŸ“æ®µæ•°
 
     QVector3D color = { 0.0, 1.0, 0.0 };
     std::vector<Vertex> vertices;
@@ -62,14 +62,14 @@ glm::mat4 Trail::interpolate(float t)
 {
     int tf = keypoints.size() - 1;
     assert(t >= 0 && t <= tf);
-    // Ê×Î²ÌØÊâ´¦Àí    
+    // é¦–å°¾ç‰¹æ®Šå¤„ç†    
     if (t <= 0.5f) {
         return slerp(keypoints[0], keypoints[1], t);
     }
     if (t >= tf - 0.5f) {
         return slerp(keypoints[tf], keypoints[tf - 1], tf - t);
     }
-    // ÖĞ¼ä±´Èû¶û   
+    // ä¸­é—´è´å¡å°”   
     int tc = (int)round(t);
     glm::mat4 start = slerp(keypoints[tc - 1], keypoints[tc], 0.5f);
     glm::mat4 end = slerp(keypoints[tc + 1], keypoints[tc], 0.5f);

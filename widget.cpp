@@ -401,7 +401,6 @@ void Widget::handleDefaultShader(Renderer* renderer) {
 void Widget::renderObjectRecursively(const glm::mat4& proj, const glm::mat4& view, const glm::mat4& parentTransform, HierarchyObject* obj) {
     assert(obj);
     if (!obj->enabled) {
-        qDebug() << "not rendering " << obj->name;
         return;
     }
     glm::mat4 transform = parentTransform * obj->transform;
