@@ -110,7 +110,9 @@ MainWindow::MainWindow(QWidget *parent) :
     hierarchy->moveObject(building->hierarchyObject, buildingRoot, 0);
     
     //ui->treeView_hierarchy->addAction(ui->actionbar);
-
+    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(btn_slot1()));
+    connect(ui->pushButton_3, SIGNAL(clicked()), this, SLOT(btn_slot2()));
+    connect(ui->pushButton_4, SIGNAL(clicked()), this, SLOT(btn_slot3()));
 }
 
 MainWindow::~MainWindow()
@@ -118,7 +120,27 @@ MainWindow::~MainWindow()
     delete ui;
     delete hierarchy;
 }
+void MainWindow::btn_slot1()
+{
 
+    qDebug() << ui->lineEdit->text();
+    qDebug() << ui->lineEdit_2->text();
+    qDebug() << ui->lineEdit_3->text();
+}
+void MainWindow::btn_slot2()
+{
+
+    qDebug() << ui->lineEdit_6->text();
+    qDebug() << ui->lineEdit_7->text();
+    qDebug() << ui->lineEdit_10->text();
+}
+void MainWindow::btn_slot3()
+{
+
+    qDebug() << ui->lineEdit_8->text();
+    qDebug() << ui->lineEdit_9->text();
+    qDebug() << ui->lineEdit_11->text();
+}
 void MainWindow::onTreeViewCustomContextMenu(const QPoint & point) {
     QModelIndex index = ui->treeView_hierarchy->indexAt(point);
     hierarchy->lastRightClick = index;
