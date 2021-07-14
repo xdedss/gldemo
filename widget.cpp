@@ -52,7 +52,7 @@ Widget::Widget(QWidget *parent)
 
 Widget::~Widget()
 {
-
+    delete gizmosRoot;
 }
 
 OpenGLFunctions * Widget::functions() const
@@ -345,6 +345,23 @@ void Widget::paintGL()
 
     // --------update------
     hierarchy->root->updateRecursively();
+
+    // --------trail-------
+    if (Input::getKeyDown(Qt::Key::Key_T)) {
+        currentTrail = hierarchy->root->getChildren("trailTest")->getComponent<Trail>();
+        currentTrailTime = 0;
+    }
+    if (currentTrail != NULL) {
+        currentTrailTime += 0.01f;
+        if (currentTrailTime > currentTrail->keypoints.size() - 1) {
+            currentTrail = NULL;
+            currentTrailTime = 0;
+        }
+        else {
+            glm::mat4 camMat = currentTrail->interpolate(currentTrailTime);
+            view = glm::inverse(camMat);
+        }
+    }
 
     // --------渲染--------
     // 渲染天空   
