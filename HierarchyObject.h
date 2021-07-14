@@ -44,7 +44,7 @@ public:
 
     // ctor
     HierarchyObject(const QString& name, HierarchyObject* parent = NULL);
-
+    ~HierarchyObject();
 
     // 从局部坐标转世界坐标  
     glm::mat4 localToWorld();

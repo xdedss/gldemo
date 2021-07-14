@@ -9,6 +9,11 @@ HierarchyModel::HierarchyModel()
     root = new HierarchyObject("root");
 }
 
+HierarchyModel::~HierarchyModel()
+{
+
+}
+
 HierarchyObject * HierarchyModel::createObject(const QString& name)
 {
     Q_ASSERT(widget); // 此时必须已经添加到widget上  
@@ -112,6 +117,7 @@ void HierarchyModel::selectionChanged(const QItemSelection &selected, const QIte
                 renderer->highlight = false;
             }
         });
+        if (obj == lastSelected) lastSelected = NULL;
     }
     // 重新高亮  
     for (auto& index : selectedIndices) {
@@ -123,6 +129,7 @@ void HierarchyModel::selectionChanged(const QItemSelection &selected, const QIte
                 renderer->highlight = true;
             }
         });
+        lastSelected = obj;
     }
 }
 

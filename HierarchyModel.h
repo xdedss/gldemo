@@ -25,10 +25,12 @@ public:
     HierarchyObject* root;
     Widget* widget;
     QModelIndex lastRightClick;
+    HierarchyObject* lastSelected = NULL;
     int objectCount() { return objects.size(); }
     HierarchyObject* getObject(int i) { return objects[i]; }
 
     HierarchyModel();
+    ~HierarchyModel();
     // 创建HierarchyObject并进行一些初始化操作
     HierarchyObject* createObject(const QString& name);
     // 移动树结构  
