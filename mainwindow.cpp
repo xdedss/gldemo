@@ -38,6 +38,14 @@ PointCloudRenderer* MainWindow::importPointCloud(const QString& path, float init
     return renderer;
 }
 
+// 插入keypoint   
+void addKeypoint(HierarchyObject* obj, HierarchyModel* hierarchy, float angle, glm::vec3 axis, glm::vec3 translation) {
+    auto kp = hierarchy->createObject("keypoint");
+    kp->transform = glm::translate(glm::identity<glm::mat4>(), translation)
+        * glm::toMat4(glm::angleAxis(angle, axis));
+    hierarchy->moveObject(kp, obj, obj->childrenCount());
+}
+
 // 主窗口初始化
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -108,6 +116,15 @@ MainWindow::MainWindow(QWidget *parent) :
     building->hierarchyObject->addComponent(l2);
     building->sizeScale = 2;
     hierarchy->moveObject(building->hierarchyObject, buildingRoot, 0);
+
+    auto trailTest = hierarchy->createObject("trailTest");
+    trailTest->addComponent(new Trail());
+    addKeypoint(trailTest, hierarchy, 0.0f, { 0, 1, 0 }, { 0, 0, 10 });
+    addKeypoint(trailTest, hierarchy, 0.0f, { 0, 1, 0 }, { 0, 1, 5 });
+    addKeypoint(trailTest, hierarchy, 3.14159 / 4, { 0, 1, 0 }, { 3, 1, 3 });
+    addKeypoint(trailTest, hierarchy, 3.14159 / 2, { 0, 1, 0 }, { 4, 0.5, -1 });
+    addKeypoint(trailTest, hierarchy, 3.14159 / 2 + 0.5, { 0, 1, 0 }, { 2, 0.5, -5 });
+    
     
     //ui->treeView_hierarchy->addAction(ui->actionbar);
 

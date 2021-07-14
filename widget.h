@@ -33,6 +33,7 @@
 #include "SkyboxRenderer.h"
 #include "commondefs.h"
 #include "Input.h"
+#include "Trail.h"
 
 class Widget : public QOpenGLWidget, protected OpenGLFunctions
 {
@@ -53,6 +54,9 @@ public:
     HierarchyObject* gizmosRoot;
 
     SkyboxRenderer* skybox;
+   
+    Trail* currentTrail = NULL;
+    float currentTrailTime = 0;
 
     void setHierarchy(HierarchyModel* hierarchy) {
         hierarchy->widget = this;
