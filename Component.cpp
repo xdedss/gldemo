@@ -17,7 +17,17 @@ QVariant Component::getProp(const QString & key)
     throw "no such property!";
 }
 
-void Component::setProp(const QString & key, QVariant value)
+void Component::setProp(const QString & key, const QVariant& value)
 {
-    properties[key] = value;
+    QVariant original = getProp(key);
+    if (original != value) {
+        properties[key] = value;
+        onPropertyChange(key, original);
+    }
+}
+
+void Component::defProp(const QString & key, const QVariant & init)
+{
+    assert(properties.count(key) == 0);
+    properties[key] = init;
 }

@@ -33,6 +33,8 @@ PointCloudRenderer::PointCloudRenderer()
 {
     kdtree = new kd_tree_t(3, adaptor, nanoflann::KDTreeSingleIndexAdaptorParams(10));
     //qDebug() << ((intptr_t)&kdtree->dataset.vertices);
+    defProp("highlightColor", QVector3D(0.5f, 1.0f, 0.0f));
+    defProp("sizeScale", 10.0f);
 }
 
 PointCloudRenderer::~PointCloudRenderer()
@@ -64,6 +66,9 @@ void PointCloudRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_PROJ"), 1, GL_FALSE, glm::value_ptr(projection));
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_VIEW"), 1, GL_FALSE, glm::value_ptr(view));
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_MODEL"), 1, GL_FALSE, glm::value_ptr(model));
+
+    QVector3D highlightColor = getProp("highlightColor").value<QVector3D>();
+    float sizeScale = getProp("sizeScale").toFloat();
 
     // 画outline
     if (highlight) {

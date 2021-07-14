@@ -17,7 +17,7 @@ private:
 
 public:
     // 线宽  
-    float lineWidth = 2.0f;
+    //float lineWidth = 2.0f;
     // 是否连续  
     bool continuous = true;
     // 高亮的颜色  
@@ -28,6 +28,8 @@ public:
     LineRenderer();
 
     void onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4 view, glm::mat4 model) override;
+
+    void onPropertyChange(const QString& key, const QVariant& original) override;
 
     void setVertices(const std::vector<Vertex>& vertices);
 };

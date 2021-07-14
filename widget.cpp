@@ -54,7 +54,7 @@ Widget::Widget(QWidget *parent)
     LineRenderer* handle = new LineRenderer();
     handleObj->addComponent(handle);
     gizmosRoot->insertChild(0, handleObj);
-    handle->lineWidth = 5;
+    handle->setProp("lineWidth", 5.f);
     std::vector<Vertex> handleVertices = {
         // x axis
         {{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}},

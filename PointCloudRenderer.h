@@ -63,9 +63,9 @@ private:
 
 public:
     // 随距离变化的缩放系数  
-    float sizeScale = 10.0f;
+    //float sizeScale = 10.0f;
     // 高亮颜色 默认橙色   
-    QVector3D highlightColor = { 1.0, 0.5, 0.0 };
+    //QVector3D highlightColor = { 1.0, 0.5, 0.0 };
     QOpenGLShaderProgram* shader = NULL;
 
     //ctor

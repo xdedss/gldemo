@@ -106,7 +106,7 @@ MainWindow::MainWindow(QWidget *parent) :
         glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * 0.1f),
         3.5f, { 1.0f, 0.0f, 0.0f });
     auto bun = importPointCloud("bun180.ply", 10);
-    bun->sizeScale = 2;
+    bun->setProp("sizeScale", 2.0f);
     LineRenderer* l1 = new LineRenderer();
     
     //l1->setVertices({ {{0,0,0},{0,0,0}} });
@@ -116,7 +116,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //l2->setVertices({ {{0,0,0},{0,0,0}} });
     auto building = importPointCloud("uwo.txt");
     building->hierarchyObject->addComponent(l2);
-    building->sizeScale = 2;
+    building->setProp("sizeScale", 2.0f);
     hierarchy->moveObject(building->hierarchyObject, buildingRoot, 0);
 
     auto trailTest = hierarchy->createObject("trailTest");
@@ -187,7 +187,7 @@ void MainWindow::drag_solt(std::string re_path)			//添加点云
 {
 	qDebug() << "go" << endl;
 	auto new_obj = importPointCloud(QString::fromStdString(re_path), 10);
-	new_obj->sizeScale = 2;
+	new_obj->setProp("sizeScale", 2.0f);
 	LineRenderer* l1 = new LineRenderer();
 	new_obj->hierarchyObject->addComponent(l1);
 }
