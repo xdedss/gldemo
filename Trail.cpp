@@ -11,6 +11,7 @@ void Trail::onUpdate()
             assert(child);
             keypoints.push_back(child->localToWorld());
         }
+        updateRenderer();
     }
 }
 
@@ -23,6 +24,38 @@ bool Trail::compareDiff()
         if (child->localToWorld() != keypoints[i]) return true;
     }
     return false;
+}
+
+void Trail::updateRenderer()
+{
+    // 从hierarchyObject上获取LineRenderer 
+    if (renderer == NULL) {
+        renderer = hierarchyObject->getComponent<LineRenderer>();
+    }
+    // 如果没有的话就添加一个  
+    if (renderer == NULL) {
+        renderer = new LineRenderer();
+        renderer->lineWidth = 1;
+        renderer->continuous = false;
+        hierarchyObject->addComponent(renderer);
+    }
+
+    const int numSegments = 10; // 每两个关键点之间的渲染段数
+
+    QVector3D color = { 0.0, 1.0, 0.0 };
+    std::vector<Vertex> vertices;
+    if (keypoints.size() > 0) {
+        glm::vec3 pos0 = interpolate(0) * glm::vec4(0, 0, 0, 1);
+        vertices.push_back(Vertex({ pos0.x, pos0.y, pos0.z }, color));
+    }
+    for (int i = 0; i < keypoints.size() - 1; i++) {
+        for (int j = 1; j <= numSegments; j++) {
+            glm::vec3 pos = interpolate(i + (float)j / numSegments) * glm::vec4(0, 0, 0, 1);
+            vertices.push_back(Vertex({ pos.x, pos.y, pos.z }, color));
+        }
+    }
+    renderer->setVertices(vertices);
+
 }
 
 glm::mat4 Trail::interpolate(float t)

@@ -124,6 +124,7 @@ MainWindow::MainWindow(QWidget *parent) :
     addKeypoint(trailTest, hierarchy, 3.14159 / 4, { 0, 1, 0 }, { 3, 1, 3 });
     addKeypoint(trailTest, hierarchy, 3.14159 / 2, { 0, 1, 0 }, { 4, 0.5, -1 });
     addKeypoint(trailTest, hierarchy, 3.14159 / 2 + 0.5, { 0, 1, 0 }, { 2, 0.5, -5 });
+    addKeypoint(trailTest, hierarchy, 3.14159 * 3 / 4, { 0, 1, 0 }, { 0, 0.5, -5 });
     
     
     //ui->treeView_hierarchy->addAction(ui->actionbar);
