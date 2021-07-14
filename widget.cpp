@@ -54,7 +54,7 @@ Widget::Widget(QWidget *parent)
     LineRenderer* handle = new LineRenderer();
     handleObj->addComponent(handle);
     gizmosRoot->insertChild(0, handleObj);
-    handle->lineWidth = 5;
+    handle->setProp("lineWidth", 5.f);
     std::vector<Vertex> handleVertices = {
         // x axis
         {{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}},
@@ -401,7 +401,6 @@ void Widget::handleDefaultShader(Renderer* renderer) {
 void Widget::renderObjectRecursively(const glm::mat4& proj, const glm::mat4& view, const glm::mat4& parentTransform, HierarchyObject* obj) {
     assert(obj);
     if (!obj->enabled) {
-        //qDebug() << "not rendering " << obj->name;
         return;
     }
     glm::mat4 transform = parentTransform * obj->transform;

@@ -4,7 +4,7 @@
 void Trail::onUpdate()
 {
     if (compareDiff()) {
-        // Èç¹û×ÓÊ÷ÓĞ¸üĞÂ¾Í¸üĞÂ¹ì¼£   
+        // å¦‚æœå­æ ‘æœ‰æ›´æ–°å°±æ›´æ–°è½¨è¿¹   
         keypoints.clear();
         for (int i = 0; i < hierarchyObject->childrenCount(); i++) {
             HierarchyObject* child = hierarchyObject->getChildren(i);
@@ -28,19 +28,19 @@ bool Trail::compareDiff()
 
 void Trail::updateRenderer()
 {
-    // ´ÓhierarchyObjectÉÏ»ñÈ¡LineRenderer 
+    // ä»hierarchyObjectä¸Šè·å–LineRenderer 
     if (renderer == NULL) {
         renderer = hierarchyObject->getComponent<LineRenderer>();
     }
-    // Èç¹ûÃ»ÓĞµÄ»°¾ÍÌí¼ÓÒ»¸ö  
+    // å¦‚æœæ²¡æœ‰çš„è¯å°±æ·»åŠ ä¸€ä¸ª  
     if (renderer == NULL) {
         renderer = new LineRenderer();
-        renderer->lineWidth = 1;
+        renderer->setProp("lineWidth", 1.0f);
         renderer->continuous = false;
         hierarchyObject->addComponent(renderer);
     }
 
-    const int numSegments = 10; // Ã¿Á½¸ö¹Ø¼üµãÖ®¼äµÄäÖÈ¾¶ÎÊı
+    const int numSegments = 10; // æ¯ä¸¤ä¸ªå…³é”®ç‚¹ä¹‹é—´çš„æ¸²æŸ“æ®µæ•°
 
     QVector3D color = { 0.0, 1.0, 0.0 };
     std::vector<Vertex> vertices;
@@ -62,14 +62,14 @@ glm::mat4 Trail::interpolate(float t)
 {
     int tf = keypoints.size() - 1;
     assert(t >= 0 && t <= tf);
-    // Ê×Î²ÌØÊâ´¦Àí    
+    // é¦–å°¾ç‰¹æ®Šå¤„ç†    
     if (t <= 0.5f) {
         return slerp(keypoints[0], keypoints[1], t);
     }
     if (t >= tf - 0.5f) {
         return slerp(keypoints[tf], keypoints[tf - 1], tf - t);
     }
-    // ÖĞ¼ä±´Èû¶û   
+    // ä¸­é—´è´å¡å°”   
     int tc = (int)round(t);
     glm::mat4 start = slerp(keypoints[tc - 1], keypoints[tc], 0.5f);
     glm::mat4 end = slerp(keypoints[tc + 1], keypoints[tc], 0.5f);
@@ -85,11 +85,14 @@ glm::mat4 Trail::interpolate(float t)
 glm::mat4 Trail::slerp(glm::mat4 m1, glm::mat4 m2, float t)
 {
     assert(t >= 0 && t <= 1);
-    glm::vec3 pos1 = m1 * glm::vec4(0, 0, 0, 1);
-    glm::vec3 pos2 = m2 * glm::vec4(0, 0, 0, 1);
+    glm::vec3 pos1, s1, sk1;
+    glm::vec3 pos2, s2, sk2;
+    glm::vec4 p1, p2;
+    glm::quat q1;
+    glm::quat q2;
+    glm::decompose(m1, s1, q1, pos1, sk1, p1);
+    glm::decompose(m2, s2, q2, pos2, sk2, p2);
     glm::vec3 pos = pos1 * (1 - t) + pos2 * t;
-    glm::quat q1 = glm::toQuat(m1);
-    glm::quat q2 = glm::toQuat(m2);
     glm::quat q = glm::slerp(q1, q2, t);
     return glm::translate(glm::identity<glm::mat4>(), pos) * glm::toMat4(q);
 }

@@ -16,6 +16,18 @@ public:
 
     virtual void onInit() {};
     virtual void onUpdate() {};
+    virtual void onPropertyChange(const QString& key, const QVariant& original) {};
+
+public:
+    // 获取属性的值   
+    QVariant getProp(const QString& key);
+    // 改变属性的值   
+    void setProp(const QString& key, const QVariant& value);
+
+protected:
+    // 定义属性   
+    void defProp(const QString& key, const QVariant& init);
+
 
 public:
     QVariant getProp(const QString& key);

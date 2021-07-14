@@ -25,6 +25,7 @@ void LineRenderer::applyVertices()
 
 LineRenderer::LineRenderer()
 {
+    defProp("lineWidth", 2.0f);
 }
 
 void LineRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4 view, glm::mat4 model)
@@ -49,6 +50,8 @@ void LineRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_VIEW"), 1, GL_FALSE, glm::value_ptr(view));
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_MODEL"), 1, GL_FALSE, glm::value_ptr(model));
     
+    float lineWidth = getProp("lineWidth").toFloat();
+
     // »­outline
     if (highlight) {
         gl->glDepthMask(GL_FALSE);
@@ -73,6 +76,10 @@ void LineRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4
     m_vertexBuffer->release();
     shader->release();
 
+}
+
+void LineRenderer::onPropertyChange(const QString & key, const QVariant & original)
+{
 }
 
 void LineRenderer::setVertices(const std::vector<Vertex>& vertices)

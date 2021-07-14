@@ -25,8 +25,8 @@ public:
     // 渲染事件，每帧会被调用   
     virtual void onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4 view, glm::mat4 model) = 0;
 
-    void onInit() override;
-    void onUpdate() override;
+    virtual void onInit() override;
+    virtual void onUpdate() override;
 
 };
 
