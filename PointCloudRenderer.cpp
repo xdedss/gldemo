@@ -33,7 +33,7 @@ PointCloudRenderer::PointCloudRenderer()
 {
     kdtree = new kd_tree_t(3, adaptor, nanoflann::KDTreeSingleIndexAdaptorParams(10));
     //qDebug() << ((intptr_t)&kdtree->dataset.vertices);
-    defProp("highlightColor", QVector3D(0.5f, 1.0f, 0.0f));
+    defProp("highlightColor", QVector3D(1.0f, 0.5f, 0.0f));
     defProp("sizeScale", 10.0f);
 }
 
