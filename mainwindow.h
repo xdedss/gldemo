@@ -36,6 +36,8 @@ private slots:
 
     void onWidgetSelection(HierarchyObject* obj);
 
+	void drag_solt(std::string re_path);			//实现拖拽的槽函数
+
 private:
     Ui::MainWindow *ui;
 

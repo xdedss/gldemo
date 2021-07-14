@@ -97,6 +97,8 @@ MainWindow::MainWindow(QWidget *parent) :
         hierarchy, SLOT(selectionChanged(const QItemSelection&, const QItemSelection&)));
     // 链接右键菜单信号槽  
     connect(ui->treeView_hierarchy, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onTreeViewCustomContextMenu(const QPoint &)));
+	// 链接拖拽生成点云信号槽
+	connect(ui->openGLWidget, SIGNAL(drag_signal(std::string)), this, SLOT(drag_solt(std::string)));
 
     // 测试用：加载模型  
     auto buildingRoot = hierarchy->createObject("building");
@@ -179,4 +181,13 @@ void MainWindow::on_actionopen_triggered()
 {
     // 菜单点击事件  
     statusBar()->showMessage("actionopen");
+}
+
+void MainWindow::drag_solt(std::string re_path)			//添加点云
+{
+	qDebug() << "go" << endl;
+	auto new_obj = importPointCloud(QString::fromStdString(re_path), 10);
+	new_obj->sizeScale = 2;
+	LineRenderer* l1 = new LineRenderer();
+	new_obj->hierarchyObject->addComponent(l1);
 }
