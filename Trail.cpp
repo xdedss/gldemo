@@ -85,11 +85,14 @@ glm::mat4 Trail::interpolate(float t)
 glm::mat4 Trail::slerp(glm::mat4 m1, glm::mat4 m2, float t)
 {
     assert(t >= 0 && t <= 1);
-    glm::vec3 pos1 = m1 * glm::vec4(0, 0, 0, 1);
-    glm::vec3 pos2 = m2 * glm::vec4(0, 0, 0, 1);
+    glm::vec3 pos1, s1, sk1;
+    glm::vec3 pos2, s2, sk2;
+    glm::vec4 p1, p2;
+    glm::quat q1;
+    glm::quat q2;
+    glm::decompose(m1, s1, q1, pos1, sk1, p1);
+    glm::decompose(m2, s2, q2, pos2, sk2, p2);
     glm::vec3 pos = pos1 * (1 - t) + pos2 * t;
-    glm::quat q1 = glm::toQuat(m1);
-    glm::quat q2 = glm::toQuat(m2);
     glm::quat q = glm::slerp(q1, q2, t);
     return glm::translate(glm::identity<glm::mat4>(), pos) * glm::toMat4(q);
 }

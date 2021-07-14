@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // 右侧属性面板  
     QStringList thead2;
-    thead2 << "Properties" << "Values";
+    thead2 << "Property" << "Value";
     QStandardItemModel* propModel = new QStandardItemModel();
     propModel->setHorizontalHeaderLabels(thead2);
     QStandardItem* parent1 = new QStandardItem(QStringLiteral("foo"));
@@ -97,10 +97,10 @@ MainWindow::MainWindow(QWidget *parent) :
         hierarchy, SLOT(selectionChanged(const QItemSelection&, const QItemSelection&)));
     // 链接右键菜单信号槽  
     connect(ui->treeView_hierarchy, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onTreeViewCustomContextMenu(const QPoint &)));
-	// 链接拖拽生成点云信号槽
+	// 链接拖拽生成点云信号槽  
 	connect(ui->openGLWidget, SIGNAL(drag_signal(std::string)), this, SLOT(drag_solt(std::string)));
 
-    // 测试用：加载模型  
+    // 测试用：加载模型   
     auto buildingRoot = hierarchy->createObject("building");
     buildingRoot->transform = glm::rotate(
         glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * 0.1f),
@@ -183,7 +183,7 @@ void MainWindow::on_actionopen_triggered()
     statusBar()->showMessage("actionopen");
 }
 
-void MainWindow::drag_solt(std::string re_path)			//添加点云
+void MainWindow::drag_solt(std::string re_path)			//添加点云  
 {
 	qDebug() << "go" << endl;
 	auto new_obj = importPointCloud(QString::fromStdString(re_path), 10);
