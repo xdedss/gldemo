@@ -29,10 +29,6 @@ protected:
     void defProp(const QString& key, const QVariant& init);
 
 
-public:
-    QVariant getProp(const QString& key);
-    void setProp(const QString& key, QVariant value);
-
 
 };
 
