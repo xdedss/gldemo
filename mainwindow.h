@@ -12,6 +12,7 @@
 #include "HierarchyObject.h"
 #include "PointCloudRenderer.h"
 #include "LineRenderer.h"
+#include <sstream>
 
 
 // 主窗口定义
@@ -26,6 +27,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    
+
+
 
 private slots:
     void on_actionopen_triggered();
@@ -35,13 +39,14 @@ private slots:
     void onTreeViewRemoveObject();
 
     void onWidgetSelection(HierarchyObject* obj);
-    void btn_slot1();
-    void btn_slot2();
-    void btn_slot3();
+    void onEdited();
+    void scaleChange(float scalex, float scaley, float scalez, HierarchyObject *&obj);
+    void ObjectSelected(const QItemSelection& selected, const QItemSelection& deselected);
+
+
 
 private:
     Ui::MainWindow *ui;
-
     QMenu* treeContextMenu;//节点上右键菜单  
     QMenu* treeContextMenuSpace;//空白处右键菜单  
 

@@ -87,6 +87,10 @@ MainWindow::MainWindow(QWidget *parent) :
     // 链接选择信号槽  
     connect(ui->treeView_hierarchy->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), 
         hierarchy, SLOT(selectionChanged(const QItemSelection&, const QItemSelection&)));
+
+
+    connect(ui->treeView_hierarchy->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
+        this, SLOT(ObjectSelected(const QItemSelection&, const QItemSelection&)));
     // 链接右键菜单信号槽  
     connect(ui->treeView_hierarchy, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onTreeViewCustomContextMenu(const QPoint &)));
 
@@ -110,9 +114,9 @@ MainWindow::MainWindow(QWidget *parent) :
     hierarchy->moveObject(building->hierarchyObject, buildingRoot, 0);
     
     //ui->treeView_hierarchy->addAction(ui->actionbar);
-    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(btn_slot1()));
-    connect(ui->pushButton_3, SIGNAL(clicked()), this, SLOT(btn_slot2()));
-    connect(ui->pushButton_4, SIGNAL(clicked()), this, SLOT(btn_slot3()));
+    //connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(btn_slot1()));
+    //connect(ui->pushButton_3, SIGNAL(clicked()), this, SLOT(btn_slot2()));
+    //connect(ui->pushButton_4, SIGNAL(clicked()), this, SLOT(btn_slot3()));
 }
 
 MainWindow::~MainWindow()
@@ -120,27 +124,59 @@ MainWindow::~MainWindow()
     delete ui;
     delete hierarchy;
 }
-void MainWindow::btn_slot1()
-{
 
-    qDebug() << ui->lineEdit->text();
-    qDebug() << ui->lineEdit_2->text();
-    qDebug() << ui->lineEdit_3->text();
-}
-void MainWindow::btn_slot2()
-{
 
-    qDebug() << ui->lineEdit_6->text();
-    qDebug() << ui->lineEdit_7->text();
-    qDebug() << ui->lineEdit_10->text();
+void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelection& deselected) {
+    QModelIndexList selectedIndices = selected.indexes();
+    QModelIndexList deselectedIndices = deselected.indexes();  
+    HierarchyObject* obj = hierarchy->index2obj(selectedIndices[selectedIndices.count()-1]);
 }
-void MainWindow::btn_slot3()
-{
 
-    qDebug() << ui->lineEdit_8->text();
-    qDebug() << ui->lineEdit_9->text();
-    qDebug() << ui->lineEdit_11->text();
+//void MainWindow::btn_slot1()
+//{
+//
+//    qDebug() << ui->lineEdit->text();
+//    qDebug() << ui->lineEdit_2->text();
+//    qDebug() << ui->lineEdit_3->text();
+//}
+//void MainWindow::btn_slot2()
+//{
+//    float scalex, scaley, scalez;
+//    scalex = QString(ui->lineEdit_6->text()).toFloat();
+//    scaley = QString(ui->lineEdit_7->text()).toFloat();
+//    scalez = QString(ui->lineEdit_10->text()).toFloat();
+//    //scaleChange(scalex, scaley, scalez, NULL);
+//    qDebug() << ui->lineEdit_6->text();
+//    qDebug() << ui->lineEdit_7->text();
+//    qDebug() << ui->lineEdit_10->text();
+//}
+//void MainWindow::btn_slot3()
+//{
+//
+//    qDebug() << ui->lineEdit_8->text();
+//    qDebug() << ui->lineEdit_9->text();
+//    qDebug() << ui->lineEdit_11->text();
+//}
+void MainWindow::onEdited()
+{
+    // 编辑完按下回车了   
+
+    qDebug() << "www";
+    float scalex, scaley, scalez;
+    scalex = QString(ui->lineEdit_6->text()).toFloat();
+    scaley = QString(ui->lineEdit_7->text()).toFloat();
+    scalez = QString(ui->lineEdit_10->text()).toFloat();
+    scaleChange(scalex, scaley, scalez, nullptr);
+
 }
+void MainWindow::scaleChange(float scalex, float scaley, float scalez, HierarchyObject*&obj) {
+    if (obj) {
+        obj->transform *= glm::mat4({ { scalex,0,0,0 }, { scalex,0,0,0 }, { scalex,0,0,0 }, {0,0,0,1} });
+    }
+}
+
+
+
 void MainWindow::onTreeViewCustomContextMenu(const QPoint & point) {
     QModelIndex index = ui->treeView_hierarchy->indexAt(point);
     hierarchy->lastRightClick = index;
