@@ -8,6 +8,8 @@ Widget::Widget(QWidget *parent)
     // 持续更新mousemove事件  
     setMouseTracking(true);
 
+	setAcceptDrops(true);		//接收拖拽
+
     setMinimumSize(100, 100);
 
     // 定时update  
@@ -360,3 +362,24 @@ void Widget::paintGL()
     renderObjectRecursively(projection, view, glm::identity<glm::mat4>(), gizmosRoot);
 
 }
+
+void Widget::dropEvent(QDropEvent * e) {		//拖拽松手后操作
+	const QMimeData* qm = e->mimeData();
+	std::string path = qm->urls()[0].toLocalFile().toStdString();
+	QString abs_path = QCoreApplication::applicationDirPath();
+
+	std::string re_path = QDir(abs_path).relativeFilePath(QString::fromStdString(path)).toStdString();
+	//将绝对路径转为相对路径
+	std::fstream test_file;
+	re_path.erase(re_path.begin());
+	//这里打开了拖入的文件
+	qDebug() << re_path.c_str() << endl;
+	
+	emit drag_signal(re_path);
+}
+
+void Widget::dragEnterEvent(QDragEnterEvent * e) {				//接收所有的拖拽事件(后续可以改为根据文件的扩展名进行筛选)
+	e->acceptProposedAction();
+}
+
+

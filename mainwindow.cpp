@@ -38,6 +38,8 @@ PointCloudRenderer* MainWindow::importPointCloud(const QString& path, float init
     return renderer;
 }
 
+
+
 // 主窗口初始化
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -90,12 +92,15 @@ MainWindow::MainWindow(QWidget *parent) :
     // 链接右键菜单信号槽  
     connect(ui->treeView_hierarchy, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onTreeViewCustomContextMenu(const QPoint &)));
 
+	connect(ui->openGLWidget, SIGNAL(drag_signal(std::string)), this, SLOT(drag_solt(std::string)));
+		
+
     // 测试用：加载模型  
     auto buildingRoot = hierarchy->createObject("building");
     buildingRoot->transform = glm::rotate(
         glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * 0.1f),
         3.5f, { 1.0f, 0.0f, 0.0f });
-    auto bun = importPointCloud("bun180.ply", 10);
+    auto bun = importPointCloud("./bun180.ply", 10);
     bun->sizeScale = 2;
     LineRenderer* l1 = new LineRenderer();
     
@@ -156,8 +161,19 @@ void MainWindow::onWidgetSelection(HierarchyObject * obj)
     }
 }
 
+
+
 void MainWindow::on_actionopen_triggered()
 {
     // 菜单点击事件  
     statusBar()->showMessage("actionopen");
+}
+
+void MainWindow::drag_solt(std::string re_path)
+{
+	qDebug() << "go" << endl;
+	auto new_obj = importPointCloud(QString::fromStdString(re_path), 10);
+	new_obj->sizeScale = 2;
+	LineRenderer* l1 = new LineRenderer();
+	new_obj->hierarchyObject->addComponent(l1);
 }

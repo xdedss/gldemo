@@ -14,6 +14,8 @@
 #include "LineRenderer.h"
 
 
+
+
 // 主窗口定义
 namespace Ui {
 class MainWindow;
@@ -35,6 +37,8 @@ private slots:
     void onTreeViewRemoveObject();
 
     void onWidgetSelection(HierarchyObject* obj);
+
+	void drag_solt(std::string re_path);
 
 private:
     Ui::MainWindow *ui;

@@ -34,11 +34,28 @@
 #include "commondefs.h"
 #include "Input.h"
 
+#include <QDragEnterEvent>
+#include <string>
+#include <QMimeData>
+#include <QDropEvent>
+#include <QUrl>
+#include <qcoreapplication.h>
+#include <qdir.h>			//拖拽文件所需的库函数
+
+enum file_type
+{
+	file_txt = 0,
+	file_ply = 1,
+	other = -1
+};
+
 class Widget : public QOpenGLWidget, protected OpenGLFunctions
 {
     Q_OBJECT
 
 public:
+	
+
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
@@ -90,6 +107,7 @@ private slots:
 
 signals:
     void onSelection(HierarchyObject* obj);
+	void drag_signal(std::string re_path);
 
 private:
     bool mousepick(int mousex, int mousey, HierarchyObject*& objout, int& iout);
@@ -114,5 +132,12 @@ protected:
 
     void keyPressEvent(QKeyEvent* key);
     void keyReleaseEvent(QKeyEvent* key);
+
+	void dropEvent(QDropEvent * e);
+	void dragEnterEvent(QDragEnterEvent * e);	//实现拖拽的函数
+	
 };
+
+
+
 #endif // WIDGET_H
