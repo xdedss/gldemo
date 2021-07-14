@@ -160,25 +160,33 @@ void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelec
         glm::vec3 rotation = glm::eulerAngles(orientation);
         glm::mat3 rotationMatrix_inv = glm::toMat3(orientation);
         //歪打正着，读取了某列的某行，即读取了矩阵的逆
-        qDebug() << rotationMatrix_inv[0][0] << rotationMatrix_inv[0][1] << rotationMatrix_inv[0][2];
-        qDebug() << rotationMatrix_inv[1][0] << rotationMatrix_inv[1][1] << rotationMatrix_inv[1][2];
-        qDebug() << rotationMatrix_inv[2][0] << rotationMatrix_inv[2][1] << rotationMatrix_inv[2][2];
+        qDebug() << rotationMatrix_inv[0][0] << rotationMatrix_inv[1][0] << rotationMatrix_inv[2][0];
+        qDebug() << rotationMatrix_inv[0][1] << rotationMatrix_inv[1][1] << rotationMatrix_inv[2][1];
+        qDebug() << rotationMatrix_inv[0][2] << rotationMatrix_inv[1][2] << rotationMatrix_inv[2][2];
+        
+
 
         ///////////
-        //旋转顺序y x z
-        //x轴旋转角度
+        //旋转顺序y x z    
+        //x轴旋转角度       
         float eps = 0.00001;
         if (abs(rotationMatrix_inv[2][1]) < eps)
             rotation.x = 0;
         else
             rotation.x = asinf(-1 * rotationMatrix_inv[2][1]);
         float cos_x = sqrt(1 - pow(rotationMatrix_inv[2][1], 2));
-        //y、z轴旋转角度
-        if (cos(rotation.x) > eps) {//cos（Rx）！=0
+        //y、z轴旋转角度    
+        if (cos(rotation.x) > eps) {//cos（Rx）！=0    
             if (abs(rotationMatrix_inv[2][2]/cos_x ) > eps) {
                 float rotationy = atanf(rotationMatrix_inv[2][0] / rotationMatrix_inv[2][2]);
                 rotation.y = rotationy;
-                if (rotationMatrix_inv[2][2]  < 0) {
+                if (abs(rotation.y) < eps) {
+                    if (rotationMatrix_inv[2][2] / cos_x < 0)
+                        rotation.y = glm::pi<float>();
+                    else
+                        rotation.y = 0;
+                }
+                else if (rotationMatrix_inv[2][2]  < 0) {
                     if (rotationMatrix_inv[2][0] < 0)
                         rotation.y = -1*glm::pi<float>() + rotation.y;
                     else if(rotationMatrix_inv[2][0] > 0)
@@ -195,7 +203,13 @@ void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelec
             if (abs(rotationMatrix_inv[1][1] / cos_x) > eps) {
                 float rotationz = atanf(rotationMatrix_inv[0][1] / rotationMatrix_inv[1][1]);
                 rotation.z = rotationz;
-                if (rotationMatrix_inv[1][1] < 0) {
+                if (abs(rotation.z) < eps) {
+                    if (rotationMatrix_inv[1][1] / cos_x < 0)
+                        rotation.z = glm::pi<float>();
+                    else
+                        rotation.z = 0;
+                }
+                else if (rotationMatrix_inv[1][1] < 0) {
                     if (rotationMatrix_inv[0][1] < 0)
                         rotation.z = -1*glm::pi<float>() + rotation.z;
                     else if(rotationMatrix_inv[0][1] >0 )
@@ -210,9 +224,28 @@ void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelec
             }
         }
         else {
-            rotation.x = 11;
-            rotation.y = 11;
-            rotation.z = 11;
+            rotation.z = 0;
+            float cos_y_z = rotationMatrix_inv[0][0], sin_y_z;
+            if (-1 * rotationMatrix_inv[2][1] < 0)
+                //此处代表rotationx为-pi/2
+                sin_y_z = -1 * rotationMatrix_inv[1][0];
+            else if (-1 * rotationMatrix_inv[2][1] > 0)
+                //此处代表rotationx为 pi/2
+                sin_y_z = -1 * rotationMatrix_inv[1][0];
+            
+            if (abs(cos_y_z) > eps) {
+                rotation.y = atanf(sin_y_z / cos_y_z);
+                if (cos_y_z < 0)
+                    rotation.y = -1 * glm::pi<float>() + rotation.y;
+                else
+                    rotation.y = glm::pi<float>() + rotation.y;
+            }
+            else {
+                if (sin_y_z > 0)
+                    rotation.y = glm::pi<float>() / 2;
+                else
+                    rotation.y = -0.5 * glm::pi<float>();
+            }
         }
 
         ///////////
