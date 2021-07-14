@@ -13,7 +13,7 @@
 #include "PointCloudRenderer.h"
 #include "LineRenderer.h"
 #include <sstream>
-
+#include <glm/gtx/matrix_decompose.hpp>
 
 // 主窗口定义
 namespace Ui {
@@ -40,7 +40,6 @@ private slots:
 
     void onWidgetSelection(HierarchyObject* obj);
     void onEdited();
-    void scaleChange(float scalex, float scaley, float scalez, HierarchyObject *&obj);
     void ObjectSelected(const QItemSelection& selected, const QItemSelection& deselected);
 
 

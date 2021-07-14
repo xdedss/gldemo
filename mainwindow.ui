@@ -131,7 +131,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_8"/>
+                  <widget class="QLineEdit" name="lineEdit_rotationX"/>
                  </item>
                 </layout>
                </widget>
@@ -159,7 +159,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_9"/>
+                  <widget class="QLineEdit" name="lineEdit_rotationY"/>
                  </item>
                 </layout>
                </widget>
@@ -187,7 +187,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_11"/>
+                  <widget class="QLineEdit" name="lineEdit_rotationZ"/>
                  </item>
                 </layout>
                </widget>
@@ -234,7 +234,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_6"/>
+                  <widget class="QLineEdit" name="lineEdit_scaleX"/>
                  </item>
                 </layout>
                </widget>
@@ -262,7 +262,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_7"/>
+                  <widget class="QLineEdit" name="lineEdit_scaleY"/>
                  </item>
                 </layout>
                </widget>
@@ -290,7 +290,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_10"/>
+                  <widget class="QLineEdit" name="lineEdit_scaleZ"/>
                  </item>
                 </layout>
                </widget>
@@ -337,7 +337,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit"/>
+                  <widget class="QLineEdit" name="lineEdit_translationX"/>
                  </item>
                 </layout>
                </widget>
@@ -365,7 +365,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_2"/>
+                  <widget class="QLineEdit" name="lineEdit_translationY"/>
                  </item>
                 </layout>
                </widget>
@@ -393,7 +393,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_3"/>
+                  <widget class="QLineEdit" name="lineEdit_translationZ"/>
                  </item>
                 </layout>
                </widget>
@@ -534,7 +534,7 @@
  </resources>
  <connections>
   <connection>
-   <sender>lineEdit</sender>
+   <sender>lineEdit_translationX</sender>
    <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
    <slot>onEdited()</slot>
@@ -550,7 +550,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>lineEdit_2</sender>
+   <sender>lineEdit_translationY</sender>
    <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
    <slot>onEdited()</slot>
@@ -566,7 +566,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>lineEdit_3</sender>
+   <sender>lineEdit_translationZ</sender>
    <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
    <slot>onEdited()</slot>
@@ -582,7 +582,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>lineEdit_6</sender>
+   <sender>lineEdit_scaleX</sender>
    <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
    <slot>onEdited()</slot>
@@ -598,7 +598,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>lineEdit_7</sender>
+   <sender>lineEdit_scaleY</sender>
    <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
    <slot>onEdited()</slot>
@@ -614,7 +614,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>lineEdit_10</sender>
+   <sender>lineEdit_scaleZ</sender>
    <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
    <slot>onEdited()</slot>
@@ -630,7 +630,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>lineEdit_8</sender>
+   <sender>lineEdit_rotationX</sender>
    <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
    <slot>onEdited()</slot>
@@ -646,7 +646,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>lineEdit_9</sender>
+   <sender>lineEdit_rotationY</sender>
    <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
    <slot>onEdited()</slot>
@@ -662,7 +662,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>lineEdit_11</sender>
+   <sender>lineEdit_rotationZ</sender>
    <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
    <slot>onEdited()</slot>
