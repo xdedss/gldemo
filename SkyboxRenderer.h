@@ -10,6 +10,7 @@ private:
     bool meshInitialized = false;
 
 public:
+    QString name() const override { return "SkyboxRenderer"; };
     QVector3D highlightColor = { 1.0, 0.5, 0.0 };
     QOpenGLShaderProgram* shader = NULL;
 

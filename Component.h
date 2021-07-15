@@ -15,7 +15,7 @@ protected:
 
 public:
     HierarchyObject* hierarchyObject;
-    QString name = "undefined";
+    virtual QString name() const { return "undefined"; };
 
     virtual void onInit() {};
     virtual void onUpdate() {};

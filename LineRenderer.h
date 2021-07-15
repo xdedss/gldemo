@@ -16,6 +16,7 @@ private:
     std::vector<Vertex> vertices;
 
 public:
+    QString name() const override { return "LineRenderer"; };
     // 线宽  
     //float lineWidth = 2.0f;
     // 是否连续  

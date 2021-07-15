@@ -1,7 +1,12 @@
 #include "HierarchyObject.h"
 #include "HierarchyModel.h"
 #include "Component.h"
-#include "qdebug.h"
+#include <qdebug.h>
+#include <qvector3d.h>
+
+// 允许编辑的property类型   
+const std::set<int> editableTypes = { QVariant::Bool, QVariant::String, QVariant::Int, QVariant::Double, QMetaType::Float };
+
 
 HierarchyObject * HierarchyObject::getChildren(const QString & name)
 {
@@ -170,15 +175,16 @@ int HierarchyObject::rowCount(const QModelIndex & parent) const
 
 int HierarchyObject::columnCount(const QModelIndex & parent) const
 {
-    if (!parent.isValid()) //传入节点是根节点  
-        return 1;
+    return 2;
+    //if (!parent.isValid()) //传入节点是根节点  
+    //    return 1;
 
-    if (parent.internalPointer() == nullptr) {
-        // 是component， 下面的property有两列  
-        return 2;
-    }
-    // property  
-    return 0;
+    //if (parent.internalPointer() == nullptr) {
+    //    // 是component， 下面的property有两列  
+    //    return 2;
+    //}
+    //// property  
+    //return 0;
 }
 
 QVariant HierarchyObject::data(const QModelIndex & index, int role) const
@@ -191,7 +197,8 @@ QVariant HierarchyObject::data(const QModelIndex & index, int role) const
 
     if (index.internalPointer() == nullptr) {
         // 是component 返回其名称   
-        return QVariant(components[index.row()]->name);
+        if (index.column() == 0) return QVariant(components[index.row()]->name());
+        else return QVariant();
     }
     // property  
     Component* c = static_cast<Component*>(index.internalPointer());
@@ -201,7 +208,18 @@ QVariant HierarchyObject::data(const QModelIndex & index, int role) const
     }
     else {
         // 返回属性值   
-        return c->getProp(c->getPropKeys()[index.row()]);
+        QVariant value = c->getProp(c->getPropKeys()[index.row()]);
+        if (editableTypes.count((int)value.type())) {
+            return value;
+        }
+        else {
+            QString res;
+            if (value.type() == QVariant::Vector3D) {
+                QDebug(&res) << value.value<QVector3D>();
+                return res;
+            }
+            return value.toString();
+        }
     }
 }
 
@@ -248,13 +266,19 @@ Qt::ItemFlags HierarchyObject::flags(const QModelIndex & index) const
         return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
     }
     // property  
+    Component* c = static_cast<Component*>(index.internalPointer());
     if (index.column() == 0) {
         // 属性名不允许修改   
         return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
     }
     else {
         // 属性值
-        return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+        QVariant v = c->getProp(c->getPropKeys()[index.row()]);
+        //qDebug() << "type of " << c->name() << "." << c->getPropKeys()[index.row()] << " is " << v.type() << " | " << v.typeName();
+        if (editableTypes.count((int)v.type())) {
+            return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+        }
+        return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
     }
 }
 
