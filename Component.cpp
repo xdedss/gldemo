@@ -26,8 +26,20 @@ void Component::setProp(const QString & key, const QVariant& value)
     }
 }
 
+std::vector<QString> Component::getPropKeys()
+{
+    std::vector<QString> res;
+    for (auto& pair : defaultProp) {
+        res.push_back(pair.first);
+    }
+    res.insert(res.end(), propertyKeys.begin(), propertyKeys.end());
+    return res;
+}
+
 void Component::defProp(const QString & key, const QVariant & init)
 {
     assert(properties.count(key) == 0);
+    assert(defaultProp.count(key) == 0);
     properties[key] = init;
+    propertyKeys.push_back(key);
 }

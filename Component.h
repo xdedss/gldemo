@@ -1,5 +1,6 @@
 #pragma once
 
+#include <set>
 
 #include "nesteddefs.h"
 #include "qvariant.h"
@@ -10,9 +11,11 @@ class Component {
 
 protected:
     std::map<QString, QVariant> properties;
+    std::vector<QString> propertyKeys;
 
 public:
     HierarchyObject* hierarchyObject;
+    QString name = "undefined";
 
     virtual void onInit() {};
     virtual void onUpdate() {};
@@ -23,6 +26,8 @@ public:
     QVariant getProp(const QString& key);
     // 改变属性的值   
     void setProp(const QString& key, const QVariant& value);
+    // 获取所有键   
+    std::vector<QString> getPropKeys();
 
 protected:
     // 定义属性   

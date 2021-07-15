@@ -3,6 +3,7 @@
 
 #include <qpoint.h>
 #include <qstring.h>
+#include <qabstractitemmodel.h>
 
 #include <vector>
 #include <set>
@@ -17,12 +18,12 @@
 #include "nesteddefs.h"
 
 
-class HierarchyObject {
+class HierarchyObject : public QAbstractItemModel {
 
 private:
     std::vector<HierarchyObject*> children;
     std::vector<Component*> components;
-    HierarchyObject* parent = NULL;
+    HierarchyObject* parentObj = NULL;
 
 public:
     glm::mat4 transform;
@@ -40,7 +41,7 @@ public:
     // 本节点挂载的组件数量  
     int componentsCount() { return components.size(); }
     // 获取父节点  
-    HierarchyObject* getParent() { return parent; }
+    HierarchyObject* getParent() { return parentObj; }
 
     // ctor
     HierarchyObject(const QString& name, HierarchyObject* parent = NULL);
@@ -91,11 +92,26 @@ public:
     // 遍历子树  
     void callRecursively(const std::function<void(HierarchyObject*)>& func, bool requireEnabled = false);
 
-    // 从场景移除  
-    void Remove();
 
-    // 摧毁子树  
-    void Destroy();
+    // -------------实现QAbstractItemModel的必选接口-----------------  
+    // 获取给定元素的第row个子元素  
+    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+    // 获取给定元素的父元素  
+    QModelIndex parent(const QModelIndex &index) const;
+    // 获取某元素的子节点数   
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    // 2
+    int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    // 取出数据  
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+
+    // ----------------------重写可选函数----------------------------
+    // 接收编辑name事件  
+    bool setData(const QModelIndex & index, const QVariant & value, int role);
+    // 返回指定节点的各种显示属性  
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    // 返回标题  
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
 };
 
