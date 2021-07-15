@@ -149,11 +149,22 @@ MainWindow::~MainWindow()
 
 void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelection& deselected) {
     QModelIndexList selectedIndices = selected.indexes();
-    QModelIndexList deselectedIndices = deselected.indexes();  
+    QModelIndexList deselectedIndices = deselected.indexes();
     HierarchyObject* obj = hierarchy->lastSelected;
     if (obj) {
         qDebug() << obj->name;
-        glm::vec3 scale,translation,skew;
+
+        ui->lineEdit_scaleX->setEnabled(true);
+        ui->lineEdit_scaleY->setEnabled(true);
+        ui->lineEdit_scaleZ->setEnabled(true);
+        ui->lineEdit_translationX->setEnabled(true);
+        ui->lineEdit_translationY->setEnabled(true);
+        ui->lineEdit_translationZ->setEnabled(true);
+        ui->lineEdit_rotationX->setEnabled(true);
+        ui->lineEdit_rotationY->setEnabled(true);
+        ui->lineEdit_rotationZ->setEnabled(true);
+        
+        glm::vec3 scale, translation, skew;
         glm::vec4 perspective;
         glm::quat orientation;
         glm::decompose(obj->transform, scale, orientation, translation, skew, perspective);
@@ -163,7 +174,7 @@ void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelec
         qDebug() << rotationMatrix_inv[0][0] << rotationMatrix_inv[1][0] << rotationMatrix_inv[2][0];
         qDebug() << rotationMatrix_inv[0][1] << rotationMatrix_inv[1][1] << rotationMatrix_inv[2][1];
         qDebug() << rotationMatrix_inv[0][2] << rotationMatrix_inv[1][2] << rotationMatrix_inv[2][2];
-        
+
 
 
         ///////////
@@ -177,7 +188,7 @@ void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelec
         float cos_x = sqrt(1 - pow(rotationMatrix_inv[2][1], 2));
         //y、z轴旋转角度    
         if (cos(rotation.x) > eps) {//cos（Rx）！=0    
-            if (abs(rotationMatrix_inv[2][2]/cos_x ) > eps) {
+            if (abs(rotationMatrix_inv[2][2] / cos_x) > eps) {
                 float rotationy = atanf(rotationMatrix_inv[2][0] / rotationMatrix_inv[2][2]);
                 rotation.y = rotationy;
                 if (abs(rotation.y) < eps) {
@@ -186,17 +197,17 @@ void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelec
                     else
                         rotation.y = 0;
                 }
-                else if (rotationMatrix_inv[2][2]  < 0) {
+                else if (rotationMatrix_inv[2][2] < 0) {
                     if (rotationMatrix_inv[2][0] < 0)
-                        rotation.y = -1*glm::pi<float>() + rotation.y;
-                    else if(rotationMatrix_inv[2][0] > 0)
+                        rotation.y = -1 * glm::pi<float>() + rotation.y;
+                    else if (rotationMatrix_inv[2][0] > 0)
                         rotation.y = glm::pi<float>() + rotation.y;
                 }
-                    
+
             }
             else {
                 if (rotationMatrix_inv[2][0] < 0)
-                    rotation.y = -1*glm::pi<float>() / 2.0f;
+                    rotation.y = -1 * glm::pi<float>() / 2.0f;
                 else
                     rotation.y = glm::pi<float>() / 2.0f;
             }
@@ -211,8 +222,8 @@ void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelec
                 }
                 else if (rotationMatrix_inv[1][1] < 0) {
                     if (rotationMatrix_inv[0][1] < 0)
-                        rotation.z = -1*glm::pi<float>() + rotation.z;
-                    else if(rotationMatrix_inv[0][1] >0 )
+                        rotation.z = -1 * glm::pi<float>() + rotation.z;
+                    else if (rotationMatrix_inv[0][1] > 0)
                         rotation.z = glm::pi<float>() + rotation.z;
                 }
             }
@@ -225,14 +236,14 @@ void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelec
         }
         else {
             rotation.z = 0;
-            float cos_y_z = rotationMatrix_inv[0][0], sin_y_z;
+            float cos_y_z = rotationMatrix_inv[0][0], sin_y_z = 0;
             if (-1 * rotationMatrix_inv[2][1] < 0)
                 //此处代表rotationx为-pi/2
                 sin_y_z = -1 * rotationMatrix_inv[1][0];
             else if (-1 * rotationMatrix_inv[2][1] > 0)
                 //此处代表rotationx为 pi/2
                 sin_y_z = -1 * rotationMatrix_inv[1][0];
-            
+
             if (abs(cos_y_z) > eps) {
                 rotation.y = atanf(sin_y_z / cos_y_z);
                 if (cos_y_z < 0)
@@ -247,7 +258,7 @@ void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelec
                     rotation.y = -0.5 * glm::pi<float>();
             }
         }
-
+        rotation = rotation / glm::pi<float>() * 180.0f;
         ///////////
 
         ui->lineEdit_translationX->setText(QString("%1").arg(translation.x));
@@ -260,7 +271,19 @@ void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelec
         ui->lineEdit_rotationY->setText(QString("%1").arg(rotation.y));
         ui->lineEdit_rotationZ->setText(QString("%1").arg(rotation.z));
     }
+    else {
+        ui->lineEdit_scaleX->setEnabled(false);
+        ui->lineEdit_scaleY->setEnabled(false);
+        ui->lineEdit_scaleZ->setEnabled(false);
+        ui->lineEdit_translationX->setEnabled(false);
+        ui->lineEdit_translationY->setEnabled(false);
+        ui->lineEdit_translationZ->setEnabled(false);
+        ui->lineEdit_rotationX->setEnabled(false);
+        ui->lineEdit_rotationY->setEnabled(false);
+        ui->lineEdit_rotationZ->setEnabled(false);
+    }
 }
+
 
 //void MainWindow::btn_slot1()
 //{
@@ -305,7 +328,9 @@ void MainWindow::onEdited()
     translationY = QString(ui->lineEdit_translationY->text()).toFloat();
     translationZ = QString(ui->lineEdit_translationZ->text()).toFloat();
 
-
+    rotationX = rotationX * glm::pi<float>() / 180;
+    rotationY = rotationY * glm::pi<float>() / 180;
+    rotationZ = rotationZ * glm::pi<float>() / 180;
     float sin_x = sinf(rotationX), cos_x = cosf(rotationX);
     float sin_y = sinf(rotationY), cos_y = cosf(rotationY);
     float sin_z = sinf(rotationZ), cos_z = cosf(rotationZ);
