@@ -25,7 +25,7 @@ Widget::Widget(QWidget *parent)
 
     // 坐标轴和网格  
     LineRenderer* xyzAxis = new LineRenderer();
-    xyzAxis->continuous = false;
+    xyzAxis->setProp("continuous", false);
     std::vector<Vertex> xyAxisVertices = {
         // x axis
         {{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}},

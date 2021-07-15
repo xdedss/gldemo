@@ -20,7 +20,7 @@ public:
     // 线宽  
     //float lineWidth = 2.0f;
     // 是否连续  
-    bool continuous = true;
+    //bool continuous = true;
     // 高亮的颜色  
     QVector3D highlightColor = { 1.0, 0.5, 0.0 };
     QOpenGLShaderProgram* shader = NULL;

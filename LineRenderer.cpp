@@ -26,6 +26,7 @@ void LineRenderer::applyVertices()
 LineRenderer::LineRenderer()
 {
     defProp("lineWidth", 2.0f);
+    defProp("continuous", true);
 }
 
 void LineRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4 view, glm::mat4 model)
@@ -59,7 +60,7 @@ void LineRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4
         //gl->glUniform1f(shader->uniformLocation("sizeAbsolute"), 10);
         gl->glUniform4f(shader->uniformLocation("colorOverride"), highlightColor.x(), highlightColor.y(), highlightColor.z(), 1.0);
         gl->glLineWidth(lineWidth * 2 + 5);
-        gl->glDrawArrays(continuous ? GL_LINE_STRIP : GL_LINES, 0, vertices.size());
+        gl->glDrawArrays(getProp("continuous").toBool() ? GL_LINE_STRIP : GL_LINES, 0, vertices.size());
         gl->glDepthMask(GL_TRUE);
     }
 
@@ -68,7 +69,7 @@ void LineRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4
     //gl->glUniform1f(shader->uniformLocation("sizeAbsolute"), 0);
     gl->glUniform4f(shader->uniformLocation("colorOverride"), 1.0, 0.5, 0.0, 0.0);
     gl->glLineWidth(lineWidth);
-    gl->glDrawArrays(continuous ? GL_LINE_STRIP : GL_LINES, 0, vertices.size());
+    gl->glDrawArrays(getProp("continuous").toBool() ? GL_LINE_STRIP : GL_LINES, 0, vertices.size());
 
     gl->glLineWidth(0);
 
