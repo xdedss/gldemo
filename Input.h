@@ -45,7 +45,7 @@ public:
         return (!mapDefaultGet(mouseButtonStateCache, i, false)) && mapDefaultGet(mouseButtonStatePrevCache, i, false);
     }
     static void setMouseButton(Qt::MouseButton i, bool down) {
-        assert(i >= 0 && i < 3);
+        //assert(i >= 0 && i < 3);
         mouseButtonState[i] = down;
     }
 
