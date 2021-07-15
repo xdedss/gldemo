@@ -62,6 +62,7 @@ private:
 
 
 public:
+    QString name() const override { return "PointCloudRenderer"; };
     // 随距离变化的缩放系数  
     //float sizeScale = 10.0f;
     // 高亮颜色 默认橙色   

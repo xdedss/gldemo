@@ -58,7 +58,7 @@ void LineRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4
         //gl->glUniform1f(shader->uniformLocation("sizeScale"), sizeScale * 2);
         //gl->glUniform1f(shader->uniformLocation("sizeAbsolute"), 10);
         gl->glUniform4f(shader->uniformLocation("colorOverride"), highlightColor.x(), highlightColor.y(), highlightColor.z(), 1.0);
-        gl->glLineWidth(lineWidth * 2);
+        gl->glLineWidth(lineWidth * 2 + 5);
         gl->glDrawArrays(continuous ? GL_LINE_STRIP : GL_LINES, 0, vertices.size());
         gl->glDepthMask(GL_TRUE);
     }

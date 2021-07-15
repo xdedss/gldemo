@@ -13,6 +13,7 @@ class Trail :
 {
 
 public:
+    QString name() const override { return "Trail"; };
     std::vector<glm::mat4> keypoints;
     LineRenderer* renderer = NULL;
 

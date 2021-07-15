@@ -170,6 +170,9 @@ void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelec
         ui->lineEdit_rotationX->setEnabled(true);
         ui->lineEdit_rotationY->setEnabled(true);
         ui->lineEdit_rotationZ->setEnabled(true);
+
+        ui->treeView_prop->setEnabled(true);
+        ui->treeView_prop->setModel(obj);
         
         glm::vec3 scale, translation, skew;
         glm::vec4 perspective;
@@ -288,6 +291,8 @@ void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelec
         ui->lineEdit_rotationX->setEnabled(false);
         ui->lineEdit_rotationY->setEnabled(false);
         ui->lineEdit_rotationZ->setEnabled(false);
+        ui->treeView_prop->setEnabled(false);
+        ui->treeView_prop->setModel(NULL);
     }
 }
 
