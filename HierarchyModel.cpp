@@ -192,7 +192,7 @@ QVariant HierarchyModel::data(const QModelIndex & index, int role) const
 }
 
 bool HierarchyModel::setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) {
-    qDebug() << "setData: " << value << "|" << role;
+    //qDebug() << "setData: " << value << "|" << role;
 
     HierarchyObject * item;
 

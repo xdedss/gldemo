@@ -146,6 +146,13 @@ MainWindow::~MainWindow()
     delete hierarchy;
 }
 
+#define PRINT_MAT4(t)\
+qDebug() << t[0][0] << t[0][1] << t[0][2] << t[0][3];\
+qDebug() << t[1][0] << t[1][1] << t[1][2] << t[1][3];\
+qDebug() << t[2][0] << t[2][1] << t[2][2] << t[2][3];\
+qDebug() << t[3][0] << t[3][1] << t[3][2] << t[3][3];
+
+
 
 void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelection& deselected) {
     QModelIndexList selectedIndices = selected.indexes();
@@ -262,31 +269,6 @@ void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelec
     }
 }
 
-//void MainWindow::btn_slot1()
-//{
-//
-//    qDebug() << ui->lineEdit->text();
-//    qDebug() << ui->lineEdit_2->text();
-//    qDebug() << ui->lineEdit_3->text();
-//}
-//void MainWindow::btn_slot2()
-//{
-//    float scalex, scaley, scalez;
-//    scalex = QString(ui->lineEdit_6->text()).toFloat();
-//    scaley = QString(ui->lineEdit_7->text()).toFloat();
-//    scalez = QString(ui->lineEdit_10->text()).toFloat();
-//    //scaleChange(scalex, scaley, scalez, NULL);
-//    qDebug() << ui->lineEdit_6->text();
-//    qDebug() << ui->lineEdit_7->text();
-//    qDebug() << ui->lineEdit_10->text();
-//}
-//void MainWindow::btn_slot3()
-//{
-//
-//    qDebug() << ui->lineEdit_8->text();
-//    qDebug() << ui->lineEdit_9->text();
-//    qDebug() << ui->lineEdit_11->text();
-//}
 void MainWindow::onEdited()
 {
     // 编辑完按下回车了   
@@ -328,39 +310,13 @@ void MainWindow::onEdited()
         {0,0,1,translationZ},
         {0,0,0,1},
         }));
-    t = rotation;
 
-    qDebug() << t[0][0] << t[0][1] << t[0][2] << t[0][3];
-    qDebug() << t[1][0] << t[1][1] << t[1][2] << t[1][3];
-    qDebug() << t[2][0] << t[2][1] << t[2][2] << t[2][3];
-    qDebug() << t[3][0] << t[3][1] << t[3][2] << t[3][3];
-    t = scale;
-
-    qDebug() << t[0][0] << t[0][1] << t[0][2] << t[0][3];
-    qDebug() << t[1][0] << t[1][1] << t[1][2] << t[1][3];
-    qDebug() << t[2][0] << t[2][1] << t[2][2] << t[2][3];
-    qDebug() << t[3][0] << t[3][1] << t[3][2] << t[3][3];
-    t = translation;
-
-    qDebug() << t[0][0] << t[0][1] << t[0][2] << t[0][3];
-    qDebug() << t[1][0] << t[1][1] << t[1][2] << t[1][3];
-    qDebug() << t[2][0] << t[2][1] << t[2][2] << t[2][3];
-    qDebug() << t[3][0] << t[3][1] << t[3][2] << t[3][3];
+    PRINT_MAT4(rotation);
+    PRINT_MAT4(scale);
+    PRINT_MAT4(translation);
 
     if (hierarchy->lastSelected) {
-        hierarchy->lastSelected->transform = rotation * scale;
-        t = hierarchy->lastSelected->transform;
-        qDebug() << t[0][0] << t[0][1] << t[0][2] << t[0][3];
-        qDebug() << t[1][0] << t[1][1] << t[1][2] << t[1][3];
-        qDebug() << t[2][0] << t[2][1] << t[2][2] << t[2][3];
-        qDebug() << t[3][0] << t[3][1] << t[3][2] << t[3][3];
-        hierarchy->lastSelected->transform = translation*hierarchy->lastSelected->transform;
-        t = hierarchy->lastSelected->transform;
-
-        qDebug() << t[0][0] << t[0][1] << t[0][2] << t[0][3];
-        qDebug() << t[1][0] << t[1][1] << t[1][2] << t[1][3];
-        qDebug() << t[2][0] << t[2][1] << t[2][2] << t[2][3];
-        qDebug() << t[3][0] << t[3][1] << t[3][2] << t[3][3];
+        hierarchy->lastSelected->transform = translation * rotation * scale;
     }
         
     //scaleChange(scalex, scaley, scalez, nullptr);
