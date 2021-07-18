@@ -36,7 +36,7 @@ void Trail::updateRenderer()
     if (renderer == NULL) {
         renderer = new LineRenderer();
         renderer->setProp("lineWidth", 1.0f);
-        renderer->continuous = false;
+        renderer->setProp("continuous", false);
         hierarchyObject->addComponent(renderer);
     }
 

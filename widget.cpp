@@ -25,7 +25,7 @@ Widget::Widget(QWidget *parent)
 
     // 坐标轴和网格  
     LineRenderer* xyzAxis = new LineRenderer();
-    xyzAxis->continuous = false;
+    xyzAxis->setProp("continuous", false);
     std::vector<Vertex> xyAxisVertices = {
         // x axis
         {{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}},
@@ -335,10 +335,13 @@ void Widget::fixedUpdate() {
         glm::mat4 rawMat = hierarchy->lastSelected->localToWorld();
         // 按屏幕内固定大小缩放   
         glm::vec3 xw = rawMat * glm::vec4(1, 0, 0, 0);
+        glm::vec3 yw = rawMat * glm::vec4(0, 1, 0, 0);
+        glm::vec3 zw = rawMat * glm::vec4(0, 0, 1, 0);
+        float averageAxisLength = (glm::length(xw) + glm::length(yw) + glm::length(zw)) / 3.0f;
         glm::vec3 pos = rawMat * glm::vec4(0, 0, 0, 1);
         glm::vec3 camPos = glm::inverse(view) * glm::vec4(0, 0, 0, 1);
         float d = glm::length(pos - camPos);
-        handleObj->transform = glm::scale(rawMat, 0.1f / glm::length(xw) * d * glm::vec3(1, 1, 1));
+        handleObj->transform = glm::scale(rawMat, 0.1f / averageAxisLength * d * glm::vec3(1, 1, 1));
     }
 
 

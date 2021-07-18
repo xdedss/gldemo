@@ -62,20 +62,30 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->splitter_hor->setStretchFactor(2, 1);
 
     
+    // 初始编辑框为禁用状态   
+    ui->lineEdit_scaleX->setEnabled(false);
+    ui->lineEdit_scaleY->setEnabled(false);
+    ui->lineEdit_scaleZ->setEnabled(false);
+    ui->lineEdit_translationX->setEnabled(false);
+    ui->lineEdit_translationY->setEnabled(false);
+    ui->lineEdit_translationZ->setEnabled(false);
+    ui->lineEdit_rotationX->setEnabled(false);
+    ui->lineEdit_rotationY->setEnabled(false);
+    ui->lineEdit_rotationZ->setEnabled(false);
 
     // 右侧属性面板  
-    QStringList thead2;
-    thead2 << "Property" << "Value";
-    QStandardItemModel* propModel = new QStandardItemModel();
-    propModel->setHorizontalHeaderLabels(thead2);
-    QStandardItem* parent1 = new QStandardItem(QStringLiteral("foo"));
-    propModel->appendRow(parent1);
-    QStandardItem* parent2 = new QStandardItem(QStringLiteral("foo2"));
-    parent2->setEditable(false);
-    propModel->appendRow(parent2);
-    propModel->appendRow({ new QStandardItem("sdf"), new QStandardItem("wwww1") });
+    //QStringList thead2;
+    //thead2 << "Property" << "Value";
+    //QStandardItemModel* propModel = new QStandardItemModel();
+    //propModel->setHorizontalHeaderLabels(thead2);
+    //QStandardItem* parent1 = new QStandardItem(QStringLiteral("foo"));
+    //propModel->appendRow(parent1);
+    //QStandardItem* parent2 = new QStandardItem(QStringLiteral("foo2"));
+    //parent2->setEditable(false);
+    //propModel->appendRow(parent2);
+    //propModel->appendRow({ new QStandardItem("sdf"), new QStandardItem("wwww1") });
     // 加入treeview  
-    ui->treeView_prop->setModel(propModel);
+    //ui->treeView_prop->setModel(propModel);
     ui->treeView_prop->header()->setSectionResizeMode(QHeaderView::Stretch);
 
     ui->treeView_prop->setEnabled(false);
