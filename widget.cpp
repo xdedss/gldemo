@@ -307,22 +307,42 @@ void Widget::fixedUpdate() {
 
     // --------trail-------
     if (Input::getKeyDown(Qt::Key::Key_T)) {
-        currentTrail = hierarchy->root->getChildren("trailTest")->getComponent<Trail>();
-        currentTrailTime = 0;
+        
     }
+    /*
     if (Input::getKeyDown(Qt::Key::Key_H)) {
         auto r = hierarchy->root->getChildren("trailTest")->getComponent<LineRenderer>();
         r->setProp("enabled", !r->getProp("enabled").toBool());
     }
+    */
     if (currentTrail != NULL) {
-        currentTrailTime += 0.01f;
+        currentTrailTime += videoRecordSpeed;
         if (currentTrailTime > currentTrail->keypoints.size() - 1) {
             currentTrail = NULL;
             currentTrailTime = 0;
         }
         else {
             glm::mat4 camMat = currentTrail->interpolate(currentTrailTime);
-            view = glm::inverse(camMat);
+
+            view = glm::inverse(camMat); 
+            qDebug() << QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz")<<"begin";
+            QPixmap p = this->grab(QRect(0, 0, screenWidth, screenHeight));
+            QString filePathName = "screen/";
+            filePathName += QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
+            filePathName += ".png";
+            video.push_back(p);
+            
+            /*
+            if (!p.save(filePathName, "png"))
+            {
+                qDebug() << "save widget screen failed" << endl;
+            }
+            */
+
+
+            qDebug()<< QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz")<<"end";
+
+
         }
     }
 
@@ -460,4 +480,12 @@ void Widget::dropEvent(QDropEvent * e) {		//拖拽松手后操作
 
 void Widget::dragEnterEvent(QDragEnterEvent * e) {				//接收所有的拖拽事件(后续可以改为根据文件的扩展名进行筛选)
 	e->acceptProposedAction();
+}
+
+void Widget::onRecordVideo1Wigdet(float speed){
+    currentTrail = hierarchy->root->getChildren("trailTest")->getComponent<Trail>();
+    currentTrailTime = 0;
+    qDebug() << speed;
+    videoRecordSpeed = 0.0002f * speed;
+    video.clear();
 }

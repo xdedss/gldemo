@@ -15,7 +15,10 @@
 #include <sstream>
 #include <glm/gtx/matrix_decompose.hpp>
 
-// Ö÷´°¿Ú¶¨Òå
+
+//æ–°çª—å£
+#include "recordwindow.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -29,7 +32,8 @@ public:
     ~MainWindow();
     
 
-
+signals:
+    void onRecordVideo2Widget(float speed);
 
 private slots:
     void on_actionopen_triggered();
@@ -44,21 +48,25 @@ private slots:
 
 
 
-	void drag_solt(std::string re_path);			//ÊµÏÖÍÏ×§µÄ²Ûº¯Êı
+	void drag_solt(std::string re_path);		
+    void on_actionvideoRecord_triggered();
+
+    void onRecordVideo1MainWindow(float speed);
+    
 
 private:
     Ui::MainWindow *ui;
-    QMenu* treeContextMenu;//½ÚµãÉÏÓÒ¼ü²Ëµ¥  
-    QMenu* treeContextMenuSpace;//¿Õ°×´¦ÓÒ¼ü²Ëµ¥  
+    QMenu* treeContextMenu;
+    QMenu* treeContextMenuSpace;
 
     //QStandardItemModel* hierarchy;
     //QStandardItem* modelsParent;
     //QStandardItem* trailsParent;
 
-    HierarchyModel* hierarchy; // ³¡¾°Ê÷  
+    HierarchyModel* hierarchy;
 
-    PointCloudRenderer* MainWindow::importPointCloud(const QString& path, float initialScale); // Ö±½ÓÏò³¡¾°ÖĞ·ÅÈëÒ»¸öµãÔÆÄ£ĞÍ  
-
+    PointCloudRenderer* MainWindow::importPointCloud(const QString& path, float initialScale); 
+    recordWindow* record;
 };
 
 #endif // MAINWINDOW_H
