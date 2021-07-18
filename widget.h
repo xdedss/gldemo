@@ -43,6 +43,23 @@
 #include <qcoreapplication.h>
 #include <qdir.h>			//拖拽文件所需的库函数
 
+//保存图片的引用    
+#include <Qt3Drender/qcamera.h>
+#include <Qt3Drender/qrendercapture.h>
+#include <QPixmap>
+#include <QImage>
+#include <QDateTime>
+#include <QMessageBox>
+#include <QDesktopWidget>
+#include <QFileDialog>
+#include <QMovie>
+
+
+//回放视频   
+#include "mainwindow.h"
+#include <QLabel>
+
+
 class Widget : public QOpenGLWidget, protected OpenGLFunctions
 {
     Q_OBJECT
@@ -68,6 +85,8 @@ public:
 
     HierarchyObject* handleObj;
 
+    std::vector<QPixmap> video;
+
     void setHierarchy(HierarchyModel* hierarchy) {
         hierarchy->widget = this;
         this->hierarchy = hierarchy;
@@ -86,11 +105,12 @@ private:
     int mouselastx = 0, mouselasty = 0, mousex = 0, mousey = 0;
     //float wheeldelta = 0;
     int windowX = 0,windowY = 0;
-
-
+    float videoRecordSpeed = 0.01;
 
 private slots:
     void fixedUpdate();
+    void onRecordVideo1Wigdet(float speed);
+
 
 signals:
     void onSelection(HierarchyObject* obj);

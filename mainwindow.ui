@@ -409,6 +409,9 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="formLayoutWidget">
+       <layout class="QFormLayout" name="formLayout"/>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -436,8 +439,17 @@
     <addaction name="separator"/>
     <addaction name="actionbar"/>
    </widget>
+   <widget class="QMenu" name="menuRecord">
+    <property name="title">
+     <string>Record</string>
+    </property>
+    <addaction name="actionvideoReplay"/>
+    <addaction name="actionvideoRecord"/>
+    <addaction name="actionvideoSave"/>
+   </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
+   <addaction name="menuRecord"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -519,6 +531,21 @@
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;缩放模型&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionvideoRecord">
+   <property name="text">
+    <string>videoRecord</string>
+   </property>
+  </action>
+  <action name="actionvideoReplay">
+   <property name="text">
+    <string>videoPreview</string>
+   </property>
+  </action>
+  <action name="actionvideoSave">
+   <property name="text">
+    <string>videoSave</string>
    </property>
   </action>
  </widget>

@@ -53,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     statusBar()->showMessage("Done");
-
+    record = new recordWindow();
     connect(ui->openGLWidget, SIGNAL(onSelection(HierarchyObject*)), this, SLOT(onWidgetSelection(HierarchyObject*)));
 
     // 分割线默认比例  
@@ -92,17 +92,23 @@ MainWindow::MainWindow(QWidget *parent) :
     treeContextMenu->addAction("delete", this, SLOT(onTreeViewRemoveObject()));
     treeContextMenuSpace = new QMenu(ui->openGLWidget);
     treeContextMenuSpace->addAction("add child", this, SLOT(onTreeViewAddObject()));
+
     // 链接选择信号槽  
     connect(ui->treeView_hierarchy->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), 
         hierarchy, SLOT(selectionChanged(const QItemSelection&, const QItemSelection&)));
-
-
     connect(ui->treeView_hierarchy->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
         this, SLOT(ObjectSelected(const QItemSelection&, const QItemSelection&)));
     // 链接右键菜单信号槽  
     connect(ui->treeView_hierarchy, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onTreeViewCustomContextMenu(const QPoint &)));
 	// 链接拖拽生成点云信号槽  
 	connect(ui->openGLWidget, SIGNAL(drag_signal(std::string)), this, SLOT(drag_solt(std::string)));
+    // 点击菜单栏，出现录像窗口  
+    connect(ui->actionvideoRecord, SIGNAL(clicked()), this, SLOT(on_actionvideoRecord_triggered()));
+    // 录像窗口点击开始，信号传入主窗口   
+    connect(record,SIGNAL(onRecordVideo2MainWindow(float)),this,SLOT(onRecordVideo1MainWindow(float)));
+    // 主窗口接收录制信号，传到widget  
+    connect(this, SIGNAL(onRecordVideo2Widget(float)), ui->openGLWidget, SLOT(onRecordVideo1Wigdet(float)));
+
 
     // 测试用：加载模型   
     auto buildingRoot = hierarchy->createObject("building");
@@ -111,15 +117,15 @@ MainWindow::MainWindow(QWidget *parent) :
         3.5f, { 1.0f, 0.0f, 0.0f });
     auto bun = importPointCloud("bun180.ply", 10);
     bun->setProp("sizeScale", 2.0f);
-    LineRenderer* l1 = new LineRenderer();
+    //LineRenderer* l1 = new LineRenderer();
     
     //l1->setVertices({ {{0,0,0},{0,0,0}} });
-    bun->hierarchyObject->addComponent(l1);
+    //bun->hierarchyObject->addComponent(l1);
 
-    LineRenderer* l2 = new LineRenderer();
+    //LineRenderer* l2 = new LineRenderer();
     //l2->setVertices({ {{0,0,0},{0,0,0}} });
     auto building = importPointCloud("uwo.txt");
-    building->hierarchyObject->addComponent(l2);
+    //building->hierarchyObject->addComponent(l2);
     building->setProp("sizeScale", 2.0f);
     hierarchy->moveObject(building->hierarchyObject, buildingRoot, 0);
 
@@ -404,4 +410,20 @@ void MainWindow::drag_solt(std::string re_path)			//添加点云
 	new_obj->setProp("sizeScale", 2.0f);
 	LineRenderer* l1 = new LineRenderer();
 	new_obj->hierarchyObject->addComponent(l1);
+}
+
+void MainWindow::on_actionvideoRecord_triggered()
+{
+    qDebug() << "video record";
+
+    
+    record->setWindowTitle("RecordWindow");
+    record->show();
+
+}
+
+void MainWindow::onRecordVideo1MainWindow(float speed) {
+    qDebug() << "mainWindow  have received recordVideo signal";
+    emit(onRecordVideo2Widget(speed));   
+    record->hide();
 }
