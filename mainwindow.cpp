@@ -55,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent) :
     statusBar()->showMessage("Done");
     record = new recordWindow();
     connect(ui->openGLWidget, SIGNAL(onSelection(HierarchyObject*)), this, SLOT(onWidgetSelection(HierarchyObject*)));
+    connect(ui->openGLWidget, SIGNAL(onTransformEdited(HierarchyObject*)), this, SLOT(onWidgetTransformEdited(HierarchyObject*)));
 
     // 分割线默认比例  
     ui->splitter_hor->setStretchFactor(0, 1);
@@ -102,6 +103,14 @@ MainWindow::MainWindow(QWidget *parent) :
     treeContextMenu->addAction("delete", this, SLOT(onTreeViewRemoveObject()));
     treeContextMenuSpace = new QMenu(ui->openGLWidget);
     treeContextMenuSpace->addAction("add child", this, SLOT(onTreeViewAddObject()));
+
+
+    QActionGroup* toolBoxGroup1 = new QActionGroup(this);
+    ui->actionTranslation->setActionGroup(toolBoxGroup1);
+    ui->actionRotate->setActionGroup(toolBoxGroup1);
+    ui->actionScale->setActionGroup(toolBoxGroup1);
+    ui->actionCursor->setActionGroup(toolBoxGroup1);
+    ui->actionCursor->setChecked(true);
 
     // 链接选择信号槽  
     connect(ui->treeView_hierarchy->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), 
@@ -184,154 +193,117 @@ qDebug() << t[2][0] << t[2][1] << t[2][2] << t[2][3];\
 qDebug() << t[3][0] << t[3][1] << t[3][2] << t[3][3];
 
 
-
-void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelection& deselected) {
-    QModelIndexList selectedIndices = selected.indexes();
-    QModelIndexList deselectedIndices = deselected.indexes();
-    HierarchyObject* obj = hierarchy->lastSelected;
-    if (obj) {
-        qDebug() << obj->name;
-
-        ui->lineEdit_scaleX->setEnabled(true);
-        ui->lineEdit_scaleY->setEnabled(true);
-        ui->lineEdit_scaleZ->setEnabled(true);
-        ui->lineEdit_translationX->setEnabled(true);
-        ui->lineEdit_translationY->setEnabled(true);
-        ui->lineEdit_translationZ->setEnabled(true);
-        ui->lineEdit_rotationX->setEnabled(true);
-        ui->lineEdit_rotationY->setEnabled(true);
-        ui->lineEdit_rotationZ->setEnabled(true);
-
-        ui->treeView_prop->setEnabled(true);
-        ui->treeView_prop->setModel(obj);
-        
-        glm::vec3 scale, translation, skew;
-        glm::vec4 perspective;
-        glm::quat orientation;
-        glm::decompose(obj->transform, scale, orientation, translation, skew, perspective);
-        glm::vec3 rotation = glm::eulerAngles(orientation);
-        glm::mat3 rotationMatrix_inv = glm::toMat3(orientation);
-        //歪打正着，读取了某列的某行，即读取了矩阵的逆 
-        qDebug() << rotationMatrix_inv[0][0] << rotationMatrix_inv[1][0] << rotationMatrix_inv[2][0];
-        qDebug() << rotationMatrix_inv[0][1] << rotationMatrix_inv[1][1] << rotationMatrix_inv[2][1];
-        qDebug() << rotationMatrix_inv[0][2] << rotationMatrix_inv[1][2] << rotationMatrix_inv[2][2];
+void MainWindow::showObjectInfo(HierarchyObject * obj)
+{
+    glm::vec3 scale, translation, skew;
+    glm::vec4 perspective;
+    glm::quat orientation;
+    glm::decompose(obj->transform, scale, orientation, translation, skew, perspective);
+    glm::vec3 rotation = glm::eulerAngles(orientation);
+    glm::mat3 rotationMatrix_inv = glm::toMat3(orientation);
+    //歪打正着，读取了某列的某行，即读取了矩阵的逆 
+    //qDebug() << rotationMatrix_inv[0][0] << rotationMatrix_inv[1][0] << rotationMatrix_inv[2][0];
+    //qDebug() << rotationMatrix_inv[0][1] << rotationMatrix_inv[1][1] << rotationMatrix_inv[2][1];
+    //qDebug() << rotationMatrix_inv[0][2] << rotationMatrix_inv[1][2] << rotationMatrix_inv[2][2];
 
 
-
-        ///////////
-        //旋转顺序y x z    
-        //x轴旋转角度       
-        float eps = 0.00001;
-        if (abs(rotationMatrix_inv[2][1]) < eps)
-            rotation.x = 0;
-        else
-            rotation.x = asinf(-1 * rotationMatrix_inv[2][1]);
-        float cos_x = sqrt(1 - pow(rotationMatrix_inv[2][1], 2));
-        //y、z轴旋转角度    
-        if (cos(rotation.x) > eps) {//cos（Rx）！=0    
-            if (abs(rotationMatrix_inv[2][2] / cos_x) > eps) {
-                float rotationy = atanf(rotationMatrix_inv[2][0] / rotationMatrix_inv[2][2]);
-                rotation.y = rotationy;
-                if (abs(rotation.y) < eps) {
-                    if (rotationMatrix_inv[2][2] / cos_x < 0)
-                        rotation.y = glm::pi<float>();
-                    else
-                        rotation.y = 0;
-                }
-                else if (rotationMatrix_inv[2][2] < 0) {
-                    if (rotationMatrix_inv[2][0] < 0)
-                        rotation.y = -1 * glm::pi<float>() + rotation.y;
-                    else if (rotationMatrix_inv[2][0] > 0)
-                        rotation.y = glm::pi<float>() + rotation.y;
-                }
-
+    ///////////
+    //旋转顺序y x z    
+    //x轴旋转角度       
+    float eps = 0.00001;
+    if (abs(rotationMatrix_inv[2][1]) < eps)
+        rotation.x = 0;
+    else
+        rotation.x = asinf(-1 * rotationMatrix_inv[2][1]);
+    float cos_x = sqrt(1 - pow(rotationMatrix_inv[2][1], 2));
+    //y、z轴旋转角度    
+    if (cos(rotation.x) > eps) {//cos（Rx）！=0    
+        if (abs(rotationMatrix_inv[2][2] / cos_x) > eps) {
+            float rotationy = atanf(rotationMatrix_inv[2][0] / rotationMatrix_inv[2][2]);
+            rotation.y = rotationy;
+            if (abs(rotation.y) < eps) {
+                if (rotationMatrix_inv[2][2] / cos_x < 0)
+                    rotation.y = glm::pi<float>();
+                else
+                    rotation.y = 0;
             }
-            else {
+            else if (rotationMatrix_inv[2][2] < 0) {
                 if (rotationMatrix_inv[2][0] < 0)
-                    rotation.y = -1 * glm::pi<float>() / 2.0f;
+                    rotation.y = -1 * glm::pi<float>() + rotation.y;
+                else if (rotationMatrix_inv[2][0] > 0)
+                    rotation.y = glm::pi<float>() + rotation.y;
+            }
+
+        }
+        else {
+            if (rotationMatrix_inv[2][0] < 0)
+                rotation.y = -1 * glm::pi<float>() / 2.0f;
+            else
+                rotation.y = glm::pi<float>() / 2.0f;
+        }
+        if (abs(rotationMatrix_inv[1][1] / cos_x) > eps) {
+            float rotationz = atanf(rotationMatrix_inv[0][1] / rotationMatrix_inv[1][1]);
+            rotation.z = rotationz;
+            if (abs(rotation.z) < eps) {
+                if (rotationMatrix_inv[1][1] / cos_x < 0)
+                    rotation.z = glm::pi<float>();
                 else
-                    rotation.y = glm::pi<float>() / 2.0f;
+                    rotation.z = 0;
             }
-            if (abs(rotationMatrix_inv[1][1] / cos_x) > eps) {
-                float rotationz = atanf(rotationMatrix_inv[0][1] / rotationMatrix_inv[1][1]);
-                rotation.z = rotationz;
-                if (abs(rotation.z) < eps) {
-                    if (rotationMatrix_inv[1][1] / cos_x < 0)
-                        rotation.z = glm::pi<float>();
-                    else
-                        rotation.z = 0;
-                }
-                else if (rotationMatrix_inv[1][1] < 0) {
-                    if (rotationMatrix_inv[0][1] < 0)
-                        rotation.z = -1 * glm::pi<float>() + rotation.z;
-                    else if (rotationMatrix_inv[0][1] > 0)
-                        rotation.z = glm::pi<float>() + rotation.z;
-                }
-            }
-            else {
+            else if (rotationMatrix_inv[1][1] < 0) {
                 if (rotationMatrix_inv[0][1] < 0)
-                    rotation.z = -1 * glm::pi<float>() / 2.0f;
-                else
-                    rotation.z = glm::pi<float>() / 2.0f;
+                    rotation.z = -1 * glm::pi<float>() + rotation.z;
+                else if (rotationMatrix_inv[0][1] > 0)
+                    rotation.z = glm::pi<float>() + rotation.z;
             }
         }
         else {
-            rotation.z = 0;
-            float cos_y_z = rotationMatrix_inv[0][0], sin_y_z = 0;
-            if (-1 * rotationMatrix_inv[2][1] < 0)
-                //此处代表rotationx为-pi/2
-                sin_y_z = -1 * rotationMatrix_inv[1][0];
-            else if (-1 * rotationMatrix_inv[2][1] > 0)
-                //此处代表rotationx为 pi/2
-                sin_y_z = -1 * rotationMatrix_inv[1][0];
-
-            if (abs(cos_y_z) > eps) {
-                rotation.y = atanf(sin_y_z / cos_y_z);
-                if (cos_y_z < 0)
-                    rotation.y = -1 * glm::pi<float>() + rotation.y;
-                else
-                    rotation.y = glm::pi<float>() + rotation.y;
-            }
-            else {
-                if (sin_y_z > 0)
-                    rotation.y = glm::pi<float>() / 2;
-                else
-                    rotation.y = -0.5 * glm::pi<float>();
-            }
+            if (rotationMatrix_inv[0][1] < 0)
+                rotation.z = -1 * glm::pi<float>() / 2.0f;
+            else
+                rotation.z = glm::pi<float>() / 2.0f;
         }
-        rotation = rotation / glm::pi<float>() * 180.0f;
-        ///////////
-
-        ui->lineEdit_translationX->setText(QString("%1").arg(translation.x));
-        ui->lineEdit_translationY->setText(QString("%1").arg(translation.y));
-        ui->lineEdit_translationZ->setText(QString("%1").arg(translation.z));
-        ui->lineEdit_scaleX->setText(QString("%1").arg(scale.x));
-        ui->lineEdit_scaleY->setText(QString("%1").arg(scale.y));
-        ui->lineEdit_scaleZ->setText(QString("%1").arg(scale.z));
-        ui->lineEdit_rotationX->setText(QString("%1").arg(rotation.x));
-        ui->lineEdit_rotationY->setText(QString("%1").arg(rotation.y));
-        ui->lineEdit_rotationZ->setText(QString("%1").arg(rotation.z));
     }
     else {
-        ui->lineEdit_scaleX->setEnabled(false);
-        ui->lineEdit_scaleY->setEnabled(false);
-        ui->lineEdit_scaleZ->setEnabled(false);
-        ui->lineEdit_translationX->setEnabled(false);
-        ui->lineEdit_translationY->setEnabled(false);
-        ui->lineEdit_translationZ->setEnabled(false);
-        ui->lineEdit_rotationX->setEnabled(false);
-        ui->lineEdit_rotationY->setEnabled(false);
-        ui->lineEdit_rotationZ->setEnabled(false);
-        ui->treeView_prop->setEnabled(false);
-        ui->treeView_prop->setModel(NULL);
+        rotation.z = 0;
+        float cos_y_z = rotationMatrix_inv[0][0], sin_y_z = 0;
+        if (-1 * rotationMatrix_inv[2][1] < 0)
+            //此处代表rotationx为-pi/2
+            sin_y_z = -1 * rotationMatrix_inv[1][0];
+        else if (-1 * rotationMatrix_inv[2][1] > 0)
+            //此处代表rotationx为 pi/2
+            sin_y_z = -1 * rotationMatrix_inv[1][0];
+
+        if (abs(cos_y_z) > eps) {
+            rotation.y = atanf(sin_y_z / cos_y_z);
+            if (cos_y_z < 0)
+                rotation.y = -1 * glm::pi<float>() + rotation.y;
+            else
+                rotation.y = glm::pi<float>() + rotation.y;
+        }
+        else {
+            if (sin_y_z > 0)
+                rotation.y = glm::pi<float>() / 2;
+            else
+                rotation.y = -0.5 * glm::pi<float>();
+        }
     }
+    rotation = rotation / glm::pi<float>() * 180.0f;
+    ///////////
+
+    ui->lineEdit_translationX->setText(QString("%1").arg(translation.x));
+    ui->lineEdit_translationY->setText(QString("%1").arg(translation.y));
+    ui->lineEdit_translationZ->setText(QString("%1").arg(translation.z));
+    ui->lineEdit_scaleX->setText(QString("%1").arg(scale.x));
+    ui->lineEdit_scaleY->setText(QString("%1").arg(scale.y));
+    ui->lineEdit_scaleZ->setText(QString("%1").arg(scale.z));
+    ui->lineEdit_rotationX->setText(QString("%1").arg(rotation.x));
+    ui->lineEdit_rotationY->setText(QString("%1").arg(rotation.y));
+    ui->lineEdit_rotationZ->setText(QString("%1").arg(rotation.z));
 }
 
-void MainWindow::onEdited()
+void MainWindow::updateObjectInfo(HierarchyObject * obj)
 {
-    // 编辑完按下回车了   
-    qDebug() << "获取参数";
-    
     float translationX, translationY, translationZ;
     float scaleX, scaleY, scaleZ;
     float rotationX, rotationY, rotationZ;
@@ -375,11 +347,56 @@ void MainWindow::onEdited()
     PRINT_MAT4(scale);
     PRINT_MAT4(translation);
 
-    if (hierarchy->lastSelected) {
-        hierarchy->lastSelected->transform = translation * rotation * scale;
-    }
+    obj->transform = translation * rotation * scale;
+}
+
+
+void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelection& deselected) {
+    QModelIndexList selectedIndices = selected.indexes();
+    QModelIndexList deselectedIndices = deselected.indexes();
+    HierarchyObject* obj = hierarchy->lastSelected;
+    if (obj) {
+        qDebug() << obj->name;
+
+        ui->lineEdit_scaleX->setEnabled(true);
+        ui->lineEdit_scaleY->setEnabled(true);
+        ui->lineEdit_scaleZ->setEnabled(true);
+        ui->lineEdit_translationX->setEnabled(true);
+        ui->lineEdit_translationY->setEnabled(true);
+        ui->lineEdit_translationZ->setEnabled(true);
+        ui->lineEdit_rotationX->setEnabled(true);
+        ui->lineEdit_rotationY->setEnabled(true);
+        ui->lineEdit_rotationZ->setEnabled(true);
+
+        ui->treeView_prop->setEnabled(true);
+        ui->treeView_prop->setModel(obj);
         
-    //scaleChange(scalex, scaley, scalez, nullptr);
+        showObjectInfo(obj);
+    }
+    else {
+        ui->lineEdit_scaleX->setEnabled(false);
+        ui->lineEdit_scaleY->setEnabled(false);
+        ui->lineEdit_scaleZ->setEnabled(false);
+        ui->lineEdit_translationX->setEnabled(false);
+        ui->lineEdit_translationY->setEnabled(false);
+        ui->lineEdit_translationZ->setEnabled(false);
+        ui->lineEdit_rotationX->setEnabled(false);
+        ui->lineEdit_rotationY->setEnabled(false);
+        ui->lineEdit_rotationZ->setEnabled(false);
+        ui->treeView_prop->setEnabled(false);
+        ui->treeView_prop->setModel(NULL);
+    }
+}
+
+void MainWindow::onEdited()
+{
+    // 编辑完按下回车了   
+    qDebug() << "获取参数";
+    
+    if (hierarchy->lastSelected) {
+        updateObjectInfo(hierarchy->lastSelected);
+    }
+
 }
 
 
@@ -420,6 +437,11 @@ void MainWindow::onWidgetSelection(HierarchyObject * obj)
     else {
         ui->treeView_hierarchy->selectionModel()->clearSelection();
     }
+}
+
+void MainWindow::onWidgetTransformEdited(HierarchyObject * obj)
+{
+    showObjectInfo(obj);
 }
 
 void MainWindow::on_actionopen_triggered()
@@ -466,4 +488,26 @@ void MainWindow::offSaveVideo1MainWindow() {
     qDebug() << "main window receive savefinish from widget";
     emit(offSaveVideo2recordWindow());
     qDebug() << "main window launch savefinish to recordWindow";
+}
+
+void MainWindow::on_actionTranslation_toggled(bool arg1)
+{
+    
+    if (arg1) ui->openGLWidget->LMBMode = 1;
+}
+
+void MainWindow::on_actionRotate_toggled(bool arg1)
+{
+    if (arg1) ui->openGLWidget->LMBMode = 2;
+}
+
+void MainWindow::on_actionScale_toggled(bool arg1)
+{
+    if (arg1) ui->openGLWidget->LMBMode = 3;
+}
+
+void MainWindow::on_actionCursor_toggled(bool arg1)
+{
+    if (arg1) ui->openGLWidget->LMBMode = 0;
+    qDebug() << "cursor";
 }

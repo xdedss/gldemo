@@ -95,7 +95,9 @@ void Widget::mousePressEvent(QMouseEvent* e) {
 }
 //鼠标 移动    
 void Widget::mouseMoveEvent(QMouseEvent* e) {
-    mousex = e->x(); mousey = e->y();//获取鼠标坐标  
+    Input::setAxis("Mouse X", e->x());
+    Input::setAxis("Mouse Y", e->y());
+    //mousex = e->x(); mousey = e->y();//获取鼠标坐标  
 }
 //鼠标 松开    
 void Widget::mouseReleaseEvent(QMouseEvent* e) {
@@ -241,31 +243,19 @@ bool Widget::mousepick(int mousex, int mousey, HierarchyObject *& objout, int &i
 void Widget::fixedUpdate() {
     Input::beforeUpdate();
     bool RightMouseDown = Input::getMouseButton(Qt::MouseButton::RightButton);
-    bool LeftMouseDown = Input::getMouseButton(Qt::MouseButton::LeftButton);
     bool Key_WDown = Input::getKey(Qt::Key::Key_W), Key_ADown = Input::getKey(Qt::Key::Key_A),
         Key_SDown = Input::getKey(Qt::Key::Key_S), Key_DDown = Input::getKey(Qt::Key::Key_D);
     float wheeldelta = Input::getMouseWheelDelta();
 
     //如果鼠标按下，记录鼠标走的方位，进行相机旋转操作    
     if (RightMouseDown) {
-        float dx = mousex - mouselastx;
-        float dy = mousey - mouselasty;
+        float dx = Input::getAxisDelta("Mouse X");
+        float dy = Input::getAxisDelta("Mouse Y");
         camRot = glm::rotate(camRot, -dy * 1.5f / sqrtf(screenWidth * screenHeight), glm::vec3(1, 0, 0));
         camRot = glm::rotate(camRot, -dx * 1.5f / sqrtf(screenWidth * screenHeight), glm::vec3(0, 1, 0));
         
     }
-    if (LeftMouseDown) {
-        HierarchyObject * objout;
-        int iout;
-        bool found = mousepick(mousex, mousey,objout,iout);
-        if (found) {
-            qDebug() << " 左键选中  " << objout->name << " #" << iout;
-            emit(onSelection(objout));
-        }
-        else {
-            emit(onSelection(NULL));
-        }
-    }
+
     //滚轮旋转 结合鼠标位置进行摄像机平移和视角缩放，同时可以用wasd平移摄像机    
   
     if (Key_WDown || Key_ADown || Key_SDown || Key_DDown || (wheeldelta)) {
@@ -276,8 +266,8 @@ void Widget::fixedUpdate() {
         glm::vec3 y = glm::normalize(camRot * glm::vec3(0.0f, 1.0f, 0.0f));
         if (wheeldelta) {//滚轮、鼠标控制     
             camTarget -= 0.002f * (float)wheeldelta * z;
-            camTarget += 0.02f * (mousex  - (int)screenWidth / 2) * ((float)exp(0.001 * wheeldelta)-1)* (float)(log10(1 + 0.3*distance)+0.1*distance) * x ;
-            camTarget -= 0.02f * (mousey - (int)screenHeight/2) * ((float)exp(0.001 * wheeldelta)-1) * (float)(log10(1 + 0.3*distance)+0.1*distance) * y;
+            camTarget += 0.02f * (Input::getAxis("Mouse X") - (int)screenWidth / 2) * ((float)exp(0.001 * wheeldelta)-1)* (float)(log10(1 + 0.3*distance)+0.1*distance) * x ;
+            camTarget -= 0.02f * (Input::getAxis("Mouse Y") - (int)screenHeight/2) * ((float)exp(0.001 * wheeldelta)-1) * (float)(log10(1 + 0.3*distance)+0.1*distance) * y;
             wheeldelta = 0.0f;
         }
         else {//wasd控制     
@@ -289,10 +279,6 @@ void Widget::fixedUpdate() {
             //qDebug() << camTarget.x << camTarget.y << camTarget.z;   
         }
     }
-
-    // 更新lastx lasty     
-    mouselastx = mousex;
-    mouselasty = mousey;
 
 
 
@@ -362,6 +348,65 @@ void Widget::fixedUpdate() {
         glm::vec3 camPos = glm::inverse(view) * glm::vec4(0, 0, 0, 1);
         float d = glm::length(pos - camPos);
         handleObj->transform = glm::scale(rawMat, 0.1f / averageAxisLength * d * glm::vec3(1, 1, 1));
+    }
+
+    // LMB actions
+    if (Input::getMouseButtonDown(Qt::MouseButton::LeftButton) && (LMBMode == 0 || hierarchy->lastSelected == NULL)) {
+        HierarchyObject * objout;
+        int iout;
+        bool found = mousepick(Input::getAxis("Mouse X"), Input::getAxis("Mouse Y"), objout, iout);
+        if (found) {
+            qDebug() << " 左键选中  " << objout->name << " #" << iout;
+            emit(onSelection(objout));
+        }
+        else {
+            emit(onSelection(NULL));
+        }
+    }
+    if (hierarchy->lastSelected != NULL) {
+        if (Input::getMouseButton(Qt::MouseButton::LeftButton) && LMBMode != 0) {
+            glm::vec3 camRight = glm::inverse(view) * glm::vec4(1, 0, 0, 0);
+            glm::vec3 camUp = glm::inverse(view) * glm::vec4(0, 1, 0, 0);
+            glm::vec3 camBack = glm::inverse(view) * glm::vec4(0, 0, 1, 0);
+            glm::vec3 camPosition = glm::inverse(view) * glm::vec4(0, 0, 0, 1);
+            glm::vec3 objPositionLocal, objScaleLocal, obj__; glm::vec4 obj___;
+            glm::quat objRotationLocal;
+            glm::decompose(hierarchy->lastSelected->transform, objScaleLocal, objRotationLocal, objPositionLocal, obj__, obj___);
+            glm::vec3 objPositionWorld = hierarchy->lastSelected->localToWorld() * glm::vec4(0, 0, 0, 1);
+            float distancePerPx = (45 * 3.14159265f / 180.0f) * glm::dot(camPosition - objPositionWorld, camBack) / screenHeight;
+            float mouseSpeed = glm::length(glm::vec2(Input::getAxisDelta("Mouse X"), Input::getAxisDelta("Mouse Y")));
+
+            switch (LMBMode) {
+            case 1:
+                // move
+                //qDebug() << Input::getAxisDelta("Mouse X") << " | " << distancePerPx << " | " << camRight.x;
+                glm::vec3 worldMovement = Input::getAxisDelta("Mouse X") * distancePerPx * camRight - Input::getAxisDelta("Mouse Y") * distancePerPx * camUp;
+                glm::vec3 localMovement = hierarchy->lastSelected->getParent()->worldToLocal() * glm::vec4(worldMovement, 0);
+                objPositionLocal += localMovement;
+                break;
+            case 2:
+                // rotate
+                if (abs(mouseSpeed) > 1e-5) {
+                    glm::vec3 worldRotationVec = Input::getAxisDelta("Mouse X") * camUp + Input::getAxisDelta("Mouse Y") * camRight;
+                    glm::vec3 localRotationAxis = hierarchy->lastSelected->getParent()->worldToLocal() * glm::vec4(worldRotationVec, 0);
+                    //qDebug() << worldRotationVec.x << "," << worldRotationVec.y << "," << worldRotationVec.z;
+                    //qDebug() << localRotationAxis.x << "," << localRotationAxis.y << "," << localRotationAxis.z << "local";
+                    objRotationLocal = glm::angleAxis(mouseSpeed * (Input::getKey(Qt::Key::Key_Control) ? 0.001f : 0.01f), 
+                        glm::normalize(localRotationAxis)) * objRotationLocal;
+                }
+                break;
+            case 3:
+                // scale
+                objScaleLocal *= expf(- Input::getAxisDelta("Mouse Y") * 0.01f);
+                break;
+            }
+
+            hierarchy->lastSelected->transform = 
+                glm::scale(glm::translate(glm::identity<glm::mat4>(), objPositionLocal) * glm::toMat4(objRotationLocal), objScaleLocal);
+            
+            emit(onTransformEdited(hierarchy->lastSelected));
+
+        }
     }
 
 

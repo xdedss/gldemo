@@ -62,8 +62,6 @@ HEADERS += \
     Renderer.h \
     SkyboxRenderer.h \
     Trail.h \
-    ui_mainwindow.h \
-    ui_recordwindow.h \
     vertex.h \
     widget.h
 
