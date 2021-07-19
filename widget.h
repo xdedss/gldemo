@@ -59,6 +59,13 @@
 #include "mainwindow.h"
 #include <QLabel>
 
+//保存视频     
+#include <opencv2\opencv.hpp>
+#include <opencv2\core\core.hpp>
+#include <opencv2\highgui\highgui.hpp>
+#include "qttoopencv.h"
+#include <opencv2/videoio.hpp>
+
 
 class Widget : public QOpenGLWidget, protected OpenGLFunctions
 {

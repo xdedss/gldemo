@@ -1,6 +1,9 @@
 #include "widget.h"
 #include <stdio.h>
 #include <iostream>
+#include <opencv2\opencv.hpp>
+#include <opencv2\core\core.hpp>
+
 
 Widget::Widget(QWidget *parent)
     : QOpenGLWidget(parent)
@@ -498,6 +501,32 @@ void Widget::onRecordVideo1Wigdet(float speed){
     video.clear();
 }
 void Widget::onSaveVideo1Widget() {
-    qDebug()<<"1111111111";
+    
+    
+    cv::VideoWriter writer;
+    int videoFps = 30;
+    writer.open("E:\\github\\gldemo\\data\\saveVideo\\trail3D.avi", 
+        cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 
+        30.0, 
+        cv::Size((int)screenWidth,(int)screenHeight), 
+        true
+    );
+    if (!writer.isOpened()) {
+        qDebug() << "打开视频文件失败，请确认是否为合法输入    ";
+        return;
+    }
+    QtToOpencv::ImageConversion *a = new QtToOpencv::ImageConversion();
+    qDebug() << "videoFPS:" << videoFps << (int)screenWidth<<(int)screenHeight;
+    for (int i = 0; i < video.size(); i++) {
+        cv::Mat frame;
+        frame = a->QPixmapToCvMat(video[i]);
+        //cv::imshow("111", frame);
+        //cv::waitKey(30);
+        qDebug() <<  frame.cols << frame.rows;
+        cv::imwrite("1.jpg",frame);
+        writer.write(frame);
+    }
+    writer.release();
     emit(videoSaveFinish());
+    delete a;
 }
