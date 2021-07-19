@@ -113,18 +113,18 @@ private:
     //float wheeldelta = 0;
     int windowX = 0,windowY = 0;
     float videoRecordSpeed = 0.01;
-    bool videoSave = false;
+    bool videoRecordFlag = false;
 
 
 private slots:
     void fixedUpdate();
-    void onRecordVideo1Wigdet(float speed);
+    void onRecordVideo1Wigdet(float speed, bool RecordOrPreview);
     void onSaveVideo1Widget();
 
 signals:
     void onSelection(HierarchyObject* obj);
 	void drag_signal(std::string re_path);		//实现拖拽的信号函数   
-    void videoRecordFinish();     //视频录制结束信号   
+    void videoRecordFinish(bool RecordOrPreview);     //视频录制结束信号   
     void videoSaveFinish();     //视频保存结束信号   
 
 private:

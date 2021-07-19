@@ -33,8 +33,8 @@ public:
     
 
 signals:
-    void onRecordVideo2Widget(float speed);
-    void offRecordVideo2recordWindow();
+    void onRecordVideo2Widget(float speed, bool RecordOrPreview);
+    void offRecordVideo2recordWindow(bool RecordOrPreview);
     void onSaveVideo2Widget();
     void offSaveVideo2recordWindow();
 
@@ -56,13 +56,13 @@ private slots:
 
     
     //接收录像开始的信号，并发送给widget
-    void onRecordVideo1MainWindow(float speed);
-    //接收录像结束的信号    
-    void offRecordVideo1MainWindow();
+    void onRecordVideo1MainWindow(float speed, bool RecordOrPreview);
+    //接收录像结束的信号       
+    void offRecordVideo1MainWindow(bool RecordOrPreview);
 
-    //接收保存视频的信号，并发送给widget
+    //接收保存视频的信号，并发送给widget    
     void onSaveVideo1MainWindow();
-    //接收保存结束的信号
+    //接收保存结束的信号    
     void offSaveVideo1MainWindow();
 
 

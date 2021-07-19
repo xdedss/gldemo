@@ -20,18 +20,19 @@ public:
     Ui::recordWindow* ui;
 
 signals:
-    void onRecordVideo2MainWindow(float speed);
+    void onRecordVideo2MainWindow(float speed,bool RecordOrPreview);
     void onSaveVideo2MainWindow();
 
 public slots:
     void setLineEditValue(int value);
-    void offRecordVideo();
+    void offRecordVideo(bool RecordOrPreview);
     void offSaveVideo();
 
 private slots:
     void on_lineEdit_textEdited(const QString &arg1);
     void on_pushButton_recordBegin_clicked();
     void on_pushButton_recordSave_clicked();
+    void on_pushButton_recordPreview_clicked();
 private:
 
 

@@ -116,13 +116,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionvideoRecord, SIGNAL(clicked()), this, SLOT(on_actionvideoRecord_triggered()));
 
     // 录像窗口点击开始，信号传入mainwindow        
-    connect(record,SIGNAL(onRecordVideo2MainWindow(float)),this,SLOT(onRecordVideo1MainWindow(float)));
+    connect(record,SIGNAL(onRecordVideo2MainWindow(float,bool)),this,SLOT(onRecordVideo1MainWindow(float,bool)));
     // mainwindow接收录制信号，传到widget    
-    connect(this, SIGNAL(onRecordVideo2Widget(float)), ui->openGLWidget, SLOT(onRecordVideo1Wigdet(float)));
+    connect(this, SIGNAL(onRecordVideo2Widget(float,bool)), ui->openGLWidget, SLOT(onRecordVideo1Wigdet(float,bool)));
     // 录制结束信号，widget传回主窗口  
-    connect(ui->openGLWidget, SIGNAL(videoRecordFinish()), this, SLOT(offRecordVideo1MainWindow()));
+    connect(ui->openGLWidget, SIGNAL(videoRecordFinish(bool)), this, SLOT(offRecordVideo1MainWindow(bool)));
     // 录制结束信号，主窗口传回recordWindow   
-    connect(this, SIGNAL(offRecordVideo2recordWindow()), record, SLOT(offRecordVideo()));
+    connect(this, SIGNAL(offRecordVideo2recordWindow(bool)), record, SLOT(offRecordVideo(bool)));
 
     // 录像窗口点击保存，信号传入mainwindow    
     connect(record, SIGNAL(onSaveVideo2MainWindow()), this, SLOT(onSaveVideo1MainWindow()));
@@ -447,15 +447,15 @@ void MainWindow::on_actionvideoRecord_triggered()
 
 }
 
-void MainWindow::onRecordVideo1MainWindow(float speed) {
+void MainWindow::onRecordVideo1MainWindow(float speed, bool RecordOrPreview) {
     //qDebug() << "mainWindow  have received recordVideo signal";
-    emit(onRecordVideo2Widget(speed));   
+    emit(onRecordVideo2Widget(speed,RecordOrPreview));   
     record->hide();
 }
 
-void MainWindow::offRecordVideo1MainWindow() {
-    
-    emit(offRecordVideo2recordWindow());
+void MainWindow::offRecordVideo1MainWindow(bool RecordOrPreview) {
+    qDebug() << RecordOrPreview;
+    emit(offRecordVideo2recordWindow(RecordOrPreview));
 }
 
 void MainWindow::onSaveVideo1MainWindow() {
@@ -463,7 +463,7 @@ void MainWindow::onSaveVideo1MainWindow() {
 }
 
 void MainWindow::offSaveVideo1MainWindow() {
-    qDebug() << "main window receive savefinish from widget";
+    //qDebug() << "main window receive savefinish from widget";
     emit(offSaveVideo2recordWindow());
-    qDebug() << "main window launch savefinish to recordWindow";
+    //qDebug() << "main window launch savefinish to recordWindow";
 }
