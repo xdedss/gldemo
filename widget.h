@@ -72,18 +72,25 @@ public:
 
     // shader   
     std::map<QString, QOpenGLShaderProgram*> shaders;
-    // 模型    
-    //std::vector<PointCloud*> pointClouds;
+
+    // 模型  
     HierarchyModel* hierarchy;
 
+    // 显示辅助信息用的根节点   
     HierarchyObject* gizmosRoot;
 
     SkyboxRenderer* skybox;
     
+    // 当前播放的路径  
     Trail* currentTrail = NULL;
     float currentTrailTime = 0;
 
+    // 局部坐标轴显示  
     HierarchyObject* handleObj;
+    
+    // 鼠标左键编辑模式  
+    // 0=无 1=平移 2=旋转 3=缩放  
+    int LMBMode = 0;
 
     std::vector<QPixmap> video;
 
