@@ -5,4 +5,5 @@
 
 std::map<Qt::MouseButton, bool> Input::mouseButtonState = {}, Input::mouseButtonStateCache = {}, Input::mouseButtonStatePrevCache = {};
 std::map<Qt::Key, bool> Input::keyState = {}, Input::keyStateCache = {}, Input::keyStatePrevCache = {};
+std::map<QString, float> Input::axisValues = {}, Input::axisValuesCache = {}, Input::axisValuesPrevCache = {};
 float Input::mouseDelta = 0, Input::mouseDeltaCache = 0;

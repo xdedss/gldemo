@@ -109,8 +109,6 @@ private:
     //wasd 摄像机漫游    
     int camDx = 0, camDy = 0;
     float distance = 5;
-    int mouselastx = 0, mouselasty = 0, mousex = 0, mousey = 0;
-    //float wheeldelta = 0;
     int windowX = 0,windowY = 0;
     float videoRecordSpeed = 0.01;
     bool videoSave = false;

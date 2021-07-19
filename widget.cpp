@@ -95,7 +95,9 @@ void Widget::mousePressEvent(QMouseEvent* e) {
 }
 //鼠标 移动    
 void Widget::mouseMoveEvent(QMouseEvent* e) {
-    mousex = e->x(); mousey = e->y();//获取鼠标坐标  
+    Input::setAxis("Mouse X", e->x());
+    Input::setAxis("Mouse Y", e->y());
+    //mousex = e->x(); mousey = e->y();//获取鼠标坐标  
 }
 //鼠标 松开    
 void Widget::mouseReleaseEvent(QMouseEvent* e) {
@@ -248,8 +250,8 @@ void Widget::fixedUpdate() {
 
     //如果鼠标按下，记录鼠标走的方位，进行相机旋转操作    
     if (RightMouseDown) {
-        float dx = mousex - mouselastx;
-        float dy = mousey - mouselasty;
+        float dx = Input::getAxisDelta("Mouse X");
+        float dy = Input::getAxisDelta("Mouse Y");
         camRot = glm::rotate(camRot, -dy * 1.5f / sqrtf(screenWidth * screenHeight), glm::vec3(1, 0, 0));
         camRot = glm::rotate(camRot, -dx * 1.5f / sqrtf(screenWidth * screenHeight), glm::vec3(0, 1, 0));
         
@@ -257,7 +259,7 @@ void Widget::fixedUpdate() {
     if (LeftMouseDown) {
         HierarchyObject * objout;
         int iout;
-        bool found = mousepick(mousex, mousey,objout,iout);
+        bool found = mousepick(Input::getAxis("Mouse X"), Input::getAxis("Mouse Y"), objout, iout);
         if (found) {
             qDebug() << " 左键选中  " << objout->name << " #" << iout;
             emit(onSelection(objout));
@@ -276,8 +278,8 @@ void Widget::fixedUpdate() {
         glm::vec3 y = glm::normalize(camRot * glm::vec3(0.0f, 1.0f, 0.0f));
         if (wheeldelta) {//滚轮、鼠标控制     
             camTarget -= 0.002f * (float)wheeldelta * z;
-            camTarget += 0.02f * (mousex  - (int)screenWidth / 2) * ((float)exp(0.001 * wheeldelta)-1)* (float)(log10(1 + 0.3*distance)+0.1*distance) * x ;
-            camTarget -= 0.02f * (mousey - (int)screenHeight/2) * ((float)exp(0.001 * wheeldelta)-1) * (float)(log10(1 + 0.3*distance)+0.1*distance) * y;
+            camTarget += 0.02f * (Input::getAxis("Mouse X") - (int)screenWidth / 2) * ((float)exp(0.001 * wheeldelta)-1)* (float)(log10(1 + 0.3*distance)+0.1*distance) * x ;
+            camTarget -= 0.02f * (Input::getAxis("Mouse Y") - (int)screenHeight/2) * ((float)exp(0.001 * wheeldelta)-1) * (float)(log10(1 + 0.3*distance)+0.1*distance) * y;
             wheeldelta = 0.0f;
         }
         else {//wasd控制     
@@ -289,10 +291,6 @@ void Widget::fixedUpdate() {
             //qDebug() << camTarget.x << camTarget.y << camTarget.z;   
         }
     }
-
-    // 更新lastx lasty     
-    mouselastx = mousex;
-    mouselasty = mousey;
 
 
 
