@@ -32,6 +32,10 @@ public:
     ~MainWindow();
     
 
+private:
+    void showObjectInfo(HierarchyObject* obj);
+    void updateObjectInfo(HierarchyObject* obj);
+
 signals:
     void onRecordVideo2Widget(float speed);
     void offRecordVideo2recordWindow();
@@ -46,6 +50,7 @@ private slots:
     void onTreeViewRemoveObject();
 
     void onWidgetSelection(HierarchyObject* obj);
+    void onWidgetTransformEdited(HierarchyObject* obj);
     void onEdited();
     void ObjectSelected(const QItemSelection& selected, const QItemSelection& deselected);
 
@@ -65,6 +70,14 @@ private slots:
     //接收保存结束的信号
     void offSaveVideo1MainWindow();
 
+
+    void on_actionTranslation_toggled(bool arg1);
+
+    void on_actionRotate_toggled(bool arg1);
+
+    void on_actionScale_toggled(bool arg1);
+
+    void on_actionCursor_toggled(bool arg1);
 
 private:
     Ui::MainWindow *ui;

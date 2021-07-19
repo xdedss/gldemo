@@ -8,5 +8,6 @@
         <file>resources/rotate-3d.png</file>
         <file>resources/selection-drag.png</file>
         <file>resources/arrow-expand.png</file>
+        <file>resources/cursor-default.png</file>
     </qresource>
 </RCC>

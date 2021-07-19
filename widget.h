@@ -121,6 +121,7 @@ private slots:
 
 signals:
     void onSelection(HierarchyObject* obj);
+    void onTransformEdited(HierarchyObject* obj);
 	void drag_signal(std::string re_path);		//实现拖拽的信号函数   
     void videoRecordFinish();     //视频录制结束信号   
     void videoSaveFinish();     //视频保存结束信号   
