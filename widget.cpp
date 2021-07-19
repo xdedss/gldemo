@@ -8,7 +8,7 @@ Widget::Widget(QWidget *parent)
     // 持续更新mousemove事件  
     setMouseTracking(true);
 
-	setAcceptDrops(true);		//接收拖拽
+	setAcceptDrops(true);		//接收拖拽 
 
     setMinimumSize(100, 100);
 
@@ -49,7 +49,7 @@ Widget::Widget(QWidget *parent)
     xyzAxis->setVertices(xyAxisVertices);
     gizmosRoot->addComponent(xyzAxis);
 
-    // 平移旋转用handle
+    // 平移旋转用handle 
     handleObj = new HierarchyObject("handles");
     LineRenderer* handle = new LineRenderer();
     handleObj->addComponent(handle);
@@ -159,7 +159,7 @@ bool Widget::mousepick(int mousex, int mousey, HierarchyObject *& objout, int &i
         //每次搜索的起点  
         glm::vec3 search(init_point.x, init_point.y, init_point.z);
 
-        //获取包含模型的立方体
+        //获取包含模型的立方体  
         QVector3D xmin, xmax, ymin, ymax, zmin, zmax;
         xmin = pointcloud->getVertex(pointcloud->nearestSearch({ -10000,0,0 })).position();
         xmax = pointcloud->getVertex(pointcloud->nearestSearch({  10000,0,0 })).position();
@@ -267,7 +267,7 @@ void Widget::fixedUpdate() {
   
     if (Key_WDown || Key_ADown || Key_SDown || Key_DDown || (wheeldelta)) {
         glm::vec3 z = glm::normalize(camPos - camTarget);
-        glm::vec3 x = glm::normalize(glm::cross(camRot * glm::vec3(0.0f, 1.0f, 0.0f), z));//叉乘确定X轴
+        glm::vec3 x = glm::normalize(glm::cross(camRot * glm::vec3(0.0f, 1.0f, 0.0f), z));//叉乘确定X轴 
         glm::vec3 y = glm::normalize(camRot * glm::vec3(0.0f, 1.0f, 0.0f));
         if (wheeldelta) {//滚轮、鼠标控制   
             camTarget -= 0.002f * (float)wheeldelta * z;
@@ -320,29 +320,21 @@ void Widget::fixedUpdate() {
         if (currentTrailTime > currentTrail->keypoints.size() - 1) {
             currentTrail = NULL;
             currentTrailTime = 0;
+            videoSave = false;
         }
         else {
             glm::mat4 camMat = currentTrail->interpolate(currentTrailTime);
 
             view = glm::inverse(camMat); 
-            qDebug() << QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz")<<"begin";
-            QPixmap p = this->grab(QRect(0, 0, screenWidth, screenHeight));
-            QString filePathName = "screen/";
-            filePathName += QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
-            filePathName += ".png";
-            video.push_back(p);
-            
-            /*
-            if (!p.save(filePathName, "png"))
-            {
-                qDebug() << "save widget screen failed" << endl;
+            //qDebug() << QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz")<<"begin";
+            if (videoSave) {
+                QPixmap p = this->grab(QRect(0, 0, screenWidth, screenHeight));
+                //QString filePathName = "screen/";
+                //filePathName += QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
+                //filePathName += ".png";
+                video.push_back(p);
+                //qDebug()<< QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz")<<"end";
             }
-            */
-
-
-            qDebug()<< QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz")<<"end";
-
-
         }
     }
 
@@ -463,29 +455,35 @@ void Widget::paintGL()
 
 }
 
-void Widget::dropEvent(QDropEvent * e) {		//拖拽松手后操作
+void Widget::dropEvent(QDropEvent * e) {		//拖拽松手后操作 
 	const QMimeData* qm = e->mimeData();
 	std::string path = qm->urls()[0].toLocalFile().toStdString();
 	QString abs_path = QCoreApplication::applicationDirPath();
 
 	std::string re_path = QDir(abs_path).relativeFilePath(QString::fromStdString(path)).toStdString();
-	//将绝对路径转为相对路径
+	//将绝对路径转为相对路径 
 	std::fstream test_file;
 	re_path.erase(re_path.begin());
-	//这里打开了拖入的文件
+	//这里打开了拖入的文件 
 	qDebug() << re_path.c_str() << endl;
 
 	emit drag_signal(re_path);
 }
 
-void Widget::dragEnterEvent(QDragEnterEvent * e) {				//接收所有的拖拽事件(后续可以改为根据文件的扩展名进行筛选)
+void Widget::dragEnterEvent(QDragEnterEvent * e) {				//接收所有的拖拽事件(后续可以改为根据文件的扩展名进行筛选) 
 	e->acceptProposedAction();
 }
+
+
 
 void Widget::onRecordVideo1Wigdet(float speed){
     currentTrail = hierarchy->root->getChildren("trailTest")->getComponent<Trail>();
     currentTrailTime = 0;
     qDebug() << speed;
     videoRecordSpeed = 0.0002f * speed;
+    videoSave = true;
     video.clear();
+}
+void Widget::onSaveVideo1Wigdet() {
+
 }

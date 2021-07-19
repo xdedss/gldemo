@@ -241,7 +241,7 @@ QMimeData * HierarchyModel::mimeData(const QModelIndexList & indexes) const
     QDataStream stream(&data, QIODevice::WriteOnly);
     QList<HierarchyObject *> nodes;
 
-    // 取出所有选中项的指针
+    // 取出所有选中项的指针 
     foreach(const QModelIndex &index, indexes) {
         HierarchyObject *node = index2obj(index);
         if (!nodes.contains(node))
@@ -249,9 +249,9 @@ QMimeData * HierarchyModel::mimeData(const QModelIndexList & indexes) const
     }
     // 写入进程pid
     stream << QCoreApplication::applicationPid();
-    // 写入选中项数量
+    // 写入选中项数量 
     stream << nodes.count();
-    // 写入选中项指针
+    // 写入选中项指针 
     foreach(HierarchyObject *node, nodes) {
         stream << reinterpret_cast<qlonglong>(node);
     }
@@ -261,7 +261,7 @@ QMimeData * HierarchyModel::mimeData(const QModelIndexList & indexes) const
 
 bool HierarchyModel::retrieveDroppedObjects(const QMimeData * data, std::vector<HierarchyObject*>& out_objects) const {
     QByteArray bytes = data->data(s_treeNodeMimeType);
-    QDataStream stream(&bytes, QIODevice::ReadOnly);// 准备读取
+    QDataStream stream(&bytes, QIODevice::ReadOnly);// 准备读取 
     qint64 senderPid;
     stream >> senderPid; // 读出进程pid
     if (senderPid != QCoreApplication::applicationPid()) {
@@ -269,8 +269,8 @@ bool HierarchyModel::retrieveDroppedObjects(const QMimeData * data, std::vector<
         return false;
     }
     int count;
-    stream >> count; // 读出拖入项数量
-    // 以longlong读出指针并转换回来
+    stream >> count; // 读出拖入项数量 
+    // 以longlong读出指针并转换回来 
     for (int i = 0; i < count; ++i) {
         // Decode data from the QMimeData
         qlonglong nodePtr;
@@ -292,15 +292,15 @@ bool HierarchyModel::dropMimeData(const QMimeData * data, Qt::DropAction action,
         return false;
     }
     std::vector<HierarchyObject*> droppedNodes;
-    // 获取失败，不是同一个进程
+    // 获取失败，不是同一个进程  
     if (!retrieveDroppedObjects(data, droppedNodes)) {
         return false;
     }
-    // 拖放目标
+    // 拖放目标  
     HierarchyObject *parentNode = index2obj(parent);
     Q_ASSERT(parentNode);
 
-    // 处理行数的特殊情形
+    // 处理行数的特殊情形 
     if (row == -1) {
         // valid index means: drop onto item. -> insert at begin
         if (parent.isValid()) row = 0;

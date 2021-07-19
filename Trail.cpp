@@ -32,7 +32,7 @@ void Trail::updateRenderer()
     if (renderer == NULL) {
         renderer = hierarchyObject->getComponent<LineRenderer>();
     }
-    // 如果没有的话就添加一个  
+    // 如果没有的话就添加一个   
     if (renderer == NULL) {
         renderer = new LineRenderer();
         renderer->setProp("lineWidth", 1.0f);
@@ -40,7 +40,7 @@ void Trail::updateRenderer()
         hierarchyObject->addComponent(renderer);
     }
 
-    const int numSegments = 10; // 每两个关键点之间的渲染段数
+    const int numSegments = 10; // 每两个关键点之间的渲染段数  
 
     QVector3D color = { 0.0, 1.0, 0.0 };
     std::vector<Vertex> vertices;

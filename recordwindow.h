@@ -32,7 +32,7 @@ private slots:
 
 private:
 
-    //滑动条
+    //滑动条 
 
     float speed = 50;
     Ui::recordWindow *ui;

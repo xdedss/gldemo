@@ -31,9 +31,9 @@ public:
 
     HierarchyModel();
     ~HierarchyModel();
-    // 创建HierarchyObject并进行一些初始化操作
+    // 创建HierarchyObject并进行一些初始化操作 
     HierarchyObject* createObject(const QString& name);
-    // 移动树结构  
+    // 移动树结构   
     void moveObject(HierarchyObject* obj, HierarchyObject* toParent, int toIndex);
     // 移除  
     void removeObject(HierarchyObject* obj);
