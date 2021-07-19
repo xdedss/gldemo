@@ -34,7 +34,9 @@ private slots:
     void on_pushButton_recordSave_clicked();
 private:
 
-    //滑动条
+
+    //滑动条 
+
     float speed = 50;
 };
 

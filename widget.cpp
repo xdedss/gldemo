@@ -8,7 +8,9 @@ Widget::Widget(QWidget *parent)
     // 持续更新mousemove事件     
     setMouseTracking(true);
 
-	setAcceptDrops(true);		//接收拖拽      
+
+	setAcceptDrops(true);		//接收拖拽 
+
 
     setMinimumSize(100, 100);
 
@@ -49,7 +51,8 @@ Widget::Widget(QWidget *parent)
     xyzAxis->setVertices(xyAxisVertices);
     gizmosRoot->addComponent(xyzAxis);
 
-    // 平移旋转用handle      
+    // 平移旋转用handle 
+
     handleObj = new HierarchyObject("handles");
     LineRenderer* handle = new LineRenderer();
     handleObj->addComponent(handle);
@@ -267,7 +270,9 @@ void Widget::fixedUpdate() {
   
     if (Key_WDown || Key_ADown || Key_SDown || Key_DDown || (wheeldelta)) {
         glm::vec3 z = glm::normalize(camPos - camTarget);
-        glm::vec3 x = glm::normalize(glm::cross(camRot * glm::vec3(0.0f, 1.0f, 0.0f), z));//叉乘确定X轴      
+
+        glm::vec3 x = glm::normalize(glm::cross(camRot * glm::vec3(0.0f, 1.0f, 0.0f), z));//叉乘确定X轴 
+
         glm::vec3 y = glm::normalize(camRot * glm::vec3(0.0f, 1.0f, 0.0f));
         if (wheeldelta) {//滚轮、鼠标控制     
             camTarget -= 0.002f * (float)wheeldelta * z;
@@ -458,22 +463,28 @@ void Widget::paintGL()
 
 }
 
-void Widget::dropEvent(QDropEvent * e) {		//拖拽松手后操作       
+
+void Widget::dropEvent(QDropEvent * e) {		//拖拽松手后操作 
+
 	const QMimeData* qm = e->mimeData();
 	std::string path = qm->urls()[0].toLocalFile().toStdString();
 	QString abs_path = QCoreApplication::applicationDirPath();
 
 	std::string re_path = QDir(abs_path).relativeFilePath(QString::fromStdString(path)).toStdString();
-	//将绝对路径转为相对路径    
+
+	//将绝对路径转为相对路径 
 	std::fstream test_file;
 	re_path.erase(re_path.begin());
-	//这里打开了拖入的文件    
+	//这里打开了拖入的文件 
+
 	qDebug() << re_path.c_str() << endl;
 
 	emit drag_signal(re_path);
 }
 
-void Widget::dragEnterEvent(QDragEnterEvent * e) {				//接收所有的拖拽事件(后续可以改为根据文件的扩展名进行筛选)    
+
+void Widget::dragEnterEvent(QDragEnterEvent * e) {				//接收所有的拖拽事件(后续可以改为根据文件的扩展名进行筛选) 
+
 	e->acceptProposedAction();
 }
 

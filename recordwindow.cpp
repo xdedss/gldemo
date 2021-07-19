@@ -9,11 +9,14 @@ recordWindow::recordWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->lineEdit_slider->setText("50");
     
-    ui->slider->setMinimum(25);      // 设置滑动条的最小值
-    ui->slider->setMaximum(175);   // 设置滑动条的最大值
 
-    ui->slider->setValue(50); // 设置滑动条初始值
 
+    ui->slider->setMinimum(25);      // 设置滑动条的最小值 
+    ui->slider->setMaximum(75);   // 设置滑动条的最大值 
+
+
+    ui->slider->setValue(50); // 设置滑动条初始值 
+	 
     connect(ui->slider, SIGNAL(valueChanged(int)), this, SLOT(setLineEditValue(int)));
     // 点击录像事件   
     connect(ui->pushButton_recordBegin, SIGNAL(click()), this, SLOT(on_pushButton_recordBegin_clicked()));

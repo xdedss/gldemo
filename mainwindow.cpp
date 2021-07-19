@@ -12,7 +12,7 @@ int matchRowData(QStandardItem* item, QVariant data) {
 }
 
 
-// 导入点云
+// 导入点云 
 PointCloudRenderer* MainWindow::importPointCloud(const QString& path, float initialScale = 1) {
     HierarchyObject* obj = hierarchy->createObject(path.split(QRegularExpression("[/\\\\]")).last());
     obj->transform = glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * initialScale);
@@ -46,7 +46,7 @@ void addKeypoint(HierarchyObject* obj, HierarchyModel* hierarchy, float angle, g
     hierarchy->moveObject(kp, obj, obj->childrenCount());
 }
 
-// 主窗口初始化
+// 主窗口初始化 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -211,7 +211,7 @@ void MainWindow::ObjectSelected(const QItemSelection& selected, const QItemSelec
         glm::decompose(obj->transform, scale, orientation, translation, skew, perspective);
         glm::vec3 rotation = glm::eulerAngles(orientation);
         glm::mat3 rotationMatrix_inv = glm::toMat3(orientation);
-        //歪打正着，读取了某列的某行，即读取了矩阵的逆
+        //歪打正着，读取了某列的某行，即读取了矩阵的逆 
         qDebug() << rotationMatrix_inv[0][0] << rotationMatrix_inv[1][0] << rotationMatrix_inv[2][0];
         qDebug() << rotationMatrix_inv[0][1] << rotationMatrix_inv[1][1] << rotationMatrix_inv[2][1];
         qDebug() << rotationMatrix_inv[0][2] << rotationMatrix_inv[1][2] << rotationMatrix_inv[2][2];
@@ -351,7 +351,7 @@ void MainWindow::onEdited()
     float sin_x = sinf(rotationX), cos_x = cosf(rotationX);
     float sin_y = sinf(rotationY), cos_y = cosf(rotationY);
     float sin_z = sinf(rotationZ), cos_z = cosf(rotationZ);
-    glm::mat4 t;//输错了但没完全输错
+    glm::mat4 t;//输错了但没完全输错 
     glm::mat4 rotation = glm::mat4({
         {cos_y * cos_z + sin_x * sin_y * sin_z,cos_x * sin_z,sin_x * cos_y * sin_z - sin_y * cos_z,0},
         {sin_x * sin_y * cos_z - cos_y * sin_z,cos_x * cos_z,sin_y * sin_z + sin_x * cos_y * cos_z,0},

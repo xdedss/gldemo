@@ -22,13 +22,13 @@ public:
     // 检查子物体有没有更新  
     bool compareDiff();
 
-    // 更新对应的轨迹渲染器
+    // 更新对应的轨迹渲染器 
     void updateRenderer();
 
     // 插值（得到的是local2world）    
     glm::mat4 interpolate(float t);
 
-    // 姿态矩阵平滑插值
+    // 姿态矩阵平滑插值 
     glm::mat4 slerp(glm::mat4 m1, glm::mat4 m2, float t);
 
 };

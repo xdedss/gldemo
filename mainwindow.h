@@ -16,7 +16,7 @@
 #include <glm/gtx/matrix_decompose.hpp>
 
 
-//新窗口
+//新窗口 
 #include "recordwindow.h"
 
 namespace Ui {
