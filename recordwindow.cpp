@@ -12,17 +12,18 @@ recordWindow::recordWindow(QWidget *parent) :
 
 
     ui->slider->setMinimum(25);      // 设置滑动条的最小值 
-    ui->slider->setMaximum(75);   // 设置滑动条的最大值 
+    ui->slider->setMaximum(175);   // 设置滑动条的最大值 
 
 
-    ui->slider->setValue(50); // 设置滑动条初始值 
+    ui->slider->setValue(175); // 设置滑动条初始值 
 	 
     connect(ui->slider, SIGNAL(valueChanged(int)), this, SLOT(setLineEditValue(int)));
     // 点击录像事件   
     connect(ui->pushButton_recordBegin, SIGNAL(click()), this, SLOT(on_pushButton_recordBegin_clicked()));
     // 点击保存事件
     connect(ui->pushButton_recordSave, SIGNAL(click()), this, SLOT(on_pushButton_recordSave_clicked()));
-
+    // 点击预览事件    
+    connect(ui->pushButton_recordPreview, SIGNAL(click()), this, SLOT(on_pushButton_recordPreview_clicked()));
 }
 
 void recordWindow::setLineEditValue(int value)
@@ -47,15 +48,28 @@ void recordWindow::on_lineEdit_textEdited(const QString &arg1)
 void recordWindow::on_pushButton_recordBegin_clicked()
 {
     qDebug() << "record begin";
-    emit(onRecordVideo2MainWindow(speed));
+    emit(onRecordVideo2MainWindow(speed,true));
 }
 
-
-void recordWindow::offRecordVideo() 
+void recordWindow::on_pushButton_recordPreview_clicked()
 {
-    qDebug() << "record finish";
-    ui->pushButton_recordSave->setEnabled(true);
+    qDebug() << "preview begin";
+    emit(onRecordVideo2MainWindow(speed, false));
 }
+
+void recordWindow::offRecordVideo(bool RecordOrPreview)
+{
+    if (RecordOrPreview) {
+        qDebug() << "record finish";
+        ui->pushButton_recordSave->setEnabled(true);
+    }
+    else
+        qDebug() << "preview finish";
+}
+
+
+
+
 
 void recordWindow::on_pushButton_recordSave_clicked()
 {

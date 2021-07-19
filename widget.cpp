@@ -1,6 +1,9 @@
 #include "widget.h"
 #include <stdio.h>
 #include <iostream>
+#include <opencv2\opencv.hpp>
+#include <opencv2\core\core.hpp>
+
 
 Widget::Widget(QWidget *parent)
     : QOpenGLWidget(parent)
@@ -311,9 +314,8 @@ void Widget::fixedUpdate() {
         if (currentTrailTime > currentTrail->keypoints.size() - 1) {
             currentTrail = NULL;
             currentTrailTime = 0;
-            if(videoSave)
-                emit(videoRecordFinish());
-            videoSave = false;
+            emit(videoRecordFinish(videoRecordFlag));
+            videoRecordFlag = false;
             
         }
         else {
@@ -321,7 +323,7 @@ void Widget::fixedUpdate() {
 
             view = glm::inverse(camMat); 
             //qDebug() << QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz")<<"begin";
-            if (videoSave) {
+            if (videoRecordFlag) {
                 QPixmap p = this->grab(QRect(0, 0, screenWidth, screenHeight));
                 //QString filePathName = "screen/";
                 //filePathName += QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
@@ -535,14 +537,42 @@ void Widget::dragEnterEvent(QDragEnterEvent * e) {				//接收所有的拖拽事
 
 
 
-void Widget::onRecordVideo1Wigdet(float speed){
+void Widget::onRecordVideo1Wigdet(float speed, bool RecordOrPreview){
     currentTrail = hierarchy->root->getChildren("trailTest")->getComponent<Trail>();
     currentTrailTime = 0;
     videoRecordSpeed = 0.0002f * speed;
-    videoSave = true;
+    videoRecordFlag = RecordOrPreview;
     video.clear();
 }
 void Widget::onSaveVideo1Widget() {
-    qDebug()<<"1111111111";
+    
+    
+    cv::VideoWriter writer;
+    int videoFps = 30;
     emit(videoSaveFinish());
+    writer.open("E:\\github\\gldemo\\data\\saveVideo\\trail3D.avi", 
+        cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 
+        30.0, 
+        cv::Size((int)screenWidth,(int)screenHeight), 
+        true
+    );
+    if (!writer.isOpened()) {
+        qDebug() << "打开视频文件失败，请确认是否为合法输入    ";
+        return;
+    }
+    QtToOpencv::ImageConversion *a = new QtToOpencv::ImageConversion();
+    //qDebug() << "videoFPS:" << videoFps << (int)screenWidth<<(int)screenHeight;
+    for (int i = 0; i < video.size(); i++) {
+        cv::Mat frame;
+        frame = a->QPixmapToCvMat(video[i]);
+        //cv::imshow("111", frame);
+        //cv::waitKey(10);
+
+        cv::cvtColor(frame, frame, cv::COLOR_RGBA2RGB);
+
+        //qDebug() <<  frame.cols << frame.rows;
+        writer.write(frame);
+    }
+    writer.release();
+    delete a;
 }
