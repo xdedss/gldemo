@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <qapplication.h>
+#include <qpoint.h>
 
 static class Input {
 
@@ -11,6 +12,7 @@ private:
     static std::map<Qt::MouseButton, bool> mouseButtonState, mouseButtonStateCache, mouseButtonStatePrevCache;
     static std::map<Qt::Key, bool> keyState, keyStateCache, keyStatePrevCache;
     static float mouseDelta, mouseDeltaCache;
+    static std::map<QString, float> axisValues, axisValuesCache, axisValuesPrevCache;
 
     template <class TKey, class TValue>
     static TValue mapDefaultGet(std::map<TKey, TValue>& m, TKey key, TValue defaultValue) {
@@ -58,15 +60,25 @@ public:
     }
 
     // ----axis-----
-
+    static float getAxis(const QString& name) {
+        return mapDefaultGet(axisValuesCache, name, 0.0f);
+    }
+    static float getAxisDelta(const QString& name) {
+        return mapDefaultGet(axisValuesCache, name, 0.0f) - mapDefaultGet(axisValuesPrevCache, name, 0.0f);
+    }
+    static void setAxis(const QString& name, float value) {
+        axisValues[name] = value;
+    }
 
 
     static void beforeUpdate() {
         // copy
         keyStatePrevCache = keyStateCache;
         mouseButtonStatePrevCache = mouseButtonStateCache;
+        axisValuesPrevCache = axisValuesCache;
         keyStateCache = keyState;
         mouseButtonStateCache = mouseButtonState;
+        axisValuesCache = axisValues;
         // mouse wheel
         mouseDeltaCache = mouseDelta;
         mouseDelta = 0; // clear
