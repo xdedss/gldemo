@@ -36,24 +36,24 @@ void LineRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4
         modified = false;
     }
 
-    if (m_vertexBuffer == NULL) return; // 没有设定顶点，不渲染  
+    if (m_vertexBuffer == NULL) return; // 没有设定顶点，不渲染 
 
     assert(shader != NULL);
 
-    // 绑定shader
+    // 绑定shader 
     shader->bind();
     m_vertexBuffer->bind();
     shader->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
     shader->setAttributeBuffer(1, GL_FLOAT, Vertex::colorOffset(), Vertex::ColorTupleSize, Vertex::stride());
 
-    // 准备shader中的矩阵
+    // 准备shader中的矩阵 
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_PROJ"), 1, GL_FALSE, glm::value_ptr(projection));
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_VIEW"), 1, GL_FALSE, glm::value_ptr(view));
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_MODEL"), 1, GL_FALSE, glm::value_ptr(model));
     
     float lineWidth = getProp("lineWidth").toFloat();
 
-    // 画outline
+    // 画outline 
     if (highlight) {
         gl->glDepthMask(GL_FALSE);
         //gl->glUniform1f(shader->uniformLocation("sizeScale"), sizeScale * 2);
@@ -64,7 +64,7 @@ void LineRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4
         gl->glDepthMask(GL_TRUE);
     }
 
-    // 正常画
+    // 正常画 
     //gl->glUniform1f(shader->uniformLocation("sizeScale"), sizeScale);
     //gl->glUniform1f(shader->uniformLocation("sizeAbsolute"), 0);
     gl->glUniform4f(shader->uniformLocation("colorOverride"), 1.0, 0.5, 0.0, 0.0);
@@ -73,7 +73,7 @@ void LineRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4
 
     gl->glLineWidth(0);
 
-    // 释放
+    // 释放 
     m_vertexBuffer->release();
     shader->release();
 

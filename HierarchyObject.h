@@ -30,9 +30,9 @@ public:
     QString name;
     bool enabled;
 
-    // 子节点数量
+    // 子节点数量 
     int childrenCount() { return children.size(); }
-    // 获取第i个子节点  
+    // 获取第i个子节点   
     HierarchyObject* getChildren(int i) { return (children.size() > i && i >= 0) ? children[i] : NULL; }
     // 寻找指定名称子节点  
     HierarchyObject* getChildren(const QString& name);

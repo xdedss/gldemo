@@ -166,7 +166,7 @@ int HierarchyObject::rowCount(const QModelIndex & parent) const
         return components.size();
 
     if (parent.internalPointer() == nullptr) {
-        // 是component
+        // 是component 
         return components[parent.row()]->getPropKeys().size();
     }
     // property本身没有子节点  
@@ -250,7 +250,7 @@ bool HierarchyObject::setData(const QModelIndex & index, const QVariant & value,
         return false;
     }
     else {
-        // 修改属性值
+        // 修改属性值 
         qDebug() << "setData: " << value << "|" << role;
         c->setProp(c->getPropKeys()[index.row()], value);
         return true;
@@ -272,7 +272,7 @@ Qt::ItemFlags HierarchyObject::flags(const QModelIndex & index) const
         return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
     }
     else {
-        // 属性值
+        // 属性值 
         QVariant v = c->getProp(c->getPropKeys()[index.row()]);
         //qDebug() << "type of " << c->name() << "." << c->getPropKeys()[index.row()] << " is " << v.type() << " | " << v.typeName();
         if (editableTypes.count((int)v.type())) {
