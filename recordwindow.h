@@ -17,25 +17,27 @@ class recordWindow : public QMainWindow
 public:
     explicit recordWindow(QWidget *parent = nullptr);
     ~recordWindow();
-
+    Ui::recordWindow* ui;
 
 signals:
     void onRecordVideo2MainWindow(float speed);
+    void onSaveVideo2MainWindow();
+
 public slots:
     void setLineEditValue(int value);
-
+    void offRecordVideo();
+    void offSaveVideo();
 
 private slots:
     void on_lineEdit_textEdited(const QString &arg1);
-
     void on_pushButton_recordBegin_clicked();
-
+    void on_pushButton_recordSave_clicked();
 private:
+
 
     //滑动条 
 
     float speed = 50;
-    Ui::recordWindow *ui;
 };
 
 #endif // RECORDWINDOW_H

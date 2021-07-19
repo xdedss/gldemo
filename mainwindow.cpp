@@ -114,10 +114,25 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(ui->openGLWidget, SIGNAL(drag_signal(std::string)), this, SLOT(drag_solt(std::string)));
     // 点击菜单栏，出现录像窗口  
     connect(ui->actionvideoRecord, SIGNAL(clicked()), this, SLOT(on_actionvideoRecord_triggered()));
-    // 录像窗口点击开始，信号传入主窗口   
+
+    // 录像窗口点击开始，信号传入mainwindow        
     connect(record,SIGNAL(onRecordVideo2MainWindow(float)),this,SLOT(onRecordVideo1MainWindow(float)));
-    // 主窗口接收录制信号，传到widget  
+    // mainwindow接收录制信号，传到widget    
     connect(this, SIGNAL(onRecordVideo2Widget(float)), ui->openGLWidget, SLOT(onRecordVideo1Wigdet(float)));
+    // 录制结束信号，widget传回主窗口  
+    connect(ui->openGLWidget, SIGNAL(videoRecordFinish()), this, SLOT(offRecordVideo1MainWindow()));
+    // 录制结束信号，主窗口传回recordWindow   
+    connect(this, SIGNAL(offRecordVideo2recordWindow()), record, SLOT(offRecordVideo()));
+
+    // 录像窗口点击保存，信号传入mainwindow    
+    connect(record, SIGNAL(onSaveVideo2MainWindow()), this, SLOT(onSaveVideo1MainWindow()));
+    // mainwindow接收保存信号，传到widget
+    connect(this, SIGNAL(onSaveVideo2Widget()), ui->openGLWidget, SLOT(onSaveVideo1Widget()));
+    // 保存结束信号，widget传回mainwindow
+    connect(ui->openGLWidget, SIGNAL(videoSaveFinish()), this, SLOT(offSaveVideo1MainWindow()));
+    // 保存结束信号，mainwindow传回recordWindow
+    connect(this, SIGNAL(offSaveVideo2recordWindow()), record, SLOT(offSaveVideo()));
+
 
 
     // 测试用：加载模型   
@@ -433,7 +448,22 @@ void MainWindow::on_actionvideoRecord_triggered()
 }
 
 void MainWindow::onRecordVideo1MainWindow(float speed) {
-    qDebug() << "mainWindow  have received recordVideo signal";
+    //qDebug() << "mainWindow  have received recordVideo signal";
     emit(onRecordVideo2Widget(speed));   
     record->hide();
+}
+
+void MainWindow::offRecordVideo1MainWindow() {
+    
+    emit(offRecordVideo2recordWindow());
+}
+
+void MainWindow::onSaveVideo1MainWindow() {
+    emit(onSaveVideo2Widget());
+}
+
+void MainWindow::offSaveVideo1MainWindow() {
+    qDebug() << "main window receive savefinish from widget";
+    emit(offSaveVideo2recordWindow());
+    qDebug() << "main window launch savefinish to recordWindow";
 }

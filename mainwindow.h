@@ -34,6 +34,9 @@ public:
 
 signals:
     void onRecordVideo2Widget(float speed);
+    void offRecordVideo2recordWindow();
+    void onSaveVideo2Widget();
+    void offSaveVideo2recordWindow();
 
 private slots:
     void on_actionopen_triggered();
@@ -51,8 +54,17 @@ private slots:
 	void drag_solt(std::string re_path);		
     void on_actionvideoRecord_triggered();
 
-    void onRecordVideo1MainWindow(float speed);
     
+    //接收录像开始的信号，并发送给widget
+    void onRecordVideo1MainWindow(float speed);
+    //接收录像结束的信号    
+    void offRecordVideo1MainWindow();
+
+    //接收保存视频的信号，并发送给widget
+    void onSaveVideo1MainWindow();
+    //接收保存结束的信号
+    void offSaveVideo1MainWindow();
+
 
 private:
     Ui::MainWindow *ui;
