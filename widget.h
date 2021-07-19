@@ -9,7 +9,7 @@
 #include <map>
 
 // OpenGL
-//#include <QOpenGLExtraFunctions>
+//#include <QOpenGLExtraFunctions>  
 #include <qopenglshaderprogram.h>
 #include <qopenglvertexarrayobject.h>
 #include <qopenglbuffer.h>
@@ -41,9 +41,9 @@
 #include <QDropEvent>
 #include <QUrl>
 #include <qcoreapplication.h>
-#include <qdir.h>			//拖拽文件所需的库函数
+#include <qdir.h>			//拖拽文件所需的库函数    
 
-//保存图片的引用    
+//保存图片的引用      
 #include <Qt3Drender/qcamera.h>
 #include <Qt3Drender/qrendercapture.h>
 #include <QPixmap>
@@ -55,7 +55,7 @@
 #include <QMovie>
 
 
-//回放视频   
+//回放视频    
 #include "mainwindow.h"
 #include <QLabel>
 
@@ -70,9 +70,9 @@ public:
 
     OpenGLFunctions* functions() const;
 
-    // shader
+    // shader   
     std::map<QString, QOpenGLShaderProgram*> shaders;
-    // 模型  
+    // 模型    
     //std::vector<PointCloud*> pointClouds;
     HierarchyModel* hierarchy;
 
@@ -93,13 +93,13 @@ public:
     }
 
 private:
-    // 记录屏幕长宽  
+    // 记录屏幕长宽    
     unsigned int screenWidth, screenHeight;
-    // 相机姿态相关  
+    // 相机姿态相关    
     glm::vec3 camPos, camTarget;
     glm::quat camRot;
     glm::mat4 view, projection;
-    //wasd 摄像机漫游  
+    //wasd 摄像机漫游    
     int camDx = 0, camDy = 0;
     float distance = 5;
     int mouselastx = 0, mouselasty = 0, mousex = 0, mousey = 0;
@@ -112,11 +112,13 @@ private:
 private slots:
     void fixedUpdate();
     void onRecordVideo1Wigdet(float speed);
-    void onSaveVideo1Wigdet();
+    void onSaveVideo1Widget();
 
 signals:
     void onSelection(HierarchyObject* obj);
-	void drag_signal(std::string re_path);		//实现拖拽的信号函数
+	void drag_signal(std::string re_path);		//实现拖拽的信号函数   
+    void videoRecordFinish();     //视频录制结束信号   
+    void videoSaveFinish();     //视频保存结束信号   
 
 private:
     bool mousepick(int mousex, int mousey, HierarchyObject*& objout, int& iout);
@@ -142,6 +144,6 @@ protected:
     void keyReleaseEvent(QKeyEvent* key);
 
 	void dropEvent(QDropEvent * e);
-	void dragEnterEvent(QDragEnterEvent * e);	//实现拖拽的函数
+	void dragEnterEvent(QDragEnterEvent * e);	//实现拖拽的函数    
 };
-#endif // WIDGET_H
+#endif // WIDGET_H   
