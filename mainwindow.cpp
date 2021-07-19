@@ -128,16 +128,16 @@ MainWindow::MainWindow(QWidget *parent) :
     auto bun = importPointCloud("bun180.ply", 10);
     bun->setProp("sizeScale", 2.0f);
     //LineRenderer* l1 = new LineRenderer();
-    
     //l1->setVertices({ {{0,0,0},{0,0,0}} });
     //bun->hierarchyObject->addComponent(l1);
+    
+    auto building = importPointCloud("uwo.txt");
+    building->setProp("sizeScale", 2.0f);
+    hierarchy->moveObject(building->hierarchyObject, buildingRoot, 0);
 
     //LineRenderer* l2 = new LineRenderer();
     //l2->setVertices({ {{0,0,0},{0,0,0}} });
-    auto building = importPointCloud("uwo.txt");
     //building->hierarchyObject->addComponent(l2);
-    building->setProp("sizeScale", 2.0f);
-    hierarchy->moveObject(building->hierarchyObject, buildingRoot, 0);
 
     auto trailTest = hierarchy->createObject("trailTest");
     trailTest->addComponent(new Trail());
@@ -418,8 +418,8 @@ void MainWindow::drag_solt(std::string re_path)			//添加点云
 	qDebug() << "go" << endl;
 	auto new_obj = importPointCloud(QString::fromStdString(re_path), 10);
 	new_obj->setProp("sizeScale", 2.0f);
-	LineRenderer* l1 = new LineRenderer();
-	new_obj->hierarchyObject->addComponent(l1);
+	//LineRenderer* l1 = new LineRenderer();
+	//new_obj->hierarchyObject->addComponent(l1);
 }
 
 void MainWindow::on_actionvideoRecord_triggered()

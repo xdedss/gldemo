@@ -443,9 +443,7 @@
     <property name="title">
      <string>Record</string>
     </property>
-    <addaction name="actionvideoReplay"/>
     <addaction name="actionvideoRecord"/>
-    <addaction name="actionvideoSave"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -536,16 +534,6 @@
   <action name="actionvideoRecord">
    <property name="text">
     <string>videoRecord</string>
-   </property>
-  </action>
-  <action name="actionvideoReplay">
-   <property name="text">
-    <string>videoPreview</string>
-   </property>
-  </action>
-  <action name="actionvideoSave">
-   <property name="text">
-    <string>videoSave</string>
    </property>
   </action>
  </widget>
