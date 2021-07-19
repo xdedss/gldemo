@@ -106,11 +106,13 @@ private:
     //float wheeldelta = 0;
     int windowX = 0,windowY = 0;
     float videoRecordSpeed = 0.01;
+    bool videoSave = false;
+
 
 private slots:
     void fixedUpdate();
     void onRecordVideo1Wigdet(float speed);
-
+    void onSaveVideo1Wigdet();
 
 signals:
     void onSelection(HierarchyObject* obj);
