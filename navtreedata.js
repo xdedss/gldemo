@@ -2,6 +2,7 @@ var NAVTREE =
 [
   [ "gldemo", "index.html", [
     [ "基于OpenGL和Qt的3D点云渲染 - documentation", "index.html", null ],
+    [ "readme", "md_readme.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
