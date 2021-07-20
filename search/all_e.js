@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['readme',['readme',['../md_readme.html',1,'']]],
   ['recordwindow',['recordWindow',['../classrecord_window.html',1,'']]],
   ['removeobject',['removeObject',['../class_hierarchy_model.html#adbb7cb6bf6e3ae29c9f58af00a9c9611',1,'HierarchyModel']]],
   ['renderer',['Renderer',['../class_renderer.html',1,'']]],
