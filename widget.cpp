@@ -314,7 +314,7 @@ void Widget::fixedUpdate() {
         if (currentTrailTime > currentTrail->keypoints.size() - 1) {
             currentTrail = NULL;
             currentTrailTime = 0;
-            emit(videoRecordFinish(videoRecordFlag));
+            emit(videoRecordFinish(videoRecordFinish));
             videoRecordFlag = false;
             
         }
@@ -542,7 +542,9 @@ void Widget::onRecordVideo1Wigdet(float speed, bool RecordOrPreview){
     currentTrailTime = 0;
     videoRecordSpeed = 0.0002f * speed;
     videoRecordFlag = RecordOrPreview;
-    video.clear();
+    // 如果只预览，则不把之前保存的数据清空
+    if(RecordOrPreview)
+        video.clear();
 }
 void Widget::onSaveVideo1Widget() {
     
