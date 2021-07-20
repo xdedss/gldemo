@@ -107,6 +107,7 @@ $(document).ready(function(){initNavTree('class_main_window.html','');});
 <div class="header">
   <div class="summary">
 <a href="#signals">Signals</a> &#124;
+<a href="#pri-slots">Private Slots</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="class_main_window-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -141,6 +142,73 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:a20b044ffe67541e6c7a3b96ae9a82999"><td class="mdescLeft">&#160;</td><td class="mdescRight">视频保存结束信号，从mainwindow传到widget <br /></td></tr>
 <tr class="separator:a20b044ffe67541e6c7a3b96ae9a82999"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-slots"></a>
+Private Slots</h2></td></tr>
+<tr class="memitem:a908119cce0b17d6471fabbbdbfe8e34a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a908119cce0b17d6471fabbbdbfe8e34a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a908119cce0b17d6471fabbbdbfe8e34a">onTreeViewAddObject</a> ()</td></tr>
+<tr class="memdesc:a908119cce0b17d6471fabbbdbfe8e34a"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收场景树添加新物体的信号，添加新物体 <br /></td></tr>
+<tr class="separator:a908119cce0b17d6471fabbbdbfe8e34a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affaa1511c284f75fd6c969648bb76395"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="affaa1511c284f75fd6c969648bb76395"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#affaa1511c284f75fd6c969648bb76395">onTreeViewRemoveObject</a> ()</td></tr>
+<tr class="memdesc:affaa1511c284f75fd6c969648bb76395"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收场景树删除物体的信号，删除物体 <br /></td></tr>
+<tr class="separator:affaa1511c284f75fd6c969648bb76395"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae48b881fa734a2eb9377b3e094900c82"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae48b881fa734a2eb9377b3e094900c82"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#ae48b881fa734a2eb9377b3e094900c82">onWidgetSelection</a> (<a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *obj)</td></tr>
+<tr class="memdesc:ae48b881fa734a2eb9377b3e094900c82"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收&lt; 画面内&gt;=""&gt;鼠标点击物体选择的信号，显示高亮 <br /></td></tr>
+<tr class="separator:ae48b881fa734a2eb9377b3e094900c82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a622f104e455794095d128e6f1e7d4aec"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a622f104e455794095d128e6f1e7d4aec"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a622f104e455794095d128e6f1e7d4aec">onWidgetTransformEdited</a> (<a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *obj)</td></tr>
+<tr class="memdesc:a622f104e455794095d128e6f1e7d4aec"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收&lt; 画面内&gt;=""&gt;鼠标选择、挪动物体的信号，显示物体信息 <br /></td></tr>
+<tr class="separator:a622f104e455794095d128e6f1e7d4aec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5af8b3273e3e8d0896d31c37f097bf86"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5af8b3273e3e8d0896d31c37f097bf86"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a5af8b3273e3e8d0896d31c37f097bf86">onEdited</a> ()</td></tr>
+<tr class="memdesc:a5af8b3273e3e8d0896d31c37f097bf86"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收&lt;Qt 界面&gt;=""&gt;右上角文本框被编辑的信号，实时改变Object的transform矩阵 <br /></td></tr>
+<tr class="separator:a5af8b3273e3e8d0896d31c37f097bf86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a754e1b77cddd7f02ef3852ef2aa07779"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a754e1b77cddd7f02ef3852ef2aa07779"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a754e1b77cddd7f02ef3852ef2aa07779">ObjectSelected</a> (const QItemSelection &amp;selected, const QItemSelection &amp;deselected)</td></tr>
+<tr class="memdesc:a754e1b77cddd7f02ef3852ef2aa07779"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收&lt;Qt 界面&gt;=""&gt;左侧场景树栏中Object选择的信号，使选中物体的状态显示且可编辑，若无选中物体，则lock文本框 <br /></td></tr>
+<tr class="separator:a754e1b77cddd7f02ef3852ef2aa07779"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8a4a003ca628b38a9e62f19dbbd3017"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af8a4a003ca628b38a9e62f19dbbd3017"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#af8a4a003ca628b38a9e62f19dbbd3017">drag_solt</a> (std::string re_path)</td></tr>
+<tr class="memdesc:af8a4a003ca628b38a9e62f19dbbd3017"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收加载点云信号,拖拽点云文件进行加载 <br /></td></tr>
+<tr class="separator:af8a4a003ca628b38a9e62f19dbbd3017"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ebea732c63c70ad81a7bbda4336e22b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7ebea732c63c70ad81a7bbda4336e22b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a7ebea732c63c70ad81a7bbda4336e22b">on_actionvideoRecord_triggered</a> ()</td></tr>
+<tr class="memdesc:a7ebea732c63c70ad81a7bbda4336e22b"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收recordwindow点击信号，显示recordWindow <br /></td></tr>
+<tr class="separator:a7ebea732c63c70ad81a7bbda4336e22b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d4bbe20885099cbf0dc6085a22070d8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9d4bbe20885099cbf0dc6085a22070d8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a9d4bbe20885099cbf0dc6085a22070d8">onRecordVideo1MainWindow</a> (float speed, bool RecordOrPreview)</td></tr>
+<tr class="memdesc:a9d4bbe20885099cbf0dc6085a22070d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收录像开始的信号，并发送给widget <br /></td></tr>
+<tr class="separator:a9d4bbe20885099cbf0dc6085a22070d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c37deba06632bc406680b50a5591ea0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9c37deba06632bc406680b50a5591ea0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a9c37deba06632bc406680b50a5591ea0">offRecordVideo1MainWindow</a> (bool RecordOrPreview)</td></tr>
+<tr class="memdesc:a9c37deba06632bc406680b50a5591ea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收录像结束的信号 <br /></td></tr>
+<tr class="separator:a9c37deba06632bc406680b50a5591ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a851b1d4a35cd038bc4c8c372fb57eb3e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a851b1d4a35cd038bc4c8c372fb57eb3e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a851b1d4a35cd038bc4c8c372fb57eb3e">onSaveVideo1MainWindow</a> ()</td></tr>
+<tr class="memdesc:a851b1d4a35cd038bc4c8c372fb57eb3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收保存视频的信号，并发送给widget <br /></td></tr>
+<tr class="separator:a851b1d4a35cd038bc4c8c372fb57eb3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac32bb9d1081093c86774d7ecbdb2174c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac32bb9d1081093c86774d7ecbdb2174c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#ac32bb9d1081093c86774d7ecbdb2174c">offSaveVideo1MainWindow</a> ()</td></tr>
+<tr class="memdesc:ac32bb9d1081093c86774d7ecbdb2174c"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收保存结束的信号 <br /></td></tr>
+<tr class="separator:ac32bb9d1081093c86774d7ecbdb2174c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1f52d3bce77ce61741b3e9f2481070a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad1f52d3bce77ce61741b3e9f2481070a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#ad1f52d3bce77ce61741b3e9f2481070a">on_actionTranslation_toggled</a> (bool arg1)</td></tr>
+<tr class="memdesc:ad1f52d3bce77ce61741b3e9f2481070a"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收鼠标左键点击平移按钮的信号，开启 拖拽平移物体 功能 <br /></td></tr>
+<tr class="separator:ad1f52d3bce77ce61741b3e9f2481070a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1bb18fa543003c8a51acbe98fd8d0a9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa1bb18fa543003c8a51acbe98fd8d0a9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#aa1bb18fa543003c8a51acbe98fd8d0a9">on_actionRotate_toggled</a> (bool arg1)</td></tr>
+<tr class="memdesc:aa1bb18fa543003c8a51acbe98fd8d0a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收鼠标左键点击旋转按钮的信号，开启 拖拽旋转物体 功能 <br /></td></tr>
+<tr class="separator:aa1bb18fa543003c8a51acbe98fd8d0a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a366876f3255ec15963ed103fd716c294"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a366876f3255ec15963ed103fd716c294"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a366876f3255ec15963ed103fd716c294">on_actionScale_toggled</a> (bool arg1)</td></tr>
+<tr class="memdesc:a366876f3255ec15963ed103fd716c294"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收鼠标左键点击缩放按钮的信号，开启 拖拽缩放物体 功能 <br /></td></tr>
+<tr class="separator:a366876f3255ec15963ed103fd716c294"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e6f7c58373ec815cd320948ee937c56"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5e6f7c58373ec815cd320948ee937c56"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a5e6f7c58373ec815cd320948ee937c56">on_actionCursor_toggled</a> (bool arg1)</td></tr>
+<tr class="memdesc:a5e6f7c58373ec815cd320948ee937c56"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收鼠标左键点击物体选择的信号，开启 选择物体 功能,程序初始化即为此功能 <br /></td></tr>
+<tr class="separator:a5e6f7c58373ec815cd320948ee937c56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a662b4e2fc9bfc77a90f9023955d3e190"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a662b4e2fc9bfc77a90f9023955d3e190">showObjectInfo</a> (<a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *obj)</td></tr>
@@ -174,7 +242,8 @@ Private Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>在Qt界面显示物体的平移，旋转，缩放变换信息 </p>
-<dl class="section attention"><dt>Attention</dt><dd>rotation顺序为y-&gt;x-&gt;z。单位为 角度制 规定 x转角范围为[-pi/2,pi/2],y/z转角范围为[-pi,pi] </dd></dl>
+<dl class="section attention"><dt>Attention</dt><dd>rotation顺序为y-&gt;x-&gt;z。单位为 角度制; <br />
+规定 x转角范围为[-90,90],y/z转角范围为[-180,180] </dd></dl>
 
 </div>
 </div>
@@ -201,7 +270,8 @@ Private Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>在Qt界面根据输入的信息，更新物体的平移，旋转，缩放 </p>
-<dl class="section attention"><dt>Attention</dt><dd>单位为 角度制 输入时，x转角范围可以为[-pi,pi]，而后再次选中该物体时，xyz转角自动转化为showObjectInfo函数规定的范围 </dd></dl>
+<dl class="section attention"><dt>Attention</dt><dd>单位为 角度制 <br />
+输入时，x转角范围可以为[-180,180]，而后再次选中该物体时，xyz转角自动转化为showObjectInfo函数规定的范围 </dd></dl>
 
 </div>
 </div>

@@ -1,9 +1,25 @@
 var class_main_window =
 [
+    [ "drag_solt", "class_main_window.html#af8a4a003ca628b38a9e62f19dbbd3017", null ],
+    [ "ObjectSelected", "class_main_window.html#a754e1b77cddd7f02ef3852ef2aa07779", null ],
+    [ "offRecordVideo1MainWindow", "class_main_window.html#a9c37deba06632bc406680b50a5591ea0", null ],
     [ "offRecordVideo2recordWindow", "class_main_window.html#a0057cda47372be62b6a050c06a4ca8a8", null ],
+    [ "offSaveVideo1MainWindow", "class_main_window.html#ac32bb9d1081093c86774d7ecbdb2174c", null ],
     [ "offSaveVideo2recordWindow", "class_main_window.html#a20b044ffe67541e6c7a3b96ae9a82999", null ],
+    [ "on_actionCursor_toggled", "class_main_window.html#a5e6f7c58373ec815cd320948ee937c56", null ],
+    [ "on_actionRotate_toggled", "class_main_window.html#aa1bb18fa543003c8a51acbe98fd8d0a9", null ],
+    [ "on_actionScale_toggled", "class_main_window.html#a366876f3255ec15963ed103fd716c294", null ],
+    [ "on_actionTranslation_toggled", "class_main_window.html#ad1f52d3bce77ce61741b3e9f2481070a", null ],
+    [ "on_actionvideoRecord_triggered", "class_main_window.html#a7ebea732c63c70ad81a7bbda4336e22b", null ],
+    [ "onEdited", "class_main_window.html#a5af8b3273e3e8d0896d31c37f097bf86", null ],
+    [ "onRecordVideo1MainWindow", "class_main_window.html#a9d4bbe20885099cbf0dc6085a22070d8", null ],
     [ "onRecordVideo2Widget", "class_main_window.html#a441b9d3e8ac1dffa88b2bc3ba7a4ea48", null ],
+    [ "onSaveVideo1MainWindow", "class_main_window.html#a851b1d4a35cd038bc4c8c372fb57eb3e", null ],
     [ "onSaveVideo2Widget", "class_main_window.html#a10ace3477b859a250f2db041eb64b7af", null ],
+    [ "onTreeViewAddObject", "class_main_window.html#a908119cce0b17d6471fabbbdbfe8e34a", null ],
+    [ "onTreeViewRemoveObject", "class_main_window.html#affaa1511c284f75fd6c969648bb76395", null ],
+    [ "onWidgetSelection", "class_main_window.html#ae48b881fa734a2eb9377b3e094900c82", null ],
+    [ "onWidgetTransformEdited", "class_main_window.html#a622f104e455794095d128e6f1e7d4aec", null ],
     [ "showObjectInfo", "class_main_window.html#a662b4e2fc9bfc77a90f9023955d3e190", null ],
     [ "updateObjectInfo", "class_main_window.html#a3849cb0fd4df66422666ba06c1050689", null ]
 ];
