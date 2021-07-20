@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['updateobjectinfo',['updateObjectInfo',['../class_main_window.html#a3849cb0fd4df66422666ba06c1050689',1,'MainWindow']]],
-  ['updaterecursively',['updateRecursively',['../class_hierarchy_object.html#a0a8bb6ff8f41df4ebd02eb1521de9781',1,'HierarchyObject']]]
+  ['selectionchanged',['selectionChanged',['../class_hierarchy_model.html#ae878e327805bb82d1417b34ab04bcfdf',1,'HierarchyModel']]],
+  ['sethierarchy',['setHierarchy',['../class_widget.html#ab492d9e3f048c6402a6a250a13b7c816',1,'Widget']]],
+  ['setprop',['setProp',['../class_component.html#af339e5409723efe0a060d26cdaea81b3',1,'Component']]],
+  ['setvertices',['setVertices',['../class_point_cloud_renderer.html#a21b94889096f005f4ccbd5e48dcfa660',1,'PointCloudRenderer']]],
+  ['showobjectinfo',['showObjectInfo',['../class_main_window.html#a662b4e2fc9bfc77a90f9023955d3e190',1,'MainWindow']]]
 ];

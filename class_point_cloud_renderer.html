@@ -107,11 +107,19 @@ $(document).ready(function(){initNavTree('class_point_cloud_renderer.html','');}
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_point_cloud_renderer-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">PointCloudRenderer Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>点云渲染器  
+ <a href="class_point_cloud_renderer.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_point_cloud_renderer_8h_source.html">PointCloudRenderer.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for PointCloudRenderer:</div>
 <div class="dyncontent">
@@ -127,12 +135,36 @@ Inheritance diagram for PointCloudRenderer:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2a1abd668d8eb75ff9e55a84c1227dcd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2a1abd668d8eb75ff9e55a84c1227dcd"></a>
 QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_point_cloud_renderer.html#a2a1abd668d8eb75ff9e55a84c1227dcd">name</a> () const override</td></tr>
-<tr class="memdesc:a2a1abd668d8eb75ff9e55a84c1227dcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">该类型的名称，应由子类重写 <br /></td></tr>
+<tr class="memdesc:a2a1abd668d8eb75ff9e55a84c1227dcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">"PointCloudRenderer" <br /></td></tr>
 <tr class="separator:a2a1abd668d8eb75ff9e55a84c1227dcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e785d573849a727a30f536a420052c5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2e785d573849a727a30f536a420052c5"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_point_cloud_renderer.html#a2e785d573849a727a30f536a420052c5">onRender</a> (OpenGLFunctions *gl, glm::mat4 projection, glm::mat4 view, glm::mat4 model) override</td></tr>
 <tr class="memdesc:a2e785d573849a727a30f536a420052c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">渲染事件，每帧会被调用 <br /></td></tr>
 <tr class="separator:a2e785d573849a727a30f536a420052c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21b94889096f005f4ccbd5e48dcfa660"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a21b94889096f005f4ccbd5e48dcfa660"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_point_cloud_renderer.html#a21b94889096f005f4ccbd5e48dcfa660">setVertices</a> (const std::vector&lt; <a class="el" href="class_vertex.html">Vertex</a> &gt; &amp;vertices)</td></tr>
+<tr class="memdesc:a21b94889096f005f4ccbd5e48dcfa660"><td class="mdescLeft">&#160;</td><td class="mdescRight">改变顶点数据 <br /></td></tr>
+<tr class="separator:a21b94889096f005f4ccbd5e48dcfa660"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade4d8dbbd5678fb5b0630b432cda9f58"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ade4d8dbbd5678fb5b0630b432cda9f58"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_point_cloud_renderer.html#ade4d8dbbd5678fb5b0630b432cda9f58">vertexCount</a> ()</td></tr>
+<tr class="memdesc:ade4d8dbbd5678fb5b0630b432cda9f58"><td class="mdescLeft">&#160;</td><td class="mdescRight">顶点数量 <br /></td></tr>
+<tr class="separator:ade4d8dbbd5678fb5b0630b432cda9f58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4888d78ad8843909b08301f051fe8b8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad4888d78ad8843909b08301f051fe8b8"></a>
+<a class="el" href="class_vertex.html">Vertex</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_point_cloud_renderer.html#ad4888d78ad8843909b08301f051fe8b8">getVertex</a> (int i)</td></tr>
+<tr class="memdesc:ad4888d78ad8843909b08301f051fe8b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回第i个顶点数据 <br /></td></tr>
+<tr class="separator:ad4888d78ad8843909b08301f051fe8b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abccfa8e44b8da18a0b3329b1f462a32f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abccfa8e44b8da18a0b3329b1f462a32f"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_point_cloud_renderer.html#abccfa8e44b8da18a0b3329b1f462a32f">nearestSearch</a> (QVector3D pos)</td></tr>
+<tr class="memdesc:abccfa8e44b8da18a0b3329b1f462a32f"><td class="mdescLeft">&#160;</td><td class="mdescRight">搜索，返回最邻近搜索点的索引 <br /></td></tr>
+<tr class="separator:abccfa8e44b8da18a0b3329b1f462a32f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace773137d013855660a70edf4fb94adc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ace773137d013855660a70edf4fb94adc"></a>
+std::vector&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_point_cloud_renderer.html#ace773137d013855660a70edf4fb94adc">nearestSearch</a> (QVector3D pos, int k)</td></tr>
+<tr class="memdesc:ace773137d013855660a70edf4fb94adc"><td class="mdescLeft">&#160;</td><td class="mdescRight">搜索，返回前k个邻近点的索引 <br /></td></tr>
+<tr class="separator:ace773137d013855660a70edf4fb94adc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a537d0c5978b2a153d475a642247cd366"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a537d0c5978b2a153d475a642247cd366"></a>
+std::vector&lt; <a class="el" href="class_vertex.html">Vertex</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_point_cloud_renderer.html#a537d0c5978b2a153d475a642247cd366">getVertices</a> ()</td></tr>
+<tr class="memdesc:a537d0c5978b2a153d475a642247cd366"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前顶点数据 <br /></td></tr>
+<tr class="separator:a537d0c5978b2a153d475a642247cd366"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_renderer"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_renderer')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_renderer.html">Renderer</a></td></tr>
 <tr class="memitem:ac3f10732d5c9350623dcac4d039e07ee inherit pub_methods_class_renderer"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac3f10732d5c9350623dcac4d039e07ee"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_renderer.html#ac3f10732d5c9350623dcac4d039e07ee">onUpdate</a> () override</td></tr>
@@ -156,13 +188,34 @@ std::vector&lt; QString &gt;&#160;</td><td class="memItemRight" valign="bottom">
 <tr class="memdesc:abda6e941903784ddf398350d02fb93eb inherit pub_methods_class_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取所有键 <br /></td></tr>
 <tr class="separator:abda6e941903784ddf398350d02fb93eb inherit pub_methods_class_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a9b26973dd2dbc37a1d1fe7293c4e9536"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b26973dd2dbc37a1d1fe7293c4e9536"></a>
+QOpenGLShaderProgram *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_point_cloud_renderer.html#a9b26973dd2dbc37a1d1fe7293c4e9536">shader</a> = NULL</td></tr>
+<tr class="memdesc:a9b26973dd2dbc37a1d1fe7293c4e9536"><td class="mdescLeft">&#160;</td><td class="mdescRight">使用的着色器，默认为default.vert/default.frag <br /></td></tr>
+<tr class="separator:a9b26973dd2dbc37a1d1fe7293c4e9536"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_class_component"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_component')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class_component.html">Component</a></td></tr>
 <tr class="memitem:a01eb8a026d663cdcb625d99190a4f192 inherit pub_attribs_class_component"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a01eb8a026d663cdcb625d99190a4f192"></a>
 <a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_component.html#a01eb8a026d663cdcb625d99190a4f192">hierarchyObject</a></td></tr>
 <tr class="memdesc:a01eb8a026d663cdcb625d99190a4f192 inherit pub_attribs_class_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">指向这个组件挂载的对象 <br /></td></tr>
 <tr class="separator:a01eb8a026d663cdcb625d99190a4f192 inherit pub_attribs_class_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a82f6e59d64d1021dd0423c2c632a73f7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a82f6e59d64d1021dd0423c2c632a73f7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_point_cloud_renderer.html#a82f6e59d64d1021dd0423c2c632a73f7">applyVertices</a> ()</td></tr>
+<tr class="memdesc:a82f6e59d64d1021dd0423c2c632a73f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">将当前数据放入显存 <br /></td></tr>
+<tr class="separator:a82f6e59d64d1021dd0423c2c632a73f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:adeb433c8b74b414260f47ed50a28339c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adeb433c8b74b414260f47ed50a28339c"></a>
+kd_tree_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_point_cloud_renderer.html#adeb433c8b74b414260f47ed50a28339c">kdtree</a></td></tr>
+<tr class="memdesc:adeb433c8b74b414260f47ed50a28339c"><td class="mdescLeft">&#160;</td><td class="mdescRight">指向kdtree索引的指针 <br /></td></tr>
+<tr class="separator:adeb433c8b74b414260f47ed50a28339c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_methods_class_component"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_component')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_component.html">Component</a></td></tr>
 <tr class="memitem:ae5bdb472442cf704e1f27a05c6593316 inherit pro_methods_class_component"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5bdb472442cf704e1f27a05c6593316"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_component.html#ae5bdb472442cf704e1f27a05c6593316">defProp</a> (const QString &amp;key, const QVariant &amp;init)</td></tr>
@@ -178,7 +231,9 @@ std::vector&lt; QString &gt;&#160;</td><td class="memItemRight" valign="bottom">
 <tr class="memdesc:a2ba93f356097321eef93d45657fb168c inherit pro_attribs_class_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">所有非默认参数的键 <br /></td></tr>
 <tr class="separator:a2ba93f356097321eef93d45657fb168c inherit pro_attribs_class_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>点云渲染器 </p>
+</div><hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="_point_cloud_renderer_8h_source.html">PointCloudRenderer.h</a></li>
 <li>PointCloudRenderer.cpp</li>
 </ul>

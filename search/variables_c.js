@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['widget',['widget',['../class_hierarchy_model.html#a550c3082296ef47c86211adbb4811e9e',1,'HierarchyModel']]]
+  ['vertices',['vertices',['../class_vertices_adaptor.html#a1b6ea818f39821ed623da4adfe0213d9',1,'VerticesAdaptor']]],
+  ['video',['video',['../class_widget.html#a6f118ff8678e687968472557fa4f4afc',1,'Widget']]]
 ];

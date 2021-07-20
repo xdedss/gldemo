@@ -15,6 +15,6 @@ var annotated_dup =
     [ "SkyboxRenderer", "class_skybox_renderer.html", "class_skybox_renderer" ],
     [ "Trail", "class_trail.html", "class_trail" ],
     [ "Vertex", "class_vertex.html", null ],
-    [ "VerticesAdaptor", "class_vertices_adaptor.html", null ],
+    [ "VerticesAdaptor", "class_vertices_adaptor.html", "class_vertices_adaptor" ],
     [ "Widget", "class_widget.html", "class_widget" ]
 ];

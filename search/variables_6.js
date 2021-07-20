@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['objects',['objects',['../class_hierarchy_model.html#a1a6d129b4495cdd0259ce958c3015b20',1,'HierarchyModel']]]
+  ['name',['name',['../class_hierarchy_object.html#a785451b45dbe776411dd6f054697e91e',1,'HierarchyObject']]]
 ];

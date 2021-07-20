@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['removeobject',['removeObject',['../class_hierarchy_model.html#adbb7cb6bf6e3ae29c9f58af00a9c9611',1,'HierarchyModel']]],
-  ['retrievedroppedobjects',['retrieveDroppedObjects',['../class_hierarchy_model.html#abf5712d27119f8ba3a27c2928e209508',1,'HierarchyModel']]]
+  ['qimagetocvmat',['QImageToCvMat',['../class_qt_to_opencv_1_1_image_conversion.html#afbdf54ba48e6ace972c14f2cc8ad41a5',1,'QtToOpencv::ImageConversion']]],
+  ['qpixmaptocvmat',['QPixmapToCvMat',['../class_qt_to_opencv_1_1_image_conversion.html#aa4eb4017ccd5fbd35935fe9ce6e0f613',1,'QtToOpencv::ImageConversion']]]
 ];

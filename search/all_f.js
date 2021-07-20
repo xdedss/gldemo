@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['selectionchanged',['selectionChanged',['../class_hierarchy_model.html#ae878e327805bb82d1417b34ab04bcfdf',1,'HierarchyModel']]],
-  ['sethierarchy',['setHierarchy',['../class_widget.html#ab492d9e3f048c6402a6a250a13b7c816',1,'Widget']]],
-  ['setprop',['setProp',['../class_component.html#af339e5409723efe0a060d26cdaea81b3',1,'Component']]],
-  ['shaders',['shaders',['../class_widget.html#a355991800629691ea978d93cc6ffa0ba',1,'Widget']]],
-  ['showobjectinfo',['showObjectInfo',['../class_main_window.html#a662b4e2fc9bfc77a90f9023955d3e190',1,'MainWindow']]],
-  ['skybox',['skybox',['../class_widget.html#a6c2a922e77983d9c201ff19e989626e5',1,'Widget']]],
-  ['skyboxrenderer',['SkyboxRenderer',['../class_skybox_renderer.html',1,'']]]
+  ['recordwindow',['recordWindow',['../classrecord_window.html',1,'']]],
+  ['removeobject',['removeObject',['../class_hierarchy_model.html#adbb7cb6bf6e3ae29c9f58af00a9c9611',1,'HierarchyModel']]],
+  ['renderer',['Renderer',['../class_renderer.html',1,'']]],
+  ['retrievedroppedobjects',['retrieveDroppedObjects',['../class_hierarchy_model.html#abf5712d27119f8ba3a27c2928e209508',1,'HierarchyModel']]],
+  ['root',['root',['../class_hierarchy_model.html#a6def41d17feccc672d8b0908c169c9e6',1,'HierarchyModel']]]
 ];
