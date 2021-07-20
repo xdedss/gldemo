@@ -31,7 +31,7 @@ signals:
     * bool RecordOrPreview:true表示存入视频数据；false表示只能预览  预览不能开启视频保存功能 \n
     * 若之前完成过一次record，没有save，此时点击save可以保存上次record而没有保存的视频
     * @attention
-    * 预览到效果满意后，一定要record后，才能save!!!
+    * 预览到效果满意后，一定要record后，才能save!!！
     */
     void onRecordVideo2MainWindow(float speed,bool RecordOrPreview);
     /**
