@@ -33,7 +33,19 @@ public:
     
 
 private:
+    /** 
+    * @brief 在Qt界面显示物体的平移，旋转，缩放变换信息 
+    * @attention
+    * rotation顺序为y->x->z。单位为 角度制
+    * 规定 x转角范围为[-pi/2,pi/2],y/z转角范围为[-pi,pi]
+    */
     void showObjectInfo(HierarchyObject* obj);
+    /**
+    * @brief 在Qt界面根据输入的信息，更新物体的平移，旋转，缩放
+    * @attention 
+    * 单位为 角度制
+    * 输入时，x转角范围可以为[-pi,pi]，而后再次选中该物体时，xyz转角自动转化为showObjectInfo函数规定的范围
+    */
     void updateObjectInfo(HierarchyObject* obj);
 
 signals:
