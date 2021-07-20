@@ -22,6 +22,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -47,6 +53,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -101,15 +108,27 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="title">基于OpenGL和Qt的3D点云渲染 </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Links:</p><ul>
+<div class="textblock"><h2>代码组织结构</h2>
+<ul>
 <li><a href="annotated.html">class概览</a></li>
 <li><a href="hierarchy.html">按继承关系查看</a></li>
 <li><a href="https://github.com/xdedss/gldemo" target="_blank">源码仓库</a></li>
 </ul>
-<h1>项目概述</h1>
+<h2>项目概述</h2>
+<p>（这里写一点需求介绍）</p>
+<h2>功能说明</h2>
+<p>（从用户的角度写一下各种功能都要怎么使用，怎么操作）</p>
+<h2>搭建过程</h2>
 <p>(￣▽￣)""</p>
-<h1>功能说明</h1>
-<h1>使用的框架</h1>
+<h2>技术细节</h2>
+<ul>
+<li><a href="group__tech-pointcloud.html">点云的渲染</a></li>
+<li><a href="group__tech-skybox.html">天空渲染</a></li>
+<li><a href="group__tech-mousepick.html">鼠标拾取物体</a></li>
+<li><a href="group__tech-roveint.html">漫游插值</a></li>
+<li><a href="group__tech-roverec.html">漫游录制</a></li>
+</ul>
+<h2>使用的框架</h2>
 <ul>
 <li>Qt</li>
 <li>OpenGL</li>
