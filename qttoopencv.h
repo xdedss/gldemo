@@ -11,25 +11,25 @@ namespace QtToOpencv
 {
     /**
     * @class ImageConversion
-    * @brief Í¼Æ¬ÀàĞÍ×ª»¯   cvMat/QImage/QPixmap
+    * @brief å›¾ç‰‡ç±»å‹è½¬åŒ–   cvMat/QImage/QPixmap
     */
     class ImageConversion
     {
         public:
-        /** @brief cvMat×ªÎªQImage */
+        /** @brief cvMatè½¬ä¸ºQImage */
         QImage  cvMatToQImage( const cv::Mat &inMat );
-        /** @brief cvMat×ªÎªQPixmap */
+        /** @brief cvMatè½¬ä¸ºQPixmap */
         QPixmap cvMatToQPixmap( const cv::Mat &inMat );
         /** 
-        * @brief QImage×ªÎªcvMat 
+        * @brief QImageè½¬ä¸ºcvMat 
         * attention
-        *  Êä³ö¸ñÊ½¿ÉÄÜÎª 1/3/4 Í¨µÀ£¬ÈôÏë±£´æÎªÊÓÆµ£¬Òª×ªÎªÈıÍ¨µÀ¡£  
+        *  è¾“å‡ºæ ¼å¼å¯èƒ½ä¸º 1/3/4 é€šé“ï¼Œè‹¥æƒ³ä¿å­˜ä¸ºè§†é¢‘ï¼Œè¦è½¬ä¸ºä¸‰é€šé“ã€‚  
         */
         cv::Mat QImageToCvMat( const QImage &inImage, bool inCloneImageData = true );
         /** 
-        * @brief QPixmap×ªÎªcvMat 
+        * @brief QPixmapè½¬ä¸ºcvMat 
         * attention
-        *  Êä³ö¸ñÊ½¿ÉÄÜÎª 1/3/4 Í¨µÀ£¬ÈôÏë±£´æÎªÊÓÆµ£¬Òª×ªÎªÈıÍ¨µÀ¡£  
+        *  è¾“å‡ºæ ¼å¼å¯èƒ½ä¸º 1/3/4 é€šé“ï¼Œè‹¥æƒ³ä¿å­˜ä¸ºè§†é¢‘ï¼Œè¦è½¬ä¸ºä¸‰é€šé“ã€‚  
         */
         cv::Mat QPixmapToCvMat( const QPixmap &inPixmap, bool inCloneImageData = true );
     };
