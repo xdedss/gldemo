@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['selectionchanged',['selectionChanged',['../class_hierarchy_model.html#ae878e327805bb82d1417b34ab04bcfdf',1,'HierarchyModel']]],
-  ['sethierarchy',['setHierarchy',['../class_widget.html#ab492d9e3f048c6402a6a250a13b7c816',1,'Widget']]],
-  ['setprop',['setProp',['../class_component.html#af339e5409723efe0a060d26cdaea81b3',1,'Component']]]
+  ['removeobject',['removeObject',['../class_hierarchy_model.html#adbb7cb6bf6e3ae29c9f58af00a9c9611',1,'HierarchyModel']]],
+  ['retrievedroppedobjects',['retrieveDroppedObjects',['../class_hierarchy_model.html#abf5712d27119f8ba3a27c2928e209508',1,'HierarchyModel']]]
 ];

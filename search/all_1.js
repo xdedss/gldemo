@@ -6,5 +6,7 @@ var searchData=
   ['componentscount',['componentsCount',['../class_hierarchy_object.html#a2c6495b07ede8ef89fb29efa804f06bb',1,'HierarchyObject']]],
   ['createobject',['createObject',['../class_hierarchy_model.html#a66aa6de8e22c881f10cdc75533f7fcc9',1,'HierarchyModel']]],
   ['currenttrail',['currentTrail',['../class_widget.html#a7712d374f4237ac4297f8dd69ede40ca',1,'Widget']]],
-  ['currenttrailtime',['currentTrailTime',['../class_widget.html#a2a046e3828034351d42daf9cb72a3250',1,'Widget']]]
+  ['currenttrailtime',['currentTrailTime',['../class_widget.html#a2a046e3828034351d42daf9cb72a3250',1,'Widget']]],
+  ['cvmattoqimage',['cvMatToQImage',['../class_qt_to_opencv_1_1_image_conversion.html#a9596d9d907f5f007a205fb7b687e27df',1,'QtToOpencv::ImageConversion']]],
+  ['cvmattoqpixmap',['cvMatToQPixmap',['../class_qt_to_opencv_1_1_image_conversion.html#a8e3ebfadc86ba28950058566ebfef42d',1,'QtToOpencv::ImageConversion']]]
 ];
