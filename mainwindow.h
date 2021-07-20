@@ -49,9 +49,13 @@ private:
     void updateObjectInfo(HierarchyObject* obj);
 
 signals:
+    /** @brief 录像开启信号，从mainwindow传到widget;携带参数为摄像机移动速度、录像是否存储，不存储则为预览模式 */
     void onRecordVideo2Widget(float speed, bool RecordOrPreview);
+    /** @brief 录像关闭信号，从mainwindow传到recordwindow；携带参数为录像是否存储，存储则开启save功能 */
     void offRecordVideo2recordWindow(bool RecordOrPreview);
+    /** @brief 视频开始保存信号，从mainwindow传到widget */
     void onSaveVideo2Widget();
+    /** @brief 视频保存结束信号，从mainwindow传到widget */
     void offSaveVideo2recordWindow();
 
 private slots:
