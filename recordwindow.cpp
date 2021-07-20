@@ -2,7 +2,7 @@
 #include "ui_recordwindow.h"
 #include <QHBoxLayout>
 #include <qdebug.h>
-recordWindow::recordWindow(QWidget *parent) :
+RecordWindow::RecordWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::recordWindow)
 {
@@ -26,7 +26,7 @@ recordWindow::recordWindow(QWidget *parent) :
     connect(ui->pushButton_recordPreview, SIGNAL(click()), this, SLOT(on_pushButton_recordPreview_clicked()));
 }
 
-void recordWindow::setLineEditValue(int value)
+void RecordWindow::setLineEditValue(int value)
 {
     int pos = ui->slider->value();
     QString str = QString("%1").arg(pos);
@@ -34,30 +34,30 @@ void recordWindow::setLineEditValue(int value)
     speed = (float)pos;
 }
 
-recordWindow::~recordWindow()
+RecordWindow::~RecordWindow()
 {
     delete ui;
 }
 
-void recordWindow::on_lineEdit_textEdited(const QString &arg1)
+void RecordWindow::on_lineEdit_textEdited(const QString &arg1)
 {
     speed = QString(ui->lineEdit_slider->text()).toFloat();
     ui->slider->setValue(speed);
 }
 
-void recordWindow::on_pushButton_recordBegin_clicked()
+void RecordWindow::on_pushButton_recordBegin_clicked()
 {
     qDebug() << "record begin";
     emit(onRecordVideo2MainWindow(speed,true));
 }
 
-void recordWindow::on_pushButton_recordPreview_clicked()
+void RecordWindow::on_pushButton_recordPreview_clicked()
 {
     qDebug() << "preview begin";
     emit(onRecordVideo2MainWindow(speed, false));
 }
 
-void recordWindow::offRecordVideo(bool RecordOrPreview)
+void RecordWindow::offRecordVideo(bool RecordOrPreview)
 {
     if (RecordOrPreview) {
         qDebug() << "record finish";
@@ -71,13 +71,13 @@ void recordWindow::offRecordVideo(bool RecordOrPreview)
 
 
 
-void recordWindow::on_pushButton_recordSave_clicked()
+void RecordWindow::on_pushButton_recordSave_clicked()
 {
     qDebug() << "save begin";
     emit(onSaveVideo2MainWindow());
 }
 
-void recordWindow::offSaveVideo()
+void RecordWindow::offSaveVideo()
 {
     qDebug() << "save finish";
     ui->pushButton_recordSave->setEnabled(false);

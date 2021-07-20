@@ -117,7 +117,7 @@ private:
     HierarchyModel* hierarchy;
 
     PointCloudRenderer* MainWindow::importPointCloud(const QString& path, float initialScale); 
-    recordWindow* record;
+    RecordWindow* record;
 };
 
 #endif // MAINWINDOW_H

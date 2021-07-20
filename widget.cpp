@@ -314,7 +314,7 @@ void Widget::fixedUpdate() {
         if (currentTrailTime > currentTrail->keypoints.size() - 1) {
             currentTrail = NULL;
             currentTrailTime = 0;
-            emit(videoRecordFinish(videoRecordFinish));
+            emit(videoRecordFinish(videoRecordFlag));
             videoRecordFlag = false;
             
         }

@@ -53,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     statusBar()->showMessage("Done");
-    record = new recordWindow();
+    record = new RecordWindow();
     connect(ui->openGLWidget, SIGNAL(onSelection(HierarchyObject*)), this, SLOT(onWidgetSelection(HierarchyObject*)));
     connect(ui->openGLWidget, SIGNAL(onTransformEdited(HierarchyObject*)), this, SLOT(onWidgetTransformEdited(HierarchyObject*)));
 
