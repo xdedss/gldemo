@@ -59,6 +59,13 @@
 #include "mainwindow.h"
 #include <QLabel>
 
+//保存视频     
+#include <opencv2\opencv.hpp>
+#include <opencv2\core\core.hpp>
+#include <opencv2\highgui\highgui.hpp>
+#include "qttoopencv.h"
+#include <opencv2/videoio.hpp>
+
 
 /**
 * @class Widget 
@@ -121,14 +128,14 @@ private:
     float distance = 5;
     int windowX = 0,windowY = 0;
     float videoRecordSpeed = 0.01;
-    bool videoSave = false;
+    bool videoRecordFlag = false;
 
 
 private slots:
     /** @brief 接收时钟信号，更新帧 */
     void fixedUpdate();
     /** @brief 接收录制视频信号 */
-    void onRecordVideo1Wigdet(float speed);
+    void onRecordVideo1Wigdet(float speed, bool RecordOrPreview);
     /** @brief 接收保存视频信号 */
     void onSaveVideo1Widget();
 
@@ -140,7 +147,7 @@ signals:
     /** @brief 实现拖拽的信号函数 */
 	void drag_signal(std::string re_path);
     /** @brief 视频录制结束信号 */
-    void videoRecordFinish();
+    void videoRecordFinish(bool RecordOrPreview);
     /** @brief 视频保存结束信号 */
     void videoSaveFinish();
 

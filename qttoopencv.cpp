@@ -1,7 +1,7 @@
 #include <QDebug>
 #include <QImage>
 #include <QPixmap>
-#include "mycode\qttoopencv.h"
+#include "qttoopencv.h"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/imgproc/types_c.h"
 
