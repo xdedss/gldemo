@@ -107,8 +107,6 @@ $(document).ready(function(){initNavTree('class_point_cloud.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_point_cloud-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">PointCloud Class Reference</div>  </div>
@@ -122,44 +120,6 @@ Inheritance diagram for PointCloud:</div>
   <map id="PointCloud_map" name="PointCloud_map">
 </map>
  </div></div>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a4f65b790490d4a230e931d141e356ee8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4f65b790490d4a230e931d141e356ee8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>PointCloud</b> (QOpenGLShaderProgram *shader=NULL)</td></tr>
-<tr class="separator:a4f65b790490d4a230e931d141e356ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac530ce1d07d7f6c6a6dfe59f494ad521"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac530ce1d07d7f6c6a6dfe59f494ad521"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setVertices</b> (const std::vector&lt; <a class="el" href="class_vertex.html">Vertex</a> &gt; &amp;vertices)</td></tr>
-<tr class="separator:ac530ce1d07d7f6c6a6dfe59f494ad521"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91a10833e5f2caa54d816604d0cb2153"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a91a10833e5f2caa54d816604d0cb2153"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>render</b> (glm::mat4 projection, glm::mat4 view)</td></tr>
-<tr class="separator:a91a10833e5f2caa54d816604d0cb2153"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a174fcf8316ce29a0303110793d322d61"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a174fcf8316ce29a0303110793d322d61"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>bind</b> ()</td></tr>
-<tr class="separator:a174fcf8316ce29a0303110793d322d61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88e3fc7cdb1c07c15c6415ff09d5596c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a88e3fc7cdb1c07c15c6415ff09d5596c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>release</b> ()</td></tr>
-<tr class="separator:a88e3fc7cdb1c07c15c6415ff09d5596c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a345b1f82492e4990f4831bd666ab8cf5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a345b1f82492e4990f4831bd666ab8cf5"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>kdtree_get_point_count</b> () const </td></tr>
-<tr class="separator:a345b1f82492e4990f4831bd666ab8cf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a998fdaf71039d30c59f91891fe0695e2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a998fdaf71039d30c59f91891fe0695e2"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>kdtree_get_pt</b> (const size_t idx, int dim) const </td></tr>
-<tr class="separator:a998fdaf71039d30c59f91891fe0695e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41aef27359a60ff4c6a6bd38209b078f"><td class="memTemplParams" colspan="2"><a class="anchor" id="a41aef27359a60ff4c6a6bd38209b078f"></a>
-template&lt;class BBOX &gt; </td></tr>
-<tr class="memitem:a41aef27359a60ff4c6a6bd38209b078f"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>kdtree_get_bbox</b> (BBOX &amp;bb) const </td></tr>
-<tr class="separator:a41aef27359a60ff4c6a6bd38209b078f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a0db91e7b63b6e5c5ccf2dd9306045e58"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0db91e7b63b6e5c5ccf2dd9306045e58"></a>
-glm::mat4&#160;</td><td class="memItemRight" valign="bottom"><b>transform</b></td></tr>
-<tr class="separator:a0db91e7b63b6e5c5ccf2dd9306045e58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4179ef41cf230f80c11233145a8e3222"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4179ef41cf230f80c11233145a8e3222"></a>
-QOpenGLShaderProgram *&#160;</td><td class="memItemRight" valign="bottom"><b>shader</b> = NULL</td></tr>
-<tr class="separator:a4179ef41cf230f80c11233145a8e3222"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="pointcloud_8h_source.html">pointcloud.h</a></li>
 </ul>

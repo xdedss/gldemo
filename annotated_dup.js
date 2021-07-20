@@ -8,13 +8,13 @@ var annotated_dup =
     [ "HierarchyObject", "class_hierarchy_object.html", "class_hierarchy_object" ],
     [ "LineRenderer", "class_line_renderer.html", "class_line_renderer" ],
     [ "MainWindow", "class_main_window.html", "class_main_window" ],
-    [ "PointCloud", "class_point_cloud.html", "class_point_cloud" ],
+    [ "PointCloud", "class_point_cloud.html", null ],
     [ "PointCloudRenderer", "class_point_cloud_renderer.html", "class_point_cloud_renderer" ],
-    [ "recordWindow", "classrecord_window.html", "classrecord_window" ],
+    [ "recordWindow", "classrecord_window.html", null ],
     [ "Renderer", "class_renderer.html", "class_renderer" ],
     [ "SkyboxRenderer", "class_skybox_renderer.html", "class_skybox_renderer" ],
     [ "Trail", "class_trail.html", "class_trail" ],
-    [ "Vertex", "class_vertex.html", "class_vertex" ],
-    [ "VerticesAdaptor", "class_vertices_adaptor.html", "class_vertices_adaptor" ],
+    [ "Vertex", "class_vertex.html", null ],
+    [ "VerticesAdaptor", "class_vertices_adaptor.html", null ],
     [ "Widget", "class_widget.html", "class_widget" ]
 ];

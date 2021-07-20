@@ -108,7 +108,7 @@ $(document).ready(function(){initNavTree('class_main_window.html','');});
 <div class="header">
   <div class="summary">
 <a href="#signals">Signals</a> &#124;
-<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="class_main_window-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">MainWindow Class Reference</div>  </div>
@@ -142,12 +142,70 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:a20b044ffe67541e6c7a3b96ae9a82999"><td class="mdescLeft">&#160;</td><td class="mdescRight">视频保存结束信号，从mainwindow传到widget <br /></td></tr>
 <tr class="separator:a20b044ffe67541e6c7a3b96ae9a82999"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a996c5a2b6f77944776856f08ec30858d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a996c5a2b6f77944776856f08ec30858d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>MainWindow</b> (QWidget *parent=nullptr)</td></tr>
-<tr class="separator:a996c5a2b6f77944776856f08ec30858d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a662b4e2fc9bfc77a90f9023955d3e190"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a662b4e2fc9bfc77a90f9023955d3e190">showObjectInfo</a> (<a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *obj)</td></tr>
+<tr class="memdesc:a662b4e2fc9bfc77a90f9023955d3e190"><td class="mdescLeft">&#160;</td><td class="mdescRight">在Qt界面显示物体的平移，旋转，缩放变换信息  <a href="#a662b4e2fc9bfc77a90f9023955d3e190">More...</a><br /></td></tr>
+<tr class="separator:a662b4e2fc9bfc77a90f9023955d3e190"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3849cb0fd4df66422666ba06c1050689"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a3849cb0fd4df66422666ba06c1050689">updateObjectInfo</a> (<a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *obj)</td></tr>
+<tr class="memdesc:a3849cb0fd4df66422666ba06c1050689"><td class="mdescLeft">&#160;</td><td class="mdescRight">在Qt界面根据输入的信息，更新物体的平移，旋转，缩放  <a href="#a3849cb0fd4df66422666ba06c1050689">More...</a><br /></td></tr>
+<tr class="separator:a3849cb0fd4df66422666ba06c1050689"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a662b4e2fc9bfc77a90f9023955d3e190"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MainWindow::showObjectInfo </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *&#160;</td>
+          <td class="paramname"><em>obj</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在Qt界面显示物体的平移，旋转，缩放变换信息 </p>
+<dl class="section attention"><dt>Attention</dt><dd>rotation顺序为y-&gt;x-&gt;z。单位为 角度制 规定 x转角范围为[-pi/2,pi/2],y/z转角范围为[-pi,pi] </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a3849cb0fd4df66422666ba06c1050689"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MainWindow::updateObjectInfo </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *&#160;</td>
+          <td class="paramname"><em>obj</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在Qt界面根据输入的信息，更新物体的平移，旋转，缩放 </p>
+<dl class="section attention"><dt>Attention</dt><dd>单位为 角度制 输入时，x转角范围可以为[-pi,pi]，而后再次选中该物体时，xyz转角自动转化为showObjectInfo函数规定的范围 </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="mainwindow_8h_source.html">mainwindow.h</a></li>
 <li>mainwindow.cpp</li>

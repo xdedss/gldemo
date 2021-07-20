@@ -108,7 +108,6 @@ $(document).ready(function(){initNavTree('class_point_cloud_renderer.html','');}
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_point_cloud_renderer-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">PointCloudRenderer Class Reference</div>  </div>
@@ -135,28 +134,7 @@ QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_point_cloud_renderer.html#a2e785d573849a727a30f536a420052c5">onRender</a> (OpenGLFunctions *gl, glm::mat4 projection, glm::mat4 view, glm::mat4 model) override</td></tr>
 <tr class="memdesc:a2e785d573849a727a30f536a420052c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">渲染事件，每帧会被调用 <br /></td></tr>
 <tr class="separator:a2e785d573849a727a30f536a420052c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21b94889096f005f4ccbd5e48dcfa660"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a21b94889096f005f4ccbd5e48dcfa660"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setVertices</b> (const std::vector&lt; <a class="el" href="class_vertex.html">Vertex</a> &gt; &amp;vertices)</td></tr>
-<tr class="separator:a21b94889096f005f4ccbd5e48dcfa660"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade4d8dbbd5678fb5b0630b432cda9f58"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ade4d8dbbd5678fb5b0630b432cda9f58"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>vertexCount</b> ()</td></tr>
-<tr class="separator:ade4d8dbbd5678fb5b0630b432cda9f58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4888d78ad8843909b08301f051fe8b8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad4888d78ad8843909b08301f051fe8b8"></a>
-<a class="el" href="class_vertex.html">Vertex</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getVertex</b> (int i)</td></tr>
-<tr class="separator:ad4888d78ad8843909b08301f051fe8b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abccfa8e44b8da18a0b3329b1f462a32f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abccfa8e44b8da18a0b3329b1f462a32f"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>nearestSearch</b> (QVector3D pos)</td></tr>
-<tr class="separator:abccfa8e44b8da18a0b3329b1f462a32f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace773137d013855660a70edf4fb94adc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ace773137d013855660a70edf4fb94adc"></a>
-std::vector&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>nearestSearch</b> (QVector3D pos, int k)</td></tr>
-<tr class="separator:ace773137d013855660a70edf4fb94adc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a537d0c5978b2a153d475a642247cd366"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a537d0c5978b2a153d475a642247cd366"></a>
-std::vector&lt; <a class="el" href="class_vertex.html">Vertex</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getVertices</b> ()</td></tr>
-<tr class="separator:a537d0c5978b2a153d475a642247cd366"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_renderer"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_renderer')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_renderer.html">Renderer</a></td></tr>
-<tr class="memitem:a75fb0cae2e0ccef817ff6bb80e60a879 inherit pub_methods_class_renderer"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a75fb0cae2e0ccef817ff6bb80e60a879"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>onInit</b> () override</td></tr>
-<tr class="separator:a75fb0cae2e0ccef817ff6bb80e60a879 inherit pub_methods_class_renderer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3f10732d5c9350623dcac4d039e07ee inherit pub_methods_class_renderer"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac3f10732d5c9350623dcac4d039e07ee"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_renderer.html#ac3f10732d5c9350623dcac4d039e07ee">onUpdate</a> () override</td></tr>
 <tr class="memdesc:ac3f10732d5c9350623dcac4d039e07ee inherit pub_methods_class_renderer"><td class="mdescLeft">&#160;</td><td class="mdescRight">每帧被调用一次 <br /></td></tr>
@@ -179,23 +157,13 @@ std::vector&lt; QString &gt;&#160;</td><td class="memItemRight" valign="bottom">
 <tr class="memdesc:abda6e941903784ddf398350d02fb93eb inherit pub_methods_class_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取所有键 <br /></td></tr>
 <tr class="separator:abda6e941903784ddf398350d02fb93eb inherit pub_methods_class_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a9b26973dd2dbc37a1d1fe7293c4e9536"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b26973dd2dbc37a1d1fe7293c4e9536"></a>
-QOpenGLShaderProgram *&#160;</td><td class="memItemRight" valign="bottom"><b>shader</b> = NULL</td></tr>
-<tr class="separator:a9b26973dd2dbc37a1d1fe7293c4e9536"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_attribs_class_renderer"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_renderer')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class_renderer.html">Renderer</a></td></tr>
-<tr class="memitem:a4c4fbf6880f3500cf503ac8498e9c912 inherit pub_attribs_class_renderer"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4c4fbf6880f3500cf503ac8498e9c912"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>highlight</b> = false</td></tr>
-<tr class="separator:a4c4fbf6880f3500cf503ac8498e9c912 inherit pub_attribs_class_renderer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_attribs_class_component"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_component')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class_component.html">Component</a></td></tr>
 <tr class="memitem:a01eb8a026d663cdcb625d99190a4f192 inherit pub_attribs_class_component"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a01eb8a026d663cdcb625d99190a4f192"></a>
 <a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_component.html#a01eb8a026d663cdcb625d99190a4f192">hierarchyObject</a></td></tr>
 <tr class="memdesc:a01eb8a026d663cdcb625d99190a4f192 inherit pub_attribs_class_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">指向这个组件挂载的对象 <br /></td></tr>
 <tr class="separator:a01eb8a026d663cdcb625d99190a4f192 inherit pub_attribs_class_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_methods_class_component"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_component')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_component.html">Component</a></td></tr>
 <tr class="memitem:ae5bdb472442cf704e1f27a05c6593316 inherit pro_methods_class_component"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5bdb472442cf704e1f27a05c6593316"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_component.html#ae5bdb472442cf704e1f27a05c6593316">defProp</a> (const QString &amp;key, const QVariant &amp;init)</td></tr>

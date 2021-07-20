@@ -108,7 +108,6 @@ $(document).ready(function(){initNavTree('class_trail.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_trail-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Trail Class Reference</div>  </div>
@@ -134,22 +133,7 @@ QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_trail.html#aaee6b727969ee5b265dd812dc93b843a">onUpdate</a> () override</td></tr>
 <tr class="memdesc:aaee6b727969ee5b265dd812dc93b843a"><td class="mdescLeft">&#160;</td><td class="mdescRight">每帧被调用一次 <br /></td></tr>
 <tr class="separator:aaee6b727969ee5b265dd812dc93b843a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc0996fad5ce6181613393aab7f71040"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abc0996fad5ce6181613393aab7f71040"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>compareDiff</b> ()</td></tr>
-<tr class="separator:abc0996fad5ce6181613393aab7f71040"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaee15cf387227acf35fe076faaefb687"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaee15cf387227acf35fe076faaefb687"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>updateRenderer</b> ()</td></tr>
-<tr class="separator:aaee15cf387227acf35fe076faaefb687"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdf1a3e4e8c8d35a7d49720f0f31d2b4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abdf1a3e4e8c8d35a7d49720f0f31d2b4"></a>
-glm::mat4&#160;</td><td class="memItemRight" valign="bottom"><b>interpolate</b> (float t)</td></tr>
-<tr class="separator:abdf1a3e4e8c8d35a7d49720f0f31d2b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ef292a900b31e595b41eea0f8e6b03e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8ef292a900b31e595b41eea0f8e6b03e"></a>
-glm::mat4&#160;</td><td class="memItemRight" valign="bottom"><b>slerp</b> (glm::mat4 m1, glm::mat4 m2, float t)</td></tr>
-<tr class="separator:a8ef292a900b31e595b41eea0f8e6b03e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_component"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_component')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_component.html">Component</a></td></tr>
-<tr class="memitem:a06ff73b8bd18d7d0fa387411f378996d inherit pub_methods_class_component"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a06ff73b8bd18d7d0fa387411f378996d"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>onInit</b> ()</td></tr>
-<tr class="separator:a06ff73b8bd18d7d0fa387411f378996d inherit pub_methods_class_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35debebcd31a06c01a8cffd398750608 inherit pub_methods_class_component"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a35debebcd31a06c01a8cffd398750608"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_component.html#a35debebcd31a06c01a8cffd398750608">onPropertyChange</a> (const QString &amp;key, const QVariant &amp;original)</td></tr>
 <tr class="memdesc:a35debebcd31a06c01a8cffd398750608 inherit pub_methods_class_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">有属性被更改时被调用一次 <br /></td></tr>
@@ -167,22 +151,13 @@ std::vector&lt; QString &gt;&#160;</td><td class="memItemRight" valign="bottom">
 <tr class="memdesc:abda6e941903784ddf398350d02fb93eb inherit pub_methods_class_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取所有键 <br /></td></tr>
 <tr class="separator:abda6e941903784ddf398350d02fb93eb inherit pub_methods_class_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a889142d970c316b7518f59799c10e185"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a889142d970c316b7518f59799c10e185"></a>
-std::vector&lt; glm::mat4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>keypoints</b></td></tr>
-<tr class="separator:a889142d970c316b7518f59799c10e185"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab785786a32370fe6d8073aeae79e0cee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab785786a32370fe6d8073aeae79e0cee"></a>
-<a class="el" href="class_line_renderer.html">LineRenderer</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>renderer</b> = NULL</td></tr>
-<tr class="separator:ab785786a32370fe6d8073aeae79e0cee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_attribs_class_component"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_component')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class_component.html">Component</a></td></tr>
 <tr class="memitem:a01eb8a026d663cdcb625d99190a4f192 inherit pub_attribs_class_component"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a01eb8a026d663cdcb625d99190a4f192"></a>
 <a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_component.html#a01eb8a026d663cdcb625d99190a4f192">hierarchyObject</a></td></tr>
 <tr class="memdesc:a01eb8a026d663cdcb625d99190a4f192 inherit pub_attribs_class_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">指向这个组件挂载的对象 <br /></td></tr>
 <tr class="separator:a01eb8a026d663cdcb625d99190a4f192 inherit pub_attribs_class_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_methods_class_component"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_component')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_component.html">Component</a></td></tr>
 <tr class="memitem:ae5bdb472442cf704e1f27a05c6593316 inherit pro_methods_class_component"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5bdb472442cf704e1f27a05c6593316"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_component.html#ae5bdb472442cf704e1f27a05c6593316">defProp</a> (const QString &amp;key, const QVariant &amp;init)</td></tr>

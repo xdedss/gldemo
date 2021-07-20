@@ -110,6 +110,7 @@ $(document).ready(function(){initNavTree('class_hierarchy_model.html','');});
 <a href="#pub-slots">Public Slots</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_hierarchy_model-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">HierarchyModel Class Reference</div>  </div>
@@ -170,45 +171,6 @@ QModelIndex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hierarchy_model.html#abf5712d27119f8ba3a27c2928e209508">retrieveDroppedObjects</a> (const QMimeData *data, std::vector&lt; <a class="el" href="class_hierarchy_object.html">HierarchyObject</a> * &gt; &amp;out_objects) const </td></tr>
 <tr class="memdesc:abf5712d27119f8ba3a27c2928e209508"><td class="mdescLeft">&#160;</td><td class="mdescRight">取出mime里面的拖放来源 <br /></td></tr>
 <tr class="separator:abf5712d27119f8ba3a27c2928e209508"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafd475eac48693c0f6bcc5775ff066f4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aafd475eac48693c0f6bcc5775ff066f4"></a>
-QModelIndex&#160;</td><td class="memItemRight" valign="bottom"><b>index</b> (int row, int column, const QModelIndex &amp;parent=QModelIndex()) const </td></tr>
-<tr class="separator:aafd475eac48693c0f6bcc5775ff066f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85a103502ab3246dbe9a7a888f01ea36"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a85a103502ab3246dbe9a7a888f01ea36"></a>
-QModelIndex&#160;</td><td class="memItemRight" valign="bottom"><b>parent</b> (const QModelIndex &amp;index) const </td></tr>
-<tr class="separator:a85a103502ab3246dbe9a7a888f01ea36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5764646d260238995315220e3c937cc7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5764646d260238995315220e3c937cc7"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>rowCount</b> (const QModelIndex &amp;parent=QModelIndex()) const </td></tr>
-<tr class="separator:a5764646d260238995315220e3c937cc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af713c20efd74df83812b77d7fb0a1855"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af713c20efd74df83812b77d7fb0a1855"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>columnCount</b> (const QModelIndex &amp;parent=QModelIndex()) const </td></tr>
-<tr class="separator:af713c20efd74df83812b77d7fb0a1855"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adae7a6a1017b3516f2034d8740493322"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adae7a6a1017b3516f2034d8740493322"></a>
-QVariant&#160;</td><td class="memItemRight" valign="bottom"><b>data</b> (const QModelIndex &amp;index, int role=Qt::DisplayRole) const </td></tr>
-<tr class="separator:adae7a6a1017b3516f2034d8740493322"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6b1b22465a5690d3718ef5b83e70cb3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6b1b22465a5690d3718ef5b83e70cb3"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>setData</b> (const QModelIndex &amp;index, const QVariant &amp;value, int role)</td></tr>
-<tr class="separator:ac6b1b22465a5690d3718ef5b83e70cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c65bb45ec32fa811fc37188b76e7ee6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3c65bb45ec32fa811fc37188b76e7ee6"></a>
-Qt::ItemFlags&#160;</td><td class="memItemRight" valign="bottom"><b>flags</b> (const QModelIndex &amp;index) const </td></tr>
-<tr class="separator:a3c65bb45ec32fa811fc37188b76e7ee6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d2749be6a4472233b4548795fe0d14c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8d2749be6a4472233b4548795fe0d14c"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>canDropMimeData</b> (const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &amp;parent) const </td></tr>
-<tr class="separator:a8d2749be6a4472233b4548795fe0d14c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e46a012540b98a36a950e3ff2627ef1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5e46a012540b98a36a950e3ff2627ef1"></a>
-QMimeData *&#160;</td><td class="memItemRight" valign="bottom"><b>mimeData</b> (const QModelIndexList &amp;indexes) const </td></tr>
-<tr class="separator:a5e46a012540b98a36a950e3ff2627ef1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a585461340454c5b79201c524d2a12123"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a585461340454c5b79201c524d2a12123"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>dropMimeData</b> (const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &amp;parent)</td></tr>
-<tr class="separator:a585461340454c5b79201c524d2a12123"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedf784cd965397898cf59c5ea9692cd5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aedf784cd965397898cf59c5ea9692cd5"></a>
-QStringList&#160;</td><td class="memItemRight" valign="bottom"><b>mimeTypes</b> () const </td></tr>
-<tr class="separator:aedf784cd965397898cf59c5ea9692cd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adaff2b5c2f8bdc466883fb94d11f75bc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adaff2b5c2f8bdc466883fb94d11f75bc"></a>
-Qt::DropActions&#160;</td><td class="memItemRight" valign="bottom"><b>supportedDropActions</b> () const </td></tr>
-<tr class="separator:adaff2b5c2f8bdc466883fb94d11f75bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3574a141799ff7af94edecb51515c07"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa3574a141799ff7af94edecb51515c07"></a>
-QVariant&#160;</td><td class="memItemRight" valign="bottom"><b>headerData</b> (int section, Qt::Orientation orientation, int role=Qt::DisplayRole) const </td></tr>
-<tr class="separator:aa3574a141799ff7af94edecb51515c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -228,6 +190,13 @@ QModelIndex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hierarchy_model.html#ae120fa43c10cc425f8f1baef385fe00a">lastSelected</a> = NULL</td></tr>
 <tr class="memdesc:ae120fa43c10cc425f8f1baef385fe00a"><td class="mdescLeft">&#160;</td><td class="mdescRight">记录用户选中的最后一个物体 <br /></td></tr>
 <tr class="separator:ae120fa43c10cc425f8f1baef385fe00a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a1a6d129b4495cdd0259ce958c3015b20"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1a6d129b4495cdd0259ce958c3015b20"></a>
+std::vector&lt; <a class="el" href="class_hierarchy_object.html">HierarchyObject</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hierarchy_model.html#a1a6d129b4495cdd0259ce958c3015b20">objects</a></td></tr>
+<tr class="memdesc:a1a6d129b4495cdd0259ce958c3015b20"><td class="mdescLeft">&#160;</td><td class="mdescRight">储存所有被创建的节点 <br /></td></tr>
+<tr class="separator:a1a6d129b4495cdd0259ce958c3015b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>对场景树的ui显示进行统一的管理 </p>

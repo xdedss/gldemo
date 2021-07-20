@@ -110,7 +110,7 @@ $(document).ready(function(){initNavTree('class_widget.html','');});
 <a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pri-slots">Private Slots</a> &#124;
 <a href="class_widget-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Widget Class Reference</div>  </div>
@@ -155,9 +155,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ace1aa23652eb4425355a81760b39fd37"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ace1aa23652eb4425355a81760b39fd37"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Widget</b> (QWidget *parent=nullptr)</td></tr>
-<tr class="separator:ace1aa23652eb4425355a81760b39fd37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af74ac99e0f665c99bacf24c1f8a3cc06"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af74ac99e0f665c99bacf24c1f8a3cc06"></a>
 OpenGLFunctions *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_widget.html#af74ac99e0f665c99bacf24c1f8a3cc06">functions</a> () const </td></tr>
 <tr class="memdesc:af74ac99e0f665c99bacf24c1f8a3cc06"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取含有OpenGL各种函数的对象 <br /></td></tr>
@@ -205,47 +202,20 @@ std::vector&lt; QPixmap &gt;&#160;</td><td class="memItemRight" valign="bottom">
 <tr class="memdesc:a6f118ff8678e687968472557fa4f4afc"><td class="mdescLeft">&#160;</td><td class="mdescRight">储存视频录制结果 <br /></td></tr>
 <tr class="separator:a6f118ff8678e687968472557fa4f4afc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:aa82f92aa844e359c6bc4fe9d86db31be"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa82f92aa844e359c6bc4fe9d86db31be"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>initializeGL</b> () override</td></tr>
-<tr class="separator:aa82f92aa844e359c6bc4fe9d86db31be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa68af983f0b5edc338e9a06955dc9552"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa68af983f0b5edc338e9a06955dc9552"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>resizeGL</b> (int w, int h) override</td></tr>
-<tr class="separator:aa68af983f0b5edc338e9a06955dc9552"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1d8c1448ed9e85b16deb9a7290658ef"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac1d8c1448ed9e85b16deb9a7290658ef"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>handleDefaultShader</b> (<a class="el" href="class_renderer.html">Renderer</a> *renderer)</td></tr>
-<tr class="separator:ac1d8c1448ed9e85b16deb9a7290658ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a278d6e9b633abf574785b4b4bf3ab0c3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a278d6e9b633abf574785b4b4bf3ab0c3"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>renderObjectRecursively</b> (const glm::mat4 &amp;proj, const glm::mat4 &amp;view, const glm::mat4 &amp;parentTransform, <a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *obj)</td></tr>
-<tr class="separator:a278d6e9b633abf574785b4b4bf3ab0c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab363dd9251c21b39932ea250ac74026"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab363dd9251c21b39932ea250ac74026"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>paintGL</b> () override</td></tr>
-<tr class="separator:aab363dd9251c21b39932ea250ac74026"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4383827885b52fbbdca1b3c200f9256a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4383827885b52fbbdca1b3c200f9256a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>mousePressEvent</b> (QMouseEvent *e)</td></tr>
-<tr class="separator:a4383827885b52fbbdca1b3c200f9256a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6b271e0f23f987c5f595b6319a9d462"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad6b271e0f23f987c5f595b6319a9d462"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>mouseMoveEvent</b> (QMouseEvent *e)</td></tr>
-<tr class="separator:ad6b271e0f23f987c5f595b6319a9d462"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af04e76812b7651394187d11dbebac42d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af04e76812b7651394187d11dbebac42d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>mouseReleaseEvent</b> (QMouseEvent *e)</td></tr>
-<tr class="separator:af04e76812b7651394187d11dbebac42d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7eb86c91868062c25675e92592bb5894"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7eb86c91868062c25675e92592bb5894"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>wheelEvent</b> (QWheelEvent *wheel)</td></tr>
-<tr class="separator:a7eb86c91868062c25675e92592bb5894"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00be10109bcc22cbb7c5642cf98819c1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a00be10109bcc22cbb7c5642cf98819c1"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>keyPressEvent</b> (QKeyEvent *key)</td></tr>
-<tr class="separator:a00be10109bcc22cbb7c5642cf98819c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaefa3689b73866941f1dfc191c4d0238"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaefa3689b73866941f1dfc191c4d0238"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>keyReleaseEvent</b> (QKeyEvent *key)</td></tr>
-<tr class="separator:aaefa3689b73866941f1dfc191c4d0238"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1069388e446f2d21fec84c702b7aba5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af1069388e446f2d21fec84c702b7aba5"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>dropEvent</b> (QDropEvent *e)</td></tr>
-<tr class="separator:af1069388e446f2d21fec84c702b7aba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a246789d0c6d79d6a4ed054eec7c609ab"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a246789d0c6d79d6a4ed054eec7c609ab"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>dragEnterEvent</b> (QDragEnterEvent *e)</td></tr>
-<tr class="separator:a246789d0c6d79d6a4ed054eec7c609ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-slots"></a>
+Private Slots</h2></td></tr>
+<tr class="memitem:a15a479dedd808b60b8a94cad384a883b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a15a479dedd808b60b8a94cad384a883b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_widget.html#a15a479dedd808b60b8a94cad384a883b">fixedUpdate</a> ()</td></tr>
+<tr class="memdesc:a15a479dedd808b60b8a94cad384a883b"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收时钟信号，更新帧 <br /></td></tr>
+<tr class="separator:a15a479dedd808b60b8a94cad384a883b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9bd021fb4a32126a41bbd2a62159f27"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae9bd021fb4a32126a41bbd2a62159f27"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_widget.html#ae9bd021fb4a32126a41bbd2a62159f27">onRecordVideo1Wigdet</a> (float speed, bool RecordOrPreview)</td></tr>
+<tr class="memdesc:ae9bd021fb4a32126a41bbd2a62159f27"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收录制视频信号 <br /></td></tr>
+<tr class="separator:ae9bd021fb4a32126a41bbd2a62159f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e4bc99c94cf961aa5600d529d123277"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8e4bc99c94cf961aa5600d529d123277"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_widget.html#a8e4bc99c94cf961aa5600d529d123277">onSaveVideo1Widget</a> ()</td></tr>
+<tr class="memdesc:a8e4bc99c94cf961aa5600d529d123277"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收保存视频信号 <br /></td></tr>
+<tr class="separator:a8e4bc99c94cf961aa5600d529d123277"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>OpenGL渲染窗口 </p>

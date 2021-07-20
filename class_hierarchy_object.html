@@ -109,6 +109,7 @@ $(document).ready(function(){initNavTree('class_hierarchy_object.html','');});
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_hierarchy_object-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">HierarchyObject Class Reference</div>  </div>
@@ -154,9 +155,6 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hierarchy_object.html#a2d7986ce2aaacb773855f5efee85bfb5">getParent</a> ()</td></tr>
 <tr class="memdesc:a2d7986ce2aaacb773855f5efee85bfb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取父节点 <br /></td></tr>
 <tr class="separator:a2d7986ce2aaacb773855f5efee85bfb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ef99adc55ed824152a789edceca5f94"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2ef99adc55ed824152a789edceca5f94"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>HierarchyObject</b> (const QString &amp;<a class="el" href="class_hierarchy_object.html#a785451b45dbe776411dd6f054697e91e">name</a>, <a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *parent=NULL)</td></tr>
-<tr class="separator:a2ef99adc55ed824152a789edceca5f94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af20aa37ecce8ce4dda21a34f5bf8896c"><td class="memItemLeft" align="right" valign="top">glm::mat4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hierarchy_object.html#af20aa37ecce8ce4dda21a34f5bf8896c">localToWorld</a> ()</td></tr>
 <tr class="memdesc:af20aa37ecce8ce4dda21a34f5bf8896c"><td class="mdescLeft">&#160;</td><td class="mdescRight">从局部坐标转世界坐标的矩阵  <a href="#af20aa37ecce8ce4dda21a34f5bf8896c">More...</a><br /></td></tr>
 <tr class="separator:af20aa37ecce8ce4dda21a34f5bf8896c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -191,30 +189,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hierarchy_object.html#a63f6ee732dd8410eac277a92c7910fd3">callRecursively</a> (const std::function&lt; void(<a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *)&gt; &amp;func, bool requireEnabled=false)</td></tr>
 <tr class="memdesc:a63f6ee732dd8410eac277a92c7910fd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">递归遍历子树 <br /></td></tr>
 <tr class="separator:a63f6ee732dd8410eac277a92c7910fd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96f47b0c87bf7243712dc6cb8ba78b36"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a96f47b0c87bf7243712dc6cb8ba78b36"></a>
-QModelIndex&#160;</td><td class="memItemRight" valign="bottom"><b>index</b> (int row, int column, const QModelIndex &amp;parent=QModelIndex()) const </td></tr>
-<tr class="separator:a96f47b0c87bf7243712dc6cb8ba78b36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac94db952f8881b26eb49815193362adc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac94db952f8881b26eb49815193362adc"></a>
-QModelIndex&#160;</td><td class="memItemRight" valign="bottom"><b>parent</b> (const QModelIndex &amp;index) const </td></tr>
-<tr class="separator:ac94db952f8881b26eb49815193362adc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a087f5264ba65f8ce5fa37173b58f2a0d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a087f5264ba65f8ce5fa37173b58f2a0d"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>rowCount</b> (const QModelIndex &amp;parent=QModelIndex()) const </td></tr>
-<tr class="separator:a087f5264ba65f8ce5fa37173b58f2a0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a726c863d743ce30f996449c94bc5ca"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2a726c863d743ce30f996449c94bc5ca"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>columnCount</b> (const QModelIndex &amp;parent=QModelIndex()) const </td></tr>
-<tr class="separator:a2a726c863d743ce30f996449c94bc5ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9eff5ae7fe3c5f62850b2291267f4fb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac9eff5ae7fe3c5f62850b2291267f4fb"></a>
-QVariant&#160;</td><td class="memItemRight" valign="bottom"><b>data</b> (const QModelIndex &amp;index, int role=Qt::DisplayRole) const </td></tr>
-<tr class="separator:ac9eff5ae7fe3c5f62850b2291267f4fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2b8607f73797af580dc884f61c255f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab2b8607f73797af580dc884f61c255f8"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>setData</b> (const QModelIndex &amp;index, const QVariant &amp;value, int role)</td></tr>
-<tr class="separator:ab2b8607f73797af580dc884f61c255f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a612420ebd7cb4bee64bfd59db53cb2eb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a612420ebd7cb4bee64bfd59db53cb2eb"></a>
-Qt::ItemFlags&#160;</td><td class="memItemRight" valign="bottom"><b>flags</b> (const QModelIndex &amp;index) const </td></tr>
-<tr class="separator:a612420ebd7cb4bee64bfd59db53cb2eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3784f18fdaf155c07b1c2cdc82a58e86"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3784f18fdaf155c07b1c2cdc82a58e86"></a>
-QVariant&#160;</td><td class="memItemRight" valign="bottom"><b>headerData</b> (int section, Qt::Orientation orientation, int role=Qt::DisplayRole) const </td></tr>
-<tr class="separator:a3784f18fdaf155c07b1c2cdc82a58e86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -230,6 +204,21 @@ QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hierarchy_object.html#a2882ff2b8a9e2f587b3cbe9b3e5fb3a7">enabled</a></td></tr>
 <tr class="memdesc:a2882ff2b8a9e2f587b3cbe9b3e5fb3a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">如果为false，则其上及子节点上组件的onUpdate不会被调用 <br /></td></tr>
 <tr class="separator:a2882ff2b8a9e2f587b3cbe9b3e5fb3a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:aa5d6af35a3aa0bb5973b15330325f33b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa5d6af35a3aa0bb5973b15330325f33b"></a>
+std::vector&lt; <a class="el" href="class_hierarchy_object.html">HierarchyObject</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hierarchy_object.html#aa5d6af35a3aa0bb5973b15330325f33b">children</a></td></tr>
+<tr class="memdesc:aa5d6af35a3aa0bb5973b15330325f33b"><td class="mdescLeft">&#160;</td><td class="mdescRight">子节点列表 <br /></td></tr>
+<tr class="separator:aa5d6af35a3aa0bb5973b15330325f33b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e45a421cfdbc17acbb7296964b9abee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0e45a421cfdbc17acbb7296964b9abee"></a>
+std::vector&lt; <a class="el" href="class_component.html">Component</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hierarchy_object.html#a0e45a421cfdbc17acbb7296964b9abee">components</a></td></tr>
+<tr class="memdesc:a0e45a421cfdbc17acbb7296964b9abee"><td class="mdescLeft">&#160;</td><td class="mdescRight">该节点挂载的组件列表 <br /></td></tr>
+<tr class="separator:a0e45a421cfdbc17acbb7296964b9abee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a094e174b53a064f62f25be6691110a1b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a094e174b53a064f62f25be6691110a1b"></a>
+<a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hierarchy_object.html#a094e174b53a064f62f25be6691110a1b">parentObj</a> = NULL</td></tr>
+<tr class="memdesc:a094e174b53a064f62f25be6691110a1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">该节点的父节点 <br /></td></tr>
+<tr class="separator:a094e174b53a064f62f25be6691110a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>表示场景树中的节点 </p>
