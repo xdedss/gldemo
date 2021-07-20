@@ -10,7 +10,7 @@ var annotated_dup =
     [ "MainWindow", "class_main_window.html", "class_main_window" ],
     [ "PointCloud", "class_point_cloud.html", null ],
     [ "PointCloudRenderer", "class_point_cloud_renderer.html", "class_point_cloud_renderer" ],
-    [ "recordWindow", "classrecord_window.html", "classrecord_window" ],
+    [ "RecordWindow", "class_record_window.html", "class_record_window" ],
     [ "Renderer", "class_renderer.html", "class_renderer" ],
     [ "SkyboxRenderer", "class_skybox_renderer.html", "class_skybox_renderer" ],
     [ "Trail", "class_trail.html", "class_trail" ],

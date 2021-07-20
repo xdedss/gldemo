@@ -18,7 +18,7 @@ var hierarchy =
     ] ],
     [ "QMainWindow", null, [
       [ "MainWindow", "class_main_window.html", null ],
-      [ "recordWindow", "classrecord_window.html", null ]
+      [ "RecordWindow", "class_record_window.html", null ]
     ] ],
     [ "QOpenGLFunctions_4_3_Core", null, [
       [ "PointCloud", "class_point_cloud.html", null ]
