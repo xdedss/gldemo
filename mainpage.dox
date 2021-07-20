@@ -2,7 +2,8 @@
 /** \mainpage 基于OpenGL和Qt的3D点云渲染
  * 
  *  Links:
- *   - <a href="annotated.html">按class查看</a>
+ *   - <a href="annotated.html">class概览</a>
+ *   - <a href="hierarchy.html">按继承关系查看</a>
  *   - <a href="https://github.com/xdedss/gldemo" target="_blank">源码仓库</a>
  *  
  *  # 项目概述
