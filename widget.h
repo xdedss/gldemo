@@ -67,6 +67,10 @@
 #include <opencv2/videoio.hpp>
 
 
+/**
+* @class Widget 
+* @brief OpenGL渲染窗口
+*/
 class Widget : public QOpenGLWidget, protected OpenGLFunctions
 {
     Q_OBJECT
@@ -75,32 +79,38 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+    /** @brief 获取含有OpenGL各种函数的对象 */
     OpenGLFunctions* functions() const;
 
-    // shader   
+    /** @brief 储存加载好的shader */
     std::map<QString, QOpenGLShaderProgram*> shaders;
 
-    // 模型  
+    /** @brief 要渲染的场景 */
     HierarchyModel* hierarchy;
 
-    // 显示辅助信息用的根节点   
+    /** @brief 显示辅助信息用的根节点 */  
     HierarchyObject* gizmosRoot;
 
+    /** @brief 天空渲染（单独处理） */
     SkyboxRenderer* skybox;
-    
-    // 当前播放的路径  
-    Trail* currentTrail = NULL;
-    float currentTrailTime = 0;
 
-    // 局部坐标轴显示  
+    /** @brief 局部坐标轴节点（单独处理） */
     HierarchyObject* handleObj;
     
-    // 鼠标左键编辑模式  
-    // 0=无 1=平移 2=旋转 3=缩放  
+    /** @brief 当前播放的路径 */
+    Trail* currentTrail = NULL;
+    /** @brief 当前播放的路径进度 */
+    float currentTrailTime = 0;
+    
+    /** @brief 鼠标左键编辑模式 
+     *  @note  0=无 1=平移 2=旋转 3=缩放 
+     */
     int LMBMode = 0;
 
+    /** @brief 储存视频录制结果 */
     std::vector<QPixmap> video;
 
+    /** @brief 将场景管理器绑定到此渲染窗口 */
     void setHierarchy(HierarchyModel* hierarchy) {
         hierarchy->widget = this;
         this->hierarchy = hierarchy;
@@ -122,16 +132,24 @@ private:
 
 
 private slots:
+    /** @brief 接收时钟信号，更新帧 */
     void fixedUpdate();
+    /** @brief 接收录制视频信号 */
     void onRecordVideo1Wigdet(float speed, bool RecordOrPreview);
+    /** @brief 接收保存视频信号 */
     void onSaveVideo1Widget();
 
 signals:
+    /** @brief 发送用户鼠标选取模型的信号 */
     void onSelection(HierarchyObject* obj);
+    /** @brief 发送用户鼠标编辑物体信号 */
     void onTransformEdited(HierarchyObject* obj);
-	void drag_signal(std::string re_path);		//实现拖拽的信号函数   
-    void videoRecordFinish(bool RecordOrPreview);     //视频录制结束信号   
-    void videoSaveFinish();     //视频保存结束信号   
+    /** @brief 实现拖拽的信号函数 */
+	void drag_signal(std::string re_path);
+    /** @brief 视频录制结束信号 */
+    void videoRecordFinish(bool RecordOrPreview);
+    /** @brief 视频保存结束信号 */
+    void videoSaveFinish();
 
 private:
     bool mousepick(int mousex, int mousey, HierarchyObject*& objout, int& iout);
