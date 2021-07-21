@@ -108,16 +108,53 @@ $(document).ready(function(){initNavTree('group__tech-pointcloud.html','');});
 <div class="title">点云渲染</div>  </div>
 </div><!--header-->
 <div class="contents">
-<h2>点云</h2>
-<p>sss</p>
-<div class="fragment"><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> args) {</div><div class="line">    <span class="keywordflow">return</span> 0;</div><div class="line">}</div></div><!-- fragment --><p class="formulaDsp">
-\[ A_{C \rightarrow P}=\begin{bmatrix} f * S_x / d_{px} &amp; 0.0 &amp; C_x &amp; 0.0 \\ 0.0 &amp; f / d_{py} &amp; C_y &amp; 0.0 \\ 0.0 &amp; 0.0 &amp; f &amp; 0.0 \\ 0.0 &amp; 0.0 &amp; 1.0 &amp; 0.0 \\ \end{bmatrix} \]
+<h2>渲染管线概览</h2>
+<div class="image">
+<img src="tech-pointcloud-00.png" alt="tech-pointcloud-00.png"/>
+</div>
+<p>程序开始运行时，会立即加载一些预先写好的shader文件，传入GPU中。这些shader程序在之后的渲染中不需要再更改，可以重复应用于不同物体的渲染。</p>
+<p>每当有新的点云被加载时，CPU会创建一个新的VertexBufferObject并且放入显存。如果要动态修改顶点数据的话，就需要重新初始化顶点缓冲并传输数据到显存。不过由于漫游过程中模型数据一般不改变，改变的仅仅是变换矩阵，所以不需要反复传输顶点数据。</p>
+<p>每次渲染时，需要重新计算世界坐标到相机坐标的变换矩阵，对于每个物体，都要重新计算物体到世界坐标的变换矩阵。渲染时，将模型、相机、视口变换矩阵以uniform的方式传递到shader中参与计算。</p>
+<p>上述流程中，修改缓冲的操作耗时较多，但只用做一次；矩阵计算与传递每帧都要进行，但是耗时较短，最大程度优化了性能。</p>
+<h2>坐标变换</h2>
+<h3>坐标系定义</h3>
+<ol type="1">
+<li><p class="startli">模型坐标系</p>
+<p class="startli">定义为点云文件中储存点位置时所用的坐标系。</p>
+</li>
+<li><p class="startli">世界坐标系</p>
+<p class="startli">定义为模型到相机的中间坐标系。这个坐标系是为了方便实现相机移动而定义的。实际上相机移动等价于将模型反方向移动，但是定义一个固定的世界坐标系让相机和模型分别相对于世界坐标系移动能够让我们更直观地观察和表达相机运动。</p>
+</li>
+<li><p class="startli">相机坐标系</p>
+<p class="startli">定义为固定在相机上的坐标系。其x轴指向画面右侧，y轴指向画面上方，z轴垂直于画面指向相机后方。</p>
+</li>
+</ol>
+<h3>变换阵构造</h3>
+<ol type="1">
+<li><p class="startli">模型-&gt;世界坐标</p>
+<p class="startli">模型本身的变换可以用平移、旋转和缩放三个要素来表达。 </p><p class="formulaDsp">
+\[ \text{MAT_MODEL}= \begin{bmatrix} I_{3\times 3} &amp; T_{3 \times 1} \\ 0 &amp; 1 \\ \end{bmatrix} \cdot \begin{bmatrix} R_{3\times 3} &amp; 0 \\ 0 &amp; 1 \\ \end{bmatrix} \cdot \begin{bmatrix} S_{3\times 3} &amp; 0 \\ 0 &amp; 1 \\ \end{bmatrix} \]
 </p>
-<p>asdfas</p>
-<ul>
-<li>sdf </li>
-</ul>
-</div><!-- contents -->
+</li>
+<li><p class="startli">世界-&gt;相机坐标</p>
+<p class="startli">相机的变换可以用平移、旋转两个要素表达。描述平移旋转时为了直观，是以相机相对于世界坐标的方式表述的，所以求世界坐标到相机坐标的变换阵时取逆。 </p><p class="formulaDsp">
+\[ \text{MAT_VIEW}= \begin{bmatrix} R &amp; T \\ 0 &amp; 1 \\ \end{bmatrix} ^ {-1} = \begin{bmatrix} R^T &amp; -R^{T}T \\ 0 &amp; 1 \\ \end{bmatrix} \]
+</p>
+</li>
+<li><p class="startli">相机-&gt;视口坐标</p>
+<p class="startli">从相机到视口需要经过透视变换；这个透视变换可以分解为线性变换和透视除法。 </p><p class="formulaDsp">
+\[ \text{MAT_PERSPECTIVE}= \begin{bmatrix} \cot{\theta_x} &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; \cot{\theta_y} &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; -\frac {f+n}{f-n} &amp; -\frac{2fn}{f-n} \\ 0 &amp; 0 &amp; -1 &amp; 0 \\ \end{bmatrix} \]
+</p>
+</li>
+</ol>
+<p>将上述矩阵左乘坐标向量，得到的结果进行透视除法，即将向量除以自身的第四个分量，就转换到了视口坐标。</p>
+<h2>OpenGL的使用</h2>
+<h3>编译shader</h3>
+<p>使用OpenGL的<code>QOpenGLShaderProgram</code>类来编译和加载顶点着色器和片元着色器的源文件。</p>
+<p>Widget.cpp: </p><div class="fragment"><div class="line">QOpenGLShaderProgram* loadShader(<span class="keyword">const</span> std::string&amp; name) {</div><div class="line">    <span class="keyword">auto</span> res = <span class="keyword">new</span> QOpenGLShaderProgram();</div><div class="line">    res-&gt;addShaderFromSourceFile(QOpenGLShader::Vertex, (<span class="stringliteral">&quot;./shaders/&quot;</span> + name + <span class="stringliteral">&quot;.vert&quot;</span>).c_str());</div><div class="line">    res-&gt;addShaderFromSourceFile(QOpenGLShader::Fragment, (<span class="stringliteral">&quot;./shaders/&quot;</span> + name + <span class="stringliteral">&quot;.frag&quot;</span>).c_str());</div><div class="line">    res-&gt;link();</div><div class="line">    res-&gt;enableAttributeArray(0);</div><div class="line">    res-&gt;enableAttributeArray(1);</div><div class="line">    <span class="keywordflow">return</span> res;</div><div class="line">}</div></div><!-- fragment --><h3>顶点缓冲的初始化和绑定</h3>
+<p>PointCloudRenderer.cpp: </p><div class="fragment"><div class="line">m_vertexBuffer-&gt;create();</div><div class="line">m_vertexBuffer-&gt;bind();</div><div class="line">m_vertexBuffer-&gt;setUsagePattern(QOpenGLBuffer::StaticDraw);</div><div class="line">m_vertexBuffer-&gt;allocate(vertices.data(), vertices.size() * <span class="keyword">sizeof</span>(<a class="code" href="class_vertex.html">Vertex</a>));</div></div><!-- fragment --><h3>渲染</h3>
+<p>首先绑定shader和buffer，随后调用OpenGL的<code>glUniformMatrix4fv</code>传入变换阵，<code>glUniformxxx</code>传入其他类型的各种变量，再调用<code>glDrawArrays</code>并传入<code>GL_POINTS</code>选项来绘制点云。</p>
+<p>PointCloudRenderer.cpp </p><div class="fragment"><div class="line"><span class="keywordtype">void</span> <a class="code" href="class_point_cloud_renderer.html#a2e785d573849a727a30f536a420052c5">PointCloudRenderer::onRender</a>(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4 view, glm::mat4 model)</div><div class="line">{</div><div class="line">    <span class="keywordflow">if</span> (modified) {</div><div class="line">        <a class="code" href="class_point_cloud_renderer.html#a82f6e59d64d1021dd0423c2c632a73f7">applyVertices</a>();</div><div class="line">        modified = <span class="keyword">false</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keywordflow">if</span> (m_vertexBuffer == NULL) <span class="keywordflow">return</span>; <span class="comment">// 没有设定顶点，不渲染  </span></div><div class="line"></div><div class="line">    assert(<a class="code" href="class_point_cloud_renderer.html#a9b26973dd2dbc37a1d1fe7293c4e9536">shader</a> != NULL);</div><div class="line"></div><div class="line">    <span class="comment">// 绑定shader </span></div><div class="line">    <a class="code" href="class_point_cloud_renderer.html#a9b26973dd2dbc37a1d1fe7293c4e9536">shader</a>-&gt;bind();</div><div class="line">    m_vertexBuffer-&gt;bind();</div><div class="line">    <a class="code" href="class_point_cloud_renderer.html#a9b26973dd2dbc37a1d1fe7293c4e9536">shader</a>-&gt;setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());</div><div class="line">    <a class="code" href="class_point_cloud_renderer.html#a9b26973dd2dbc37a1d1fe7293c4e9536">shader</a>-&gt;setAttributeBuffer(1, GL_FLOAT, Vertex::colorOffset(), Vertex::ColorTupleSize, Vertex::stride());</div><div class="line"></div><div class="line">    <span class="comment">// 准备shader中的矩阵 </span></div><div class="line">    gl-&gt;glUniformMatrix4fv(<a class="code" href="class_point_cloud_renderer.html#a9b26973dd2dbc37a1d1fe7293c4e9536">shader</a>-&gt;uniformLocation(<span class="stringliteral">&quot;MAT_PROJ&quot;</span>), 1, GL_FALSE, glm::value_ptr(projection));</div><div class="line">    gl-&gt;glUniformMatrix4fv(<a class="code" href="class_point_cloud_renderer.html#a9b26973dd2dbc37a1d1fe7293c4e9536">shader</a>-&gt;uniformLocation(<span class="stringliteral">&quot;MAT_VIEW&quot;</span>), 1, GL_FALSE, glm::value_ptr(view));</div><div class="line">    gl-&gt;glUniformMatrix4fv(<a class="code" href="class_point_cloud_renderer.html#a9b26973dd2dbc37a1d1fe7293c4e9536">shader</a>-&gt;uniformLocation(<span class="stringliteral">&quot;MAT_MODEL&quot;</span>), 1, GL_FALSE, glm::value_ptr(model));</div><div class="line"></div><div class="line">    QVector3D highlightColor = <a class="code" href="class_component.html#a5f7eac6bd9ab6f4eec4066aa493d6cb5">getProp</a>(<span class="stringliteral">&quot;highlightColor&quot;</span>).value&lt;QVector3D&gt;();</div><div class="line">    <span class="keywordtype">float</span> sizeScale = <a class="code" href="class_component.html#a5f7eac6bd9ab6f4eec4066aa493d6cb5">getProp</a>(<span class="stringliteral">&quot;sizeScale&quot;</span>).toFloat();</div><div class="line"></div><div class="line">    <span class="comment">// 画outline</span></div><div class="line">    <span class="keywordflow">if</span> (highlight) {</div><div class="line">        gl-&gt;glDepthMask(GL_FALSE);</div><div class="line">        gl-&gt;glUniform1f(<a class="code" href="class_point_cloud_renderer.html#a9b26973dd2dbc37a1d1fe7293c4e9536">shader</a>-&gt;uniformLocation(<span class="stringliteral">&quot;sizeScale&quot;</span>), sizeScale * 2);</div><div class="line">        gl-&gt;glUniform1f(<a class="code" href="class_point_cloud_renderer.html#a9b26973dd2dbc37a1d1fe7293c4e9536">shader</a>-&gt;uniformLocation(<span class="stringliteral">&quot;sizeAbsolute&quot;</span>), 10);</div><div class="line">        gl-&gt;glUniform4f(<a class="code" href="class_point_cloud_renderer.html#a9b26973dd2dbc37a1d1fe7293c4e9536">shader</a>-&gt;uniformLocation(<span class="stringliteral">&quot;colorOverride&quot;</span>), highlightColor.x(), highlightColor.y(), highlightColor.z(), 1.0);</div><div class="line">        gl-&gt;glDrawArrays(GL_POINTS, 0, vertices.size());</div><div class="line">        gl-&gt;glDepthMask(GL_TRUE);</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">// 正常画 </span></div><div class="line">    gl-&gt;glUniform1f(<a class="code" href="class_point_cloud_renderer.html#a9b26973dd2dbc37a1d1fe7293c4e9536">shader</a>-&gt;uniformLocation(<span class="stringliteral">&quot;sizeScale&quot;</span>), sizeScale);</div><div class="line">    gl-&gt;glUniform1f(<a class="code" href="class_point_cloud_renderer.html#a9b26973dd2dbc37a1d1fe7293c4e9536">shader</a>-&gt;uniformLocation(<span class="stringliteral">&quot;sizeAbsolute&quot;</span>), 0);</div><div class="line">    gl-&gt;glUniform4f(<a class="code" href="class_point_cloud_renderer.html#a9b26973dd2dbc37a1d1fe7293c4e9536">shader</a>-&gt;uniformLocation(<span class="stringliteral">&quot;colorOverride&quot;</span>), 1.0, 0.5, 0.0, 0.0);</div><div class="line">    gl-&gt;glDrawArrays(GL_POINTS, 0, vertices.size());</div><div class="line"></div><div class="line">    <span class="comment">// 释放 </span></div><div class="line">    m_vertexBuffer-&gt;release();</div><div class="line">    <a class="code" href="class_point_cloud_renderer.html#a9b26973dd2dbc37a1d1fe7293c4e9536">shader</a>-&gt;release();</div><div class="line"></div><div class="line"></div><div class="line">}</div></div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
