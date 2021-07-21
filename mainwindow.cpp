@@ -483,27 +483,27 @@ void MainWindow::offRecordVideo1MainWindow(bool RecordOrPreview) {
 void MainWindow::onSaveVideo1MainWindow() {
     QFileDialog* fileDialog = new QFileDialog(this);
 
-    //定义文件对话框标题
+    //定义文件对话框标题    
     fileDialog->setWindowTitle(QStringLiteral("选择文件"));
 
-    //设置打开的文件路径
+    //设置打开的文件路径    
     fileDialog->setDirectory("./*.avi");
 
-    //设置文件过滤器,只显示.ui .cpp 文件,多个过滤文件使用空格隔开
+    //设置文件过滤器,只显示.ui .cpp 文件,多个过滤文件使用空格隔开   
     fileDialog->setNameFilter(tr("File(*.avi*)"));
 
-    //设置可以选择多个文件,默认为只能选择一个文件QFileDialog::ExistingFiles
+    //设置可以选择多个文件,默认为只能选择一个文件QFileDialog::ExistingFiles    
     fileDialog->setFileMode(QFileDialog::FileMode::AnyFile);
 
     //设置视图模式
     fileDialog->setViewMode(QFileDialog::Detail);
 
-    //获取选择的文件的路径
+    //获取选择的文件的路径     
     QStringList fileNames;
     if (fileDialog->exec()) {
         fileNames = fileDialog->selectedFiles();
         QString fileName = fileNames[0];
-        if (QFileInfo(fileName).suffix().isEmpty())  //若后缀为空自动添加avi后缀
+        if (QFileInfo(fileName).suffix().isEmpty())  //若后缀为空自动添加avi后缀   
             fileName.append(".avi");
         qDebug() << fileName;
 
@@ -512,9 +512,9 @@ void MainWindow::onSaveVideo1MainWindow() {
 }
 
 void MainWindow::offSaveVideo1MainWindow() {
-    //qDebug() << "main window receive savefinish from widget";
+    //qDebug() << "main window receive savefinish from widget";   
     emit(offSaveVideo2recordWindow());
-    //qDebug() << "main window launch savefinish to recordWindow";
+    //qDebug() << "main window launch savefinish to recordWindow";   
 }
 
 void MainWindow::on_actionTranslation_toggled(bool arg1)
