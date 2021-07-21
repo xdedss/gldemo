@@ -1,6 +1,6 @@
 #include "Component.h"
 
-
+// 组件类
 
 static std::map<QString, QVariant> defaultProp = {
     {"enabled", true},

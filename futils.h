@@ -6,6 +6,9 @@
 #include <string>
 #include "vertex.h"
 
+#include <qprogressdialog.h>
+#include <qapplication.h>
+
 // 读取从matlab导出的txt文件，每行四个数x y z w，只留xyz   
 inline std::vector<Vertex> readTxt(const std::string& fpath) {
     std::ifstream infile(fpath);
@@ -13,6 +16,12 @@ inline std::vector<Vertex> readTxt(const std::string& fpath) {
     std::vector<Vertex> res;
     std::string line, str;
     int i = 0;
+    // 开始读取
+    QProgressDialog progress;
+    progress.setWindowTitle(QStringLiteral("加载中"));
+    progress.setMaximum(0);
+    progress.setMinimum(0);
+    progress.show();
     while (std::getline(infile, line))
     {
         float x, y, z, w;
@@ -24,8 +33,15 @@ inline std::vector<Vertex> readTxt(const std::string& fpath) {
         float t = (float)i / 100000.0f;
         res.push_back(Vertex({ x, y, z }, { t, 1.0f, 0.0f }));
         i++;
+        if (i % 2000 == 0) {
+            QApplication::processEvents();
+        }
     }
     qDebug() << "read vertices: " << i;
+
+    progress.close();
+
+    infile.close();
     return res;
 }
 
@@ -58,6 +74,12 @@ inline std::vector<Vertex> readPly(const std::string& fpath) {
         }
     }
     // 开始读取 
+    QProgressDialog progress;
+    progress.setWindowTitle(QStringLiteral("加载中"));
+    progress.setMaximum(100);
+    progress.setMinimum(0);
+    progress.setValue(0);
+    progress.show();
     float x, y, z;
     for (int i = 0; i < numVertices; i++) {
         float t = (float)i / numVertices;
@@ -69,7 +91,12 @@ inline std::vector<Vertex> readPly(const std::string& fpath) {
         else {
             res.push_back(Vertex(QVector3D(x, y, z), { t, 1.0f, 0.0f }));
         }
+        if (i % 2000 == 0) {
+            progress.setValue((100 * i) / numVertices);
+            QApplication::processEvents();
+        }
     }
+    progress.close();
 
     infile.close();
     return res;
