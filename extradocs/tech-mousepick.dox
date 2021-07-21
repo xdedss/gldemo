@@ -30,6 +30,21 @@
 
 \f]
 
+[widget.cpp](https://github.com/xdedss/gldemo/blob/main/widget.cpp#L119):
+
+~~~{.cpp}
+   glm::vec3 Widget::get_ray(int mousex, int mousey, int screenWidth, int screenHeight, glm::mat4 matModel, glm::vec4& init_point) {
+    glm::vec4 ndc((float)mousex * 2 / (float)screenWidth - 1, (float)mousey * 2 / (float)screenHeight - 1, 1.0f, 1.0f); 
+    glm::vec4 pointView = glm::inverse(projection) * ndc; 
+    pointView.y *= -1;    
+    pointView /= pointView.w;  
+    glm::vec4 rayView = pointView - glm::vec4(0, 0, 0, 1);
+    init_point = matModel * glm::inverse(view) * glm::vec4(0, 0, 0, 1);    
+    glm::vec4 ray = glm::normalize(matModel * glm::inverse(view) * rayView);
+    return glm::vec3(ray.x, ray.y, ray.z);
+}
+~~~
+
 ### 在每个模型中拾取点
 
 将射线和相机坐标转化到模型系下:
@@ -54,6 +69,28 @@
 在\f$C\f$处搜索到\f$O_3\f$点，计算\f$O_3\f$点到射线的距离，发现小于阈值，则确定捕获这一点，将模型指针和这个点的索引值记录
 
 **值得注意的是：**如果一直没有搜索到需要的点，则当搜索点射出模型范围，即跳出搜索。
+
+[widget.cpp](https://github.com/xdedss/gldemo/blob/main/widget.cpp#L191):
+
+~~~{.cpp}
+while (true) {   
+            float d = glm::l2Norm(glm::cross(glm::vec3(qpoint[0] - search.x, qpoint[1] - search.y, qpoint[2] - search.z), ray));
+            if ( d < thre) {
+                getpoints.push_back(obj->localToWorld() * glm::vec4(search.x,search.y,search.z,1));    
+                hitObjects.push_back(obj);
+                pointIs.push_back(pointI);  
+                break;
+            }
+            
+            float deltaDistance = glm::l2Norm(glm::vec3(qpoint[0] - search.x, qpoint[1] - search.y, qpoint[2] - search.z)) - thre;   
+            search += deltaDistance * ray;
+            assert(glm::l2Norm(search) < 1e10);
+            if (sqrt(pow(init_point.x - search.x, 2) + pow(init_point.y - search.y, 2) + pow(init_point.z - search.z, 2)) > maxthre)
+                break;  
+            pointI = pointcloud->nearestSearch({ search.x,search.y, search.z });
+            qpoint = pointcloud->getVertex(pointI).position();
+        }
+~~~
 
 ### 选出最优点
 
