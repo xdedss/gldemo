@@ -40,7 +40,7 @@ inline std::vector<Vertex> readTxt(const std::string& fpath,bool hasColors = fal
     return res;
 }
 */
-// 读取从matlab导出的txt文件，每行四个数x y z r g b w，只留xyz rgb  
+// 读取从matlab导出的txt文件，每行四个数x y z r g b w，只留xyz rgb      
 inline std::vector<Vertex> readTxt(const std::string& fpath) {
     std::ifstream infile(fpath);
     assert(!infile.fail());
@@ -73,6 +73,9 @@ inline std::vector<Vertex> readTxt(const std::string& fpath) {
             float t = (float)i / 100000.0f;
             res.push_back(Vertex({ x, y, z }, { t, 1.0f, 0.0f }));
             i++;
+            if (i % 2000 == 0) {
+                QApplication::processEvents();
+            }
         }
     }
     else if(num == 6){
@@ -89,6 +92,9 @@ inline std::vector<Vertex> readTxt(const std::string& fpath) {
             float t = (float)i / 100000.0f;
             res.push_back(Vertex({ x, y, z }, { r / 255.0f, g / 255.0f, b / 255.0f }));
             i++;
+            if (i % 2000 == 0) {
+                QApplication::processEvents();
+            }
         }
     }
     qDebug() << "read vertices: " << i;
