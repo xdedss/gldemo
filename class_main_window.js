@@ -15,7 +15,7 @@ var class_main_window =
     [ "onRecordVideo1MainWindow", "class_main_window.html#a9d4bbe20885099cbf0dc6085a22070d8", null ],
     [ "onRecordVideo2Widget", "class_main_window.html#a441b9d3e8ac1dffa88b2bc3ba7a4ea48", null ],
     [ "onSaveVideo1MainWindow", "class_main_window.html#a851b1d4a35cd038bc4c8c372fb57eb3e", null ],
-    [ "onSaveVideo2Widget", "class_main_window.html#a10ace3477b859a250f2db041eb64b7af", null ],
+    [ "onSaveVideo2Widget", "class_main_window.html#a2c032d00d788930399c8706163e1c79f", null ],
     [ "onTreeViewAddObject", "class_main_window.html#a908119cce0b17d6471fabbbdbfe8e34a", null ],
     [ "onTreeViewRemoveObject", "class_main_window.html#affaa1511c284f75fd6c969648bb76395", null ],
     [ "onWidgetSelection", "class_main_window.html#ae48b881fa734a2eb9377b3e094900c82", null ],

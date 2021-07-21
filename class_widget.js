@@ -4,7 +4,7 @@ var class_widget =
     [ "fixedUpdate", "class_widget.html#a15a479dedd808b60b8a94cad384a883b", null ],
     [ "functions", "class_widget.html#af74ac99e0f665c99bacf24c1f8a3cc06", null ],
     [ "onRecordVideo1Wigdet", "class_widget.html#ae9bd021fb4a32126a41bbd2a62159f27", null ],
-    [ "onSaveVideo1Widget", "class_widget.html#a8e4bc99c94cf961aa5600d529d123277", null ],
+    [ "onSaveVideo1Widget", "class_widget.html#a34bc710ec0d6c2c5038a3335f642c3df", null ],
     [ "onSelection", "class_widget.html#a760a209487d5c5b0ff08d38304279f4b", null ],
     [ "onTransformEdited", "class_widget.html#a20e05cae601a3e5ec101d9268985c1e5", null ],
     [ "setHierarchy", "class_widget.html#ab492d9e3f048c6402a6a250a13b7c816", null ],
