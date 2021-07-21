@@ -16,16 +16,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    debug/moc_HierarchyModel.cpp \
-    debug/moc_mainwindow.cpp \
-    debug/moc_recordwindow.cpp \
-    debug/moc_widget.cpp \
-    debug/qrc_Resources.cpp \
-    release/moc_HierarchyModel.cpp \
-    release/moc_mainwindow.cpp \
-    release/moc_recordwindow.cpp \
-    release/moc_widget.cpp \
-    release/qrc_Resources.cpp \
     Component.cpp \
     HierarchyModel.cpp \
     HierarchyObject.cpp \
@@ -38,14 +28,12 @@ SOURCES += \
     Renderer.cpp \
     SkyboxRenderer.cpp \
     Trail.cpp \
-    widget.cpp
+    widget.cpp \
+    qttoopencv.cpp
 
 
 
 HEADERS += \
-    debug/moc_predefs.h \
-    release/uic/ui_mainwindow.h \
-    release/moc_predefs.h \
     commondefs.h \
     Component.h \
     futils.h \
