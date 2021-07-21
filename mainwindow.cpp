@@ -18,7 +18,7 @@ PointCloudRenderer* MainWindow::importPointCloud(const QString& path, float init
     obj->transform = glm::scale(glm::identity<glm::mat4>(), glm::vec3(1, 1, 1) * initialScale);
     PointCloudRenderer* renderer = new PointCloudRenderer();
     obj->addComponent(renderer);
-
+    
     if (path.endsWith(".ply")) {
         auto vertices = readPly(path.toStdString());
         renderer->setVertices(vertices);
