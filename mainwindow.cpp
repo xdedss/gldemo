@@ -136,7 +136,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // 录像窗口点击保存，信号传入mainwindow    
     connect(record, SIGNAL(onSaveVideo2MainWindow()), this, SLOT(onSaveVideo1MainWindow()));
     // mainwindow接收保存信号，传到widget
-    connect(this, SIGNAL(onSaveVideo2Widget()), ui->openGLWidget, SLOT(onSaveVideo1Widget()));
+    connect(this, SIGNAL(onSaveVideo2Widget(QString)), ui->openGLWidget, SLOT(onSaveVideo1Widget(QString)));
     // 保存结束信号，widget传回mainwindow
     connect(ui->openGLWidget, SIGNAL(videoSaveFinish()), this, SLOT(offSaveVideo1MainWindow()));
     // 保存结束信号，mainwindow传回recordWindow
@@ -472,7 +472,7 @@ void MainWindow::on_actionvideoRecord_triggered()
 void MainWindow::onRecordVideo1MainWindow(float speed, bool RecordOrPreview) {
     //qDebug() << "mainWindow  have received recordVideo signal";
     emit(onRecordVideo2Widget(speed,RecordOrPreview));   
-    record->hide();
+    //record->hide();
 }
 
 void MainWindow::offRecordVideo1MainWindow(bool RecordOrPreview) {
@@ -481,7 +481,34 @@ void MainWindow::offRecordVideo1MainWindow(bool RecordOrPreview) {
 }
 
 void MainWindow::onSaveVideo1MainWindow() {
-    emit(onSaveVideo2Widget());
+    QFileDialog* fileDialog = new QFileDialog(this);
+
+    //定义文件对话框标题
+    fileDialog->setWindowTitle(QStringLiteral("选择文件"));
+
+    //设置打开的文件路径
+    fileDialog->setDirectory("./*.avi");
+
+    //设置文件过滤器,只显示.ui .cpp 文件,多个过滤文件使用空格隔开
+    fileDialog->setNameFilter(tr("File(*.avi*)"));
+
+    //设置可以选择多个文件,默认为只能选择一个文件QFileDialog::ExistingFiles
+    fileDialog->setFileMode(QFileDialog::FileMode::AnyFile);
+
+    //设置视图模式
+    fileDialog->setViewMode(QFileDialog::Detail);
+
+    //获取选择的文件的路径
+    QStringList fileNames;
+    if (fileDialog->exec()) {
+        fileNames = fileDialog->selectedFiles();
+        QString fileName = fileNames[0];
+        if (QFileInfo(fileName).suffix().isEmpty())  //若后缀为空自动添加avi后缀
+            fileName.append(".avi");
+        qDebug() << fileName;
+
+        emit(onSaveVideo2Widget(fileName));
+    }
 }
 
 void MainWindow::offSaveVideo1MainWindow() {

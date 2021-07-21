@@ -19,6 +19,12 @@
 //新窗口 
 #include "recordwindow.h"
 
+//保存视频获取时，获取路径   
+#include "QString"
+#include "QDir"
+#include "QFileDialog"
+
+
 namespace Ui {
 class MainWindow;
 }
@@ -60,7 +66,7 @@ signals:
     */
     void offRecordVideo2recordWindow(bool RecordOrPreview);
     /** @brief 视频开始保存信号，从mainwindow传到widget */
-    void onSaveVideo2Widget();
+    void onSaveVideo2Widget(QString savePath);
     /** @brief 视频保存结束信号，从mainwindow传到widget */
     void offSaveVideo2recordWindow();
 

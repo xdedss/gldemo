@@ -137,7 +137,7 @@ private slots:
     /** @brief 接收录制视频信号 */
     void onRecordVideo1Wigdet(float speed, bool RecordOrPreview);
     /** @brief 接收保存视频信号 */
-    void onSaveVideo1Widget();
+    void onSaveVideo1Widget(QString savePath);
 
 signals:
     /** @brief 发送用户鼠标选取模型的信号 */

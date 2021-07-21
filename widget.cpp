@@ -546,13 +546,13 @@ void Widget::onRecordVideo1Wigdet(float speed, bool RecordOrPreview){
     if(RecordOrPreview)
         video.clear();
 }
-void Widget::onSaveVideo1Widget() {
+void Widget::onSaveVideo1Widget(QString savePath) {
     
     
     cv::VideoWriter writer;
     int videoFps = 30;
     emit(videoSaveFinish());
-    writer.open("E:\\github\\gldemo\\data\\saveVideo\\trail3D.avi", 
+    writer.open(savePath.toStdString(), 
         cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 
         30.0, 
         cv::Size((int)screenWidth,(int)screenHeight), 
