@@ -5,7 +5,7 @@
 /**
 * @class LineRenderer 
 * @brief 渲染一系列线段
-* @detail 其中的continuous属性代表了线段是否连续。若为true则会绘制头尾相接的线
+* @details 其中的continuous属性代表了线段是否连续。若为true则会绘制头尾相接的线
 */
 class LineRenderer :
     public Renderer
