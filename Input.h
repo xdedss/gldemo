@@ -9,7 +9,7 @@
 /**
 * @class Input 
 * @brief 统一处理鼠标、键盘等各种输入
-* @detail 仿照Unity的Input类实现的一个统一获取鼠标键盘输入的静态类
+* @details 仿照Unity的Input类实现的一个统一获取鼠标键盘输入的静态类
 * @note
 * 按帧更新,需要widget类配合每帧调用beforeUpdate。所有getXXXDown或getXXXUp或getXXXDelta得到的值均是当前帧内有效。
 */
