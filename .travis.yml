@@ -12,7 +12,9 @@ addons:
 
 script:
   - doxygen Doxyfile
+  - touch docs/html/.nojekyll
   - ls -l -a -r
+  - ls -l -a -r docs/html
 
 deploy:
   provider: pages
