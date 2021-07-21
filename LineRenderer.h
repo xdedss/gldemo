@@ -2,7 +2,11 @@
 #include "Renderer.h"
 #include "vertex.h"
 
-// ��Ⱦһϵ��ֱ��  
+/**
+* @class LineRenderer 
+* @brief 渲染一系列线段
+* @details 其中的continuous属性代表了线段是否连续。若为true则会绘制头尾相接的线
+*/
 class LineRenderer :
     public Renderer
 {
@@ -17,12 +21,13 @@ private:
 
 public:
     QString name() const override { return "LineRenderer"; };
-    // �߿�  
+    // 线宽  
     //float lineWidth = 2.0f;
-    // �Ƿ�����  
+    // 是否连续  
     //bool continuous = true;
-    // ��������ɫ  
+    /** @brief 高亮的颜色 */
     QVector3D highlightColor = { 1.0, 0.5, 0.0 };
+    /** @brief 使用的着色器，默认会被设为default.vert/default.frag */
     QOpenGLShaderProgram* shader = NULL;
 
     //ctor
