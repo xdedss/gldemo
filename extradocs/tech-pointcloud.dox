@@ -101,7 +101,7 @@
 
 使用OpenGL的`QOpenGLShaderProgram`类来编译和加载顶点着色器和片元着色器的源文件。
 
-Widget.cpp:
+[Widget.cpp](https://github.com/xdedss/gldemo/blob/main/widget.cpp#L418):
 ~~~{.cpp}
 QOpenGLShaderProgram* loadShader(const std::string& name) {
     auto res = new QOpenGLShaderProgram();
@@ -116,7 +116,7 @@ QOpenGLShaderProgram* loadShader(const std::string& name) {
 
 ### 顶点缓冲的初始化和绑定
 
-PointCloudRenderer.cpp:
+[PointCloudRenderer.cpp](https://github.com/xdedss/gldemo/blob/main/PointCloudRenderer.cpp#L19):
 ~~~{.cpp}
     m_vertexBuffer->create();
     m_vertexBuffer->bind();
@@ -128,7 +128,7 @@ PointCloudRenderer.cpp:
 
 首先绑定shader和buffer，随后调用OpenGL的`glUniformMatrix4fv`传入变换阵，`glUniformxxx`传入其他类型的各种变量，再调用`glDrawArrays`并传入`GL_POINTS`选项来绘制点云。
 
-PointCloudRenderer.cpp
+[PointCloudRenderer.cpp](https://github.com/xdedss/gldemo/blob/main/PointCloudRenderer.cpp#L48):
 ~~~{.cpp}
 void PointCloudRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4 view, glm::mat4 model)
 {
