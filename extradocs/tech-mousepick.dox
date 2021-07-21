@@ -1,0 +1,37 @@
+
+
+/**
+\addtogroup tech-mousepick 鼠标拾取物体
+\ingroup tech-mousepick
+
+
+
+
+## www
+
+sss
+
+~~~{.cpp}
+int main(int args) {
+    return 0;
+}
+~~~
+
+\f[
+A_{C \rightarrow P}=\begin{bmatrix}
+f * S_x / d_{px} & 0.0        & C_x & 0.0 \\
+0.0              & f / d_{py} & C_y & 0.0 \\
+0.0              & 0.0        & f   & 0.0 \\
+0.0              & 0.0        & 1.0 & 0.0 \\
+\end{bmatrix}
+\f]
+
+
+asdfas
+
+- sdf
+
+
+
+
+*/
