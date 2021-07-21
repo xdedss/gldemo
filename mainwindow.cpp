@@ -448,7 +448,7 @@ void MainWindow::on_actionopen_triggered()
 {
     // 菜单点击事件
     QFileDialog* fileDialog = new QFileDialog(this);
-    fileDialog->setWindowTitle(QString::fromUtf8("打开文件"));
+    fileDialog->setWindowTitle(QStringLiteral("打开文件"));
     fileDialog->setDirectory("./");
     //设置文件过滤器,只显示.ui .cpp 文件,多个过滤文件使用空格隔开   
     fileDialog->setNameFilter(tr("ply file(*.ply) ;; txt file(*.txt)"));
@@ -498,7 +498,7 @@ void MainWindow::onSaveVideo1MainWindow() {
     QFileDialog* fileDialog = new QFileDialog(this);
 
     //定义文件对话框标题    
-    fileDialog->setWindowTitle(QString::fromUtf8("选择文件"));
+    fileDialog->setWindowTitle(QStringLiteral("选择文件"));
 
     //设置打开的文件路径    
     fileDialog->setDirectory("./*.avi");
