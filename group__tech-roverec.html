@@ -108,7 +108,18 @@ $(document).ready(function(){initNavTree('group__tech-roverec.html','');});
 <div class="title">漫游录制</div>  </div>
 </div><!--header-->
 <div class="contents">
-<h2>Contents</h2>
+<h2>漫游录制概要</h2>
+<p>漫游录制过程的信号主要是以mainWindow为信号枢纽，进行recordWindow与Widget之间的信号传递。漫游录制信号传递流图如下：</p>
+<div class="image">
+<img src="tech-roverec-00.png" alt="tech-roverec-00.png"/>
+</div>
+<h3>漫游录制流程</h3>
+<h4>预览功能</h4>
+<p>点击预览按钮，recordWindow发送携带“预览”“摄像机漫游速度”的信号给mainWindow，mainWindow接收后，给Widget转发信号，Widget将开始摄像机漫游的预览，预览结束后，视频保存功能不开启。</p>
+<h4>录像功能</h4>
+<p>点击录像按钮，recordWindow发送携带“录像”“摄像机漫游速度”的信号给mainWindow，mainWindow接收后，给Widget转发信号，Widget将开始摄像机漫游的录像，录像过程中，图像信息不断写入程序，录像结束后，视频保存功能开启。</p>
+<h4>视频保存功能</h4>
+<p>点击保存按钮，recordWindow发生信号给mainWindow。mainWindow显示文件选择框，输入文件名称，选择保存路径，然后发送携带“保存名称”的信号给Widget，Widget根据已经存入的数据进行视频保存。 </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
