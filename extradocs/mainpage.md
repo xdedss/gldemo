@@ -1,5 +1,4 @@
 
- 
 
 
 # 基于OpenGL和Qt的3D点云渲染
@@ -22,7 +21,7 @@
 (￣▽￣)""
 
 ## 技术细节
- - [点云的渲染](group__tech-pointcloud.html)
+ - [点云渲染](group__tech-pointcloud.html)
  - [天空渲染](group__tech-skybox.html)
  - [鼠标拾取物体](group__tech-mousepick.html)
  - [漫游插值](group__tech-roveint.html)
