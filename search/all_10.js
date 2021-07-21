@@ -4,6 +4,7 @@ var searchData=
   ['sethierarchy',['setHierarchy',['../class_widget.html#ab492d9e3f048c6402a6a250a13b7c816',1,'Widget']]],
   ['setlineeditvalue',['setLineEditValue',['../class_record_window.html#ae5542806a07a77a9f5b61695cb1dfe6e',1,'RecordWindow']]],
   ['setprop',['setProp',['../class_component.html#af339e5409723efe0a060d26cdaea81b3',1,'Component']]],
+  ['setslidervalue',['setSliderValue',['../class_record_window.html#a3e0d8ba1a457789833f026868872295d',1,'RecordWindow']]],
   ['setvertices',['setVertices',['../class_point_cloud_renderer.html#a21b94889096f005f4ccbd5e48dcfa660',1,'PointCloudRenderer']]],
   ['shader',['shader',['../class_point_cloud_renderer.html#a9b26973dd2dbc37a1d1fe7293c4e9536',1,'PointCloudRenderer::shader()'],['../class_skybox_renderer.html#a356e9d479f010b55f04418abad1da714',1,'SkyboxRenderer::shader()']]],
   ['shaders',['shaders',['../class_widget.html#a355991800629691ea978d93cc6ffa0ba',1,'Widget']]],

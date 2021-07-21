@@ -14,7 +14,6 @@ var searchData=
   ['on_5factionscale_5ftoggled',['on_actionScale_toggled',['../class_main_window.html#a366876f3255ec15963ed103fd716c294',1,'MainWindow']]],
   ['on_5factiontranslation_5ftoggled',['on_actionTranslation_toggled',['../class_main_window.html#ad1f52d3bce77ce61741b3e9f2481070a',1,'MainWindow']]],
   ['on_5factionvideorecord_5ftriggered',['on_actionvideoRecord_triggered',['../class_main_window.html#a7ebea732c63c70ad81a7bbda4336e22b',1,'MainWindow']]],
-  ['on_5flineedit_5ftextedited',['on_lineEdit_textEdited',['../class_record_window.html#a9db27acbe8c77b499197cf5e99592e19',1,'RecordWindow']]],
   ['on_5fpushbutton_5frecordbegin_5fclicked',['on_pushButton_recordBegin_clicked',['../class_record_window.html#ab1e113825c8d1ccf5dd2c33bc3ef941f',1,'RecordWindow']]],
   ['on_5fpushbutton_5frecordpreview_5fclicked',['on_pushButton_recordPreview_clicked',['../class_record_window.html#a8ed442c2dbb4af1a08c280bcc03e237e',1,'RecordWindow']]],
   ['on_5fpushbutton_5frecordsave_5fclicked',['on_pushButton_recordSave_clicked',['../class_record_window.html#ae1e37ca08afd4a008c2178ad075b1f4c',1,'RecordWindow']]],
