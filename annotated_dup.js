@@ -9,7 +9,6 @@ var annotated_dup =
     [ "Input", "class_input.html", null ],
     [ "LineRenderer", "class_line_renderer.html", "class_line_renderer" ],
     [ "MainWindow", "class_main_window.html", "class_main_window" ],
-    [ "PointCloud", "class_point_cloud.html", null ],
     [ "PointCloudRenderer", "class_point_cloud_renderer.html", "class_point_cloud_renderer" ],
     [ "RecordWindow", "class_record_window.html", "class_record_window" ],
     [ "Renderer", "class_renderer.html", "class_renderer" ],

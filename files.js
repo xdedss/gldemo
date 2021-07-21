@@ -9,7 +9,6 @@ var files =
     [ "LineRenderer.h", "_line_renderer_8h_source.html", null ],
     [ "mainwindow.h", "mainwindow_8h_source.html", null ],
     [ "nesteddefs.h", "nesteddefs_8h_source.html", null ],
-    [ "pointcloud.h", "pointcloud_8h_source.html", null ],
     [ "PointCloudRenderer.h", "_point_cloud_renderer_8h_source.html", null ],
     [ "qttoopencv.h", "qttoopencv_8h_source.html", null ],
     [ "recordwindow.h", "recordwindow_8h_source.html", null ],
