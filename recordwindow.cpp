@@ -7,7 +7,7 @@ RecordWindow::RecordWindow(QWidget *parent) :
     ui(new Ui::recordWindow)
 {
     ui->setupUi(this);
-    ui->lineEdit_slider->setText("50");
+    ui->lineEdit_slider->setText(QString::number(speed));
     
 
 
@@ -15,7 +15,7 @@ RecordWindow::RecordWindow(QWidget *parent) :
     ui->slider->setMaximum(175);   // 设置滑动条的最大值 
 
 
-    ui->slider->setValue(175); // 设置滑动条初始值 
+    ui->slider->setValue(speed); // 设置滑动条初始值 
 	 
     connect(ui->slider, SIGNAL(valueChanged(int)), this, SLOT(setLineEditValue(int)));
     // 点击录像事件   

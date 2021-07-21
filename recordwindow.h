@@ -56,7 +56,7 @@ private slots:
     void on_pushButton_recordPreview_clicked();
 private:
     //滑动条 
-    float speed = 50;
+    float speed = 150;
 };
 
 #endif // RECORDWINDOW_H
