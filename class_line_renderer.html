@@ -114,11 +114,17 @@ $(document).ready(function(){initNavTree('class_line_renderer.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_line_renderer-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">LineRenderer Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>渲染一系列线段  其中的continuous属性代表了线段是否连续。若为true则会绘制头尾相接的线  
+ <a href="class_line_renderer.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_line_renderer_8h_source.html">LineRenderer.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for LineRenderer:</div>
 <div class="dyncontent">
@@ -163,13 +169,24 @@ std::vector&lt; QString &gt;&#160;</td><td class="memItemRight" valign="bottom">
 <tr class="memdesc:abda6e941903784ddf398350d02fb93eb inherit pub_methods_class_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取所有键 <br /></td></tr>
 <tr class="separator:abda6e941903784ddf398350d02fb93eb inherit pub_methods_class_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a940b677f7566e79c7424f50e4f51864d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a940b677f7566e79c7424f50e4f51864d"></a>
+QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_line_renderer.html#a940b677f7566e79c7424f50e4f51864d">highlightColor</a> = { 1.0, 0.5, 0.0 }</td></tr>
+<tr class="memdesc:a940b677f7566e79c7424f50e4f51864d"><td class="mdescLeft">&#160;</td><td class="mdescRight">高亮的颜色 <br /></td></tr>
+<tr class="separator:a940b677f7566e79c7424f50e4f51864d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07753a7c228e78d7e46683239f84d319"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a07753a7c228e78d7e46683239f84d319"></a>
+QOpenGLShaderProgram *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_line_renderer.html#a07753a7c228e78d7e46683239f84d319">shader</a> = NULL</td></tr>
+<tr class="memdesc:a07753a7c228e78d7e46683239f84d319"><td class="mdescLeft">&#160;</td><td class="mdescRight">使用的着色器，默认会被设为default.vert/default.frag <br /></td></tr>
+<tr class="separator:a07753a7c228e78d7e46683239f84d319"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_class_component"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_component')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class_component.html">Component</a></td></tr>
 <tr class="memitem:a01eb8a026d663cdcb625d99190a4f192 inherit pub_attribs_class_component"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a01eb8a026d663cdcb625d99190a4f192"></a>
 <a class="el" href="class_hierarchy_object.html">HierarchyObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_component.html#a01eb8a026d663cdcb625d99190a4f192">hierarchyObject</a></td></tr>
 <tr class="memdesc:a01eb8a026d663cdcb625d99190a4f192 inherit pub_attribs_class_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">指向这个组件挂载的对象 <br /></td></tr>
 <tr class="separator:a01eb8a026d663cdcb625d99190a4f192 inherit pub_attribs_class_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_methods_class_component"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_component')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_component.html">Component</a></td></tr>
 <tr class="memitem:ae5bdb472442cf704e1f27a05c6593316 inherit pro_methods_class_component"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5bdb472442cf704e1f27a05c6593316"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_component.html#ae5bdb472442cf704e1f27a05c6593316">defProp</a> (const QString &amp;key, const QVariant &amp;init)</td></tr>
@@ -185,7 +202,9 @@ std::vector&lt; QString &gt;&#160;</td><td class="memItemRight" valign="bottom">
 <tr class="memdesc:a2ba93f356097321eef93d45657fb168c inherit pro_attribs_class_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">所有非默认参数的键 <br /></td></tr>
 <tr class="separator:a2ba93f356097321eef93d45657fb168c inherit pro_attribs_class_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>渲染一系列线段  其中的continuous属性代表了线段是否连续。若为true则会绘制头尾相接的线 </p>
+</div><hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="_line_renderer_8h_source.html">LineRenderer.h</a></li>
 <li>LineRenderer.cpp</li>
 </ul>
