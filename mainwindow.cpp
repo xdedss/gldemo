@@ -446,17 +446,30 @@ void MainWindow::onWidgetTransformEdited(HierarchyObject * obj)
 
 void MainWindow::on_actionopen_triggered()
 {
-    // 菜单点击事件  
-    statusBar()->showMessage("actionopen");
+    // 菜单点击事件
+    QFileDialog* fileDialog = new QFileDialog(this);
+    fileDialog->setWindowTitle(QString::fromUtf8("打开文件"));
+    fileDialog->setDirectory("./");
+    //设置文件过滤器,只显示.ui .cpp 文件,多个过滤文件使用空格隔开   
+    fileDialog->setNameFilter(tr("ply file(*.ply) ;; txt file(*.txt)"));
+
+    fileDialog->setFileMode(QFileDialog::FileMode::ExistingFile);
+    fileDialog->setViewMode(QFileDialog::Detail);
+
+    //获取选择的文件的路径     
+    QStringList fileNames;
+    if (fileDialog->exec()) {
+        fileNames = fileDialog->selectedFiles();
+        QString fileName = fileNames[0];
+        drag_solt(fileName.toStdString());
+    }
 }
 
 void MainWindow::drag_solt(std::string re_path)			//添加点云  
 {
-	qDebug() << "go" << endl;
+	//qDebug() << "go" << endl;
 	auto new_obj = importPointCloud(QString::fromStdString(re_path), 10);
 	new_obj->setProp("sizeScale", 2.0f);
-	//LineRenderer* l1 = new LineRenderer();
-	//new_obj->hierarchyObject->addComponent(l1);
 }
 
 void MainWindow::on_actionvideoRecord_triggered()
