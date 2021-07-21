@@ -471,6 +471,7 @@ void MainWindow::on_actionvideoRecord_triggered()
 
 void MainWindow::onRecordVideo1MainWindow(float speed, bool RecordOrPreview) {
     //qDebug() << "mainWindow  have received recordVideo signal";
+
     emit(onRecordVideo2Widget(speed,RecordOrPreview));   
     //record->hide();
 }
