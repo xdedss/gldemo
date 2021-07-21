@@ -6,6 +6,7 @@ var annotated_dup =
     [ "Component", "class_component.html", "class_component" ],
     [ "HierarchyModel", "class_hierarchy_model.html", "class_hierarchy_model" ],
     [ "HierarchyObject", "class_hierarchy_object.html", "class_hierarchy_object" ],
+    [ "Input", "class_input.html", null ],
     [ "LineRenderer", "class_line_renderer.html", "class_line_renderer" ],
     [ "MainWindow", "class_main_window.html", "class_main_window" ],
     [ "PointCloud", "class_point_cloud.html", null ],

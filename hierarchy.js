@@ -9,6 +9,7 @@ var hierarchy =
       [ "Trail", "class_trail.html", null ]
     ] ],
     [ "QtToOpencv::ImageConversion", "class_qt_to_opencv_1_1_image_conversion.html", null ],
+    [ "Input", "class_input.html", null ],
     [ "OpenGLFunctions", null, [
       [ "Widget", "class_widget.html", null ]
     ] ],
