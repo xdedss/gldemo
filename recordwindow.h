@@ -42,12 +42,12 @@ signals:
 private slots:
     /** @brief 接收滑动条改变信号，设置文本框的文本 */
     void setLineEditValue(int value);
+    /** @brief 接收文本框文本编辑信号，设置滑动条的value */
+    void setSliderValue(QString valueText);
     /** @brief 接收录像结束信号，开启视频保存功能 */
     void offRecordVideo(bool RecordOrPreview);
     /** @brief 接收保存视频结束信号，关闭视频保存功能 */
     void offSaveVideo();
-    /** @brief 接收文本框编辑信号，改变滑动条数值 */
-    void on_lineEdit_textEdited(const QString &arg1);
     /** @brief 接收录像开始的信号 */
     void on_pushButton_recordBegin_clicked();
     /** @brief 接收视频保存开始的信号 */
