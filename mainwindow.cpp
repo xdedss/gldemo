@@ -485,7 +485,7 @@ void MainWindow::onSaveVideo1MainWindow() {
     QFileDialog* fileDialog = new QFileDialog(this);
 
     //定义文件对话框标题    
-    fileDialog->setWindowTitle(QStringLiteral("选择文件"));
+    fileDialog->setWindowTitle(QString::fromUtf8("选择文件"));
 
     //设置打开的文件路径    
     fileDialog->setDirectory("./*.avi");
