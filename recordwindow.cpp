@@ -18,6 +18,8 @@ RecordWindow::RecordWindow(QWidget *parent) :
     ui->slider->setValue(speed); // 设置滑动条初始值 
 	 
     connect(ui->slider, SIGNAL(valueChanged(int)), this, SLOT(setLineEditValue(int)));
+    connect(ui->lineEdit_slider, SIGNAL(textEdited(QString)), this, SLOT(setSliderValue(QString)));
+
     // 点击录像事件   
     connect(ui->pushButton_recordBegin, SIGNAL(click()), this, SLOT(on_pushButton_recordBegin_clicked()));
     // 点击保存事件
@@ -39,9 +41,9 @@ RecordWindow::~RecordWindow()
     delete ui;
 }
 
-void RecordWindow::on_lineEdit_textEdited(const QString &arg1)
-{
-    speed = QString(ui->lineEdit_slider->text()).toFloat();
+
+void RecordWindow::setSliderValue(QString valueText) {
+    speed = valueText.toFloat();
     ui->slider->setValue(speed);
 }
 
