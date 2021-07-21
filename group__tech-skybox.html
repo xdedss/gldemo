@@ -108,11 +108,22 @@ $(document).ready(function(){initNavTree('group__tech-skybox.html','');});
 <div class="title">天空渲染</div>  </div>
 </div><!--header-->
 <div class="contents">
-<p>asdfas</p>
-<ul>
-<li>sdf </li>
-</ul>
-</div><!-- contents -->
+<h2>渲染顺序</h2>
+<p>天空和其他有实体的物体不同，是位于无限远处的，且充满整个屏幕。任何物体都会挡住天空，任何物体都不会被天空挡住。因此我们把天空的渲染放在整个渲染管线的最前端，在渲染其他物体之前首先绘制天空，且关闭深度缓冲的写入，避免后续深度测试时的遮挡。</p>
+<div class="image">
+<img src="tech-skybox-00.png" alt="tech-skybox-00.png"/>
+</div>
+<p><a href="https://github.com/xdedss/gldemo/blob/main/SkyboxRenderer.cpp#L37">SkyboxRenderer.cpp</a>: </p><div class="fragment"><div class="line"><span class="keywordtype">void</span> <a class="code" href="class_skybox_renderer.html#ab5d9e816496a6d88038aedc09389c03b">SkyboxRenderer::onRender</a>(OpenGLFunctions * gl, glm::mat4 projection, glm::mat4 view, glm::mat4 model)</div><div class="line">{</div><div class="line">    <span class="keywordflow">if</span> (!meshInitialized) {</div><div class="line"></div><div class="line">        m_vertexBuffer = <span class="keyword">new</span> QOpenGLBuffer();</div><div class="line">        <span class="keywordtype">float</span> buf[8] = { -1, -1, -1, 1, 1, -1, 1, 1 };</div><div class="line">        m_vertexBuffer-&gt;create();</div><div class="line">        m_vertexBuffer-&gt;bind();</div><div class="line">        m_vertexBuffer-&gt;setUsagePattern(QOpenGLBuffer::StaticDraw);</div><div class="line">        m_vertexBuffer-&gt;allocate(buf, 8 * <span class="keyword">sizeof</span>(<span class="keywordtype">float</span>));</div><div class="line"></div><div class="line">        meshInitialized = <span class="keyword">true</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    assert(<a class="code" href="class_skybox_renderer.html#a356e9d479f010b55f04418abad1da714">shader</a> != NULL);</div><div class="line"></div><div class="line">    <span class="comment">// 绑定shader</span></div><div class="line">    <a class="code" href="class_skybox_renderer.html#a356e9d479f010b55f04418abad1da714">shader</a>-&gt;bind();</div><div class="line">    m_vertexBuffer-&gt;bind();</div><div class="line">    <span class="comment">// offset=0 size=2 stride=default</span></div><div class="line">    <a class="code" href="class_skybox_renderer.html#a356e9d479f010b55f04418abad1da714">shader</a>-&gt;setAttributeBuffer(0, GL_FLOAT, 0, 2, 0);</div><div class="line"></div><div class="line">    <span class="comment">// 准备shader中的矩阵 </span></div><div class="line"></div><div class="line">    glm::mat4 projInv = glm::inverse(projection);</div><div class="line">    glm::mat4 viewInv = glm::inverse(view);</div><div class="line">    gl-&gt;glUniformMatrix4fv(<a class="code" href="class_skybox_renderer.html#a356e9d479f010b55f04418abad1da714">shader</a>-&gt;uniformLocation(<span class="stringliteral">&quot;MAT_PROJ_INV&quot;</span>), 1, GL_FALSE, glm::value_ptr(projInv));</div><div class="line">    gl-&gt;glUniformMatrix4fv(<a class="code" href="class_skybox_renderer.html#a356e9d479f010b55f04418abad1da714">shader</a>-&gt;uniformLocation(<span class="stringliteral">&quot;MAT_VIEW_INV&quot;</span>), 1, GL_FALSE, glm::value_ptr(viewInv));</div><div class="line"></div><div class="line">    <span class="comment">// no depth</span></div><div class="line">    gl-&gt;glDepthMask(GL_FALSE);</div><div class="line"></div><div class="line">    gl-&gt;glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);</div><div class="line"></div><div class="line">    gl-&gt;glDepthMask(GL_TRUE);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// 释放 </span></div><div class="line">    m_vertexBuffer-&gt;release();</div><div class="line">    <a class="code" href="class_skybox_renderer.html#a356e9d479f010b55f04418abad1da714">shader</a>-&gt;release();</div><div class="line">}</div></div><!-- fragment --><h2>天空模型</h2>
+<p>绘制天空时，实际上渲染的是一个完全覆盖视场范围的长方形面片（视口坐标为 \((\pm1, \pm1)\)），在顶点着色器中经过反变换计算世界坐标下的方向向量，在片元着色器中按照高度角分段插值得到像素颜色。</p>
+<p>反变换时，从视口坐标变换到相机坐标时，补齐齐次坐标的w分量为1，因为此时需要考虑视口变换的平移分量，将屏幕上的点变换到相机坐标中虚拟屏幕上的点。</p>
+<p class="formulaDsp">
+\[ \text{camPosDir} = M_{\text{PROJ}}^{-1} \cdot [x, y, 0.0, 1.0]^T \]
+</p>
+<p>从相机坐标变换到世界坐标时，补齐齐次坐标w分量为0，因为此时的向量表示相机视线的方向向量，与相机的平移无关。</p>
+<p class="formulaDsp">
+\[ \text{worldDir} = M_{\text{VIEW}}^{-1} \cdot [x_{cam}, y_{cam}, z_{cam}, 0.0]^T \]
+</p>
+<p><a href="https://github.com/xdedss/gldemo/blob/main/shaders/skybox.vert#L12">skybox.vert</a>: </p><div class="fragment"><div class="line"><span class="keywordtype">void</span> main()</div><div class="line">{</div><div class="line">    gl_Position = vec4(xy.x, xy.y, 0.999, 1.0); <span class="comment">// @far clip plane</span></div><div class="line">    <span class="comment">// compute world direction</span></div><div class="line">    vec3 camPosDir = (MAT_PROJ_INV * vec4(xy.x, xy.y, 0.0, 1.0)).xyz;</div><div class="line">    worldDir = (MAT_VIEW_INV * vec4(camPosDir, 0.0)).xyz;</div><div class="line">}</div></div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
