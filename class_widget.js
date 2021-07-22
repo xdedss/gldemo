@@ -1,6 +1,6 @@
 var class_widget =
 [
-    [ "drag_signal", "class_widget.html#a5839248206c865c616387aa8616ad484", null ],
+    [ "drag_signal", "class_widget.html#adf8f7feb072fa4f66a63271a48c96a4c", null ],
     [ "fixedUpdate", "class_widget.html#a15a479dedd808b60b8a94cad384a883b", null ],
     [ "functions", "class_widget.html#af74ac99e0f665c99bacf24c1f8a3cc06", null ],
     [ "onRecordVideo1Wigdet", "class_widget.html#ae9bd021fb4a32126a41bbd2a62159f27", null ],

@@ -1,6 +1,6 @@
 var class_main_window =
 [
-    [ "drag_solt", "class_main_window.html#af8a4a003ca628b38a9e62f19dbbd3017", null ],
+    [ "drag_solt", "class_main_window.html#a73be3265e60478e3f7c58baf8b121a4d", null ],
     [ "ObjectSelected", "class_main_window.html#a754e1b77cddd7f02ef3852ef2aa07779", null ],
     [ "offRecordVideo1MainWindow", "class_main_window.html#a9c37deba06632bc406680b50a5591ea0", null ],
     [ "offRecordVideo2recordWindow", "class_main_window.html#a0057cda47372be62b6a050c06a4ca8a8", null ],
