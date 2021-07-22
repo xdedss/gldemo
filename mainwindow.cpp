@@ -142,8 +142,11 @@ MainWindow::MainWindow(QWidget *parent) :
     // 保存结束信号，mainwindow传回recordWindow
     connect(this, SIGNAL(offSaveVideo2recordWindow()), record, SLOT(offSaveVideo()));
 
+    // 天空时间变化信号
     connect(ui->daytime, SIGNAL(valueChanged(int)), this, SLOT(toskybox(int)));
     connect(this, SIGNAL(mainwindow2skybox(int)), ui->openGLWidget, SLOT(changedaytime(int)));
+    // 天空默认时间
+    ui->daytime->setValue(120);
  
     // 测试用：加载模型   
     auto buildingRoot = hierarchy->createObject("building");
