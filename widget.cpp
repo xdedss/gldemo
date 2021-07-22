@@ -385,14 +385,16 @@ void Widget::dropEvent(QDropEvent * e) {		//拖拽松手后操作
 	std::string path = qm->urls()[0].toLocalFile().toStdString();
 	QString abs_path = QCoreApplication::applicationDirPath();
 
-	std::string re_path = QDir(abs_path).relativeFilePath(QString::fromStdString(path)).toStdString();
-	//将绝对路径转为相对路径
-	std::fstream test_file;
-	re_path.erase(re_path.begin());
-	//这里打开了拖入的文件
-	qDebug() << re_path.c_str() << endl;
 
-	emit drag_signal(re_path);
+
+	//std::string re_path = QDir(abs_path).relativeFilePath(QString::fromStdString(path)).toStdString();
+	////将绝对路径转为相对路径
+	//std::fstream test_file;
+	//re_path.erase(re_path.begin());
+	//这里打开了拖入的文件
+	qDebug() << QString::fromStdString(path) << endl;
+
+	emit drag_signal(path);
 }
 
 void Widget::dragEnterEvent(QDragEnterEvent * e) {				//接收所有的拖拽事件(后续可以改为根据文件的扩展名进行筛选)
