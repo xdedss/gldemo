@@ -89,7 +89,7 @@ private slots:
     void ObjectSelected(const QItemSelection& selected, const QItemSelection& deselected);
 
     /** @brief 接收加载点云信号,拖拽点云文件进行加载  */
-	void drag_solt(std::string re_path);
+	void drag_solt(QString re_path);
     
     /** @brief 接收recordwindow点击信号，显示recordWindow  */
     void on_actionvideoRecord_triggered();

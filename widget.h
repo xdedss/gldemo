@@ -145,7 +145,7 @@ signals:
     /** @brief 发送用户鼠标编辑物体信号 */
     void onTransformEdited(HierarchyObject* obj);
     /** @brief 实现拖拽的信号函数 */
-	void drag_signal(std::string re_path);
+	void drag_signal(QString re_path);
     /** @brief 视频录制结束信号 */
     void videoRecordFinish(bool RecordOrPreview);
     /** @brief 视频保存结束信号 */
