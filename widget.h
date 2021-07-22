@@ -138,6 +138,7 @@ private slots:
     void onRecordVideo1Wigdet(float speed, bool RecordOrPreview);
     /** @brief 接收保存视频信号 */
     void onSaveVideo1Widget(QString savePath);
+    void changedaytime(int value);
 
 signals:
     /** @brief 发送用户鼠标选取模型的信号 */

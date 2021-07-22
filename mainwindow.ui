@@ -405,6 +405,23 @@
          </widget>
         </item>
         <item>
+         <widget class="QSlider" name="daytime">
+          <property name="maximum">
+           <number>240</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>0:00</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QTreeView" name="treeView_prop"/>
         </item>
        </layout>
@@ -577,8 +594,8 @@
    <slot>onEdited()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>690</x>
-     <y>113</y>
+     <x>916</x>
+     <y>109</y>
     </hint>
     <hint type="destinationlabel">
      <x>609</x>
@@ -593,7 +610,7 @@
    <slot>onEdited()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>884</x>
+     <x>1119</x>
      <y>109</y>
     </hint>
     <hint type="destinationlabel">
@@ -609,8 +626,8 @@
    <slot>onEdited()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1095</x>
-     <y>112</y>
+     <x>1323</x>
+     <y>109</y>
     </hint>
     <hint type="destinationlabel">
      <x>1063</x>
@@ -625,8 +642,8 @@
    <slot>onEdited()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>733</x>
-     <y>172</y>
+     <x>916</x>
+     <y>137</y>
     </hint>
     <hint type="destinationlabel">
      <x>796</x>
@@ -641,8 +658,8 @@
    <slot>onEdited()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>954</x>
-     <y>168</y>
+     <x>1119</x>
+     <y>137</y>
     </hint>
     <hint type="destinationlabel">
      <x>949</x>
@@ -657,8 +674,8 @@
    <slot>onEdited()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1075</x>
-     <y>168</y>
+     <x>1323</x>
+     <y>137</y>
     </hint>
     <hint type="destinationlabel">
      <x>1013</x>
@@ -673,8 +690,8 @@
    <slot>onEdited()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>772</x>
-     <y>230</y>
+     <x>916</x>
+     <y>165</y>
     </hint>
     <hint type="destinationlabel">
      <x>902</x>
@@ -689,8 +706,8 @@
    <slot>onEdited()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>903</x>
-     <y>222</y>
+     <x>1119</x>
+     <y>165</y>
     </hint>
     <hint type="destinationlabel">
      <x>852</x>
@@ -705,8 +722,8 @@
    <slot>onEdited()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1059</x>
-     <y>230</y>
+     <x>1323</x>
+     <y>165</y>
     </hint>
     <hint type="destinationlabel">
      <x>1052</x>
@@ -714,8 +731,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>daytime</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>day_time()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>682</x>
+     <y>200</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>707</x>
+     <y>615</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onEdited()</slot>
+  <slot>day_time()</slot>
  </slots>
 </ui>

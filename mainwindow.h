@@ -69,7 +69,7 @@ signals:
     void onSaveVideo2Widget(QString savePath);
     /** @brief 视频保存结束信号，从mainwindow传到widget */
     void offSaveVideo2recordWindow();
-
+    void mainwindow2skybox(int dayTime);
 private slots:
     void on_actionopen_triggered();
     void onTreeViewCustomContextMenu(const QPoint &);
@@ -101,7 +101,7 @@ private slots:
     void onSaveVideo1MainWindow();
     /** @brief 接收保存结束的信号    */
     void offSaveVideo1MainWindow();
-
+   
     /** @brief 接收鼠标左键点击平移按钮的信号，开启 拖拽平移物体 功能 */
     void on_actionTranslation_toggled(bool arg1);
     /** @brief 接收鼠标左键点击旋转按钮的信号，开启 拖拽旋转物体 功能 */
@@ -111,6 +111,8 @@ private slots:
     /** @brief 接收鼠标左键点击物体选择的信号，开启 选择物体 功能,程序初始化即为此功能 */
     void on_actionCursor_toggled(bool arg1);
 
+    void day_time();
+    void toskybox(int value);
 private:
     Ui::MainWindow *ui;
     QMenu* treeContextMenu;
