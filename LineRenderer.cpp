@@ -36,24 +36,24 @@ void LineRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4
         modified = false;
     }
 
-    if (m_vertexBuffer == NULL) return; // Ã»ÓÐÉè¶¨¶¥µã£¬²»äÖÈ¾ 
+    if (m_vertexBuffer == NULL) return; // æ²¡æœ‰è®¾å®šé¡¶ç‚¹ï¼Œä¸æ¸²æŸ“ 
 
     assert(shader != NULL);
 
-    // °ó¶¨shader 
+    // ç»‘å®šshader 
     shader->bind();
     m_vertexBuffer->bind();
     shader->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
     shader->setAttributeBuffer(1, GL_FLOAT, Vertex::colorOffset(), Vertex::ColorTupleSize, Vertex::stride());
 
-    // ×¼±¸shaderÖÐµÄ¾ØÕó 
+    // å‡†å¤‡shaderä¸­çš„çŸ©é˜µ 
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_PROJ"), 1, GL_FALSE, glm::value_ptr(projection));
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_VIEW"), 1, GL_FALSE, glm::value_ptr(view));
     gl->glUniformMatrix4fv(shader->uniformLocation("MAT_MODEL"), 1, GL_FALSE, glm::value_ptr(model));
     
     float lineWidth = getProp("lineWidth").toFloat();
 
-    // »­outline 
+    // ç”»outline 
     if (highlight) {
         gl->glDepthMask(GL_FALSE);
         //gl->glUniform1f(shader->uniformLocation("sizeScale"), sizeScale * 2);
@@ -64,7 +64,7 @@ void LineRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4
         gl->glDepthMask(GL_TRUE);
     }
 
-    // Õý³£»­ 
+    // æ­£å¸¸ç”» 
     //gl->glUniform1f(shader->uniformLocation("sizeScale"), sizeScale);
     //gl->glUniform1f(shader->uniformLocation("sizeAbsolute"), 0);
     gl->glUniform4f(shader->uniformLocation("colorOverride"), 1.0, 0.5, 0.0, 0.0);
@@ -73,7 +73,7 @@ void LineRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4
 
     gl->glLineWidth(0);
 
-    // ÊÍ·Å 
+    // é‡Šæ”¾ 
     m_vertexBuffer->release();
     shader->release();
 

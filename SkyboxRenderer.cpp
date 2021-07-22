@@ -20,13 +20,13 @@ void SkyboxRenderer::onRender(OpenGLFunctions * gl, glm::mat4 projection, glm::m
 
     assert(shader != NULL);
 
-    // 绑定shader
+    // 缁戝畾shader
     shader->bind();
     m_vertexBuffer->bind();
     // offset=0 size=2 stride=default
     shader->setAttributeBuffer(0, GL_FLOAT, 0, 2, 0);
 
-    // 准备shader中的矩阵 
+    // 鍑嗗shader涓殑鐭╅樀 
     
     glm::mat4 projInv = glm::inverse(projection);
     glm::mat4 viewInv = glm::inverse(view);
@@ -41,7 +41,7 @@ void SkyboxRenderer::onRender(OpenGLFunctions * gl, glm::mat4 projection, glm::m
     gl->glDepthMask(GL_TRUE);
 
 
-    // 释放 
+    // 閲婃斁 
     m_vertexBuffer->release();
     shader->release();
 
