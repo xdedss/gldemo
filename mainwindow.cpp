@@ -20,7 +20,7 @@ PointCloudRenderer* MainWindow::importPointCloud(const QString& path, float init
     obj->addComponent(renderer);
     
     if (path.endsWith(".ply")) {
-        auto vertices = readPly(path.toStdString());
+        auto vertices = readPly(std::string(path.toLocal8Bit().data()));
         renderer->setVertices(vertices);
     }
     else if (path.endsWith(".txt")) {
@@ -120,7 +120,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // 链接右键菜单信号槽  
     connect(ui->treeView_hierarchy, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onTreeViewCustomContextMenu(const QPoint &)));
 	// 链接拖拽生成点云信号槽  
-	connect(ui->openGLWidget, SIGNAL(drag_signal(std::string)), this, SLOT(drag_solt(std::string)));
+	connect(ui->openGLWidget, SIGNAL(drag_signal(QString)), this, SLOT(drag_solt(QString)));
     // 点击菜单栏，出现录像窗口  
     connect(ui->actionvideoRecord, SIGNAL(clicked()), this, SLOT(on_actionvideoRecord_triggered()));
 
@@ -464,14 +464,14 @@ void MainWindow::on_actionopen_triggered()
     if (fileDialog->exec()) {
         fileNames = fileDialog->selectedFiles();
         QString fileName = fileNames[0];
-        drag_solt(fileName.toStdString());
+        drag_solt(fileName);
     }
 }
 
-void MainWindow::drag_solt(std::string re_path)			//添加点云  
+void MainWindow::drag_solt(QString re_path)			//添加点云  
 {
 	//qDebug() << "go" << endl;
-	auto new_obj = importPointCloud(QString::fromStdString(re_path), 10);
+	auto new_obj = importPointCloud((re_path), 10);
 	new_obj->setProp("sizeScale", 2.0f);
 }
 

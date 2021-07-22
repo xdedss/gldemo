@@ -43,6 +43,7 @@ void Trail::updateRenderer()
     const int numSegments = 10; // 每两个关键点之间的渲染段数  
 
     QVector3D color = { 0.0, 1.0, 0.0 };
+    glm::mat4 world2local = hierarchyObject->worldToLocal();
     std::vector<Vertex> vertices;
     if (keypoints.size() > 0) {
         glm::vec3 pos0 = interpolate(0) * glm::vec4(0, 0, 0, 1);
@@ -50,7 +51,7 @@ void Trail::updateRenderer()
     }
     for (int i = 0; i < keypoints.size() - 1; i++) {
         for (int j = 1; j <= numSegments; j++) {
-            glm::vec3 pos = interpolate(i + (float)j / numSegments) * glm::vec4(0, 0, 0, 1);
+            glm::vec3 pos = world2local * interpolate(i + (float)j / numSegments) * glm::vec4(0, 0, 0, 1);
             vertices.push_back(Vertex({ pos.x, pos.y, pos.z }, color));
         }
     }

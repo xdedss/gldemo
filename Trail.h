@@ -19,16 +19,16 @@ public:
 
     void onUpdate() override;
 
-    // ¼ì²é×ÓÎïÌåÓĞÃ»ÓĞ¸üĞÂ  
+    // æ£€æŸ¥å­ç‰©ä½“æœ‰æ²¡æœ‰æ›´æ–°  
     bool compareDiff();
 
-    // ¸üĞÂ¶ÔÓ¦µÄ¹ì¼£äÖÈ¾Æ÷ 
+    // æ›´æ–°å¯¹åº”çš„è½¨è¿¹æ¸²æŸ“å™¨ 
     void updateRenderer();
 
-    // ²åÖµ£¨µÃµ½µÄÊÇlocal2world£©    
+    // æ’å€¼ï¼ˆå¾—åˆ°çš„æ˜¯local2worldï¼‰    
     glm::mat4 interpolate(float t);
 
-    // ×ËÌ¬¾ØÕóÆ½»¬²åÖµ 
+    // å§¿æ€çŸ©é˜µå¹³æ»‘æ’å€¼ 
     glm::mat4 slerp(glm::mat4 m1, glm::mat4 m2, float t);
 
 };

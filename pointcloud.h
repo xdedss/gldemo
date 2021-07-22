@@ -17,7 +17,7 @@
 #include "vertex.h"
 #include "nanoflann.hpp"
 
-// 弃用的（0710），应使用PointCloudRenderer
+// 寮冪敤鐨勶紙0710锛夛紝搴斾娇鐢≒ointCloudRenderer
 class PointCloud : protected QOpenGLFunctions_4_3_Core {
 
 private:

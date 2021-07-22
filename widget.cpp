@@ -514,19 +514,22 @@ void Widget::paintGL()
 void Widget::dropEvent(QDropEvent * e) {		//拖拽松手后操作 
 
 	const QMimeData* qm = e->mimeData();
-	std::string path = qm->urls()[0].toLocalFile().toStdString();
-	QString abs_path = QCoreApplication::applicationDirPath();
+    QUrl url = qm->urls()[0];
+    QString pathQ = url.toLocalFile();
+	//std::string path = pathQ.toLocal8Bit();
+	//QString abs_path = QCoreApplication::applicationDirPath();
 
-	std::string re_path = QDir(abs_path).relativeFilePath(QString::fromStdString(path)).toStdString();
 
-	//将绝对路径转为相对路径 
-	std::fstream test_file;
-	re_path.erase(re_path.begin());
-	//这里打开了拖入的文件 
 
-	qDebug() << re_path.c_str() << endl;
+	//std::string re_path = QDir(abs_path).relativeFilePath(QString::fromStdString(path)).toStdString();
+	////将绝对路径转为相对路径
+	//std::fstream test_file;
+	//re_path.erase(re_path.begin());
+	//这里打开了拖入的文件
+	qDebug() << pathQ << endl;
 
-	emit drag_signal(re_path);
+
+	emit drag_signal(pathQ);
 }
 
 

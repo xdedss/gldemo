@@ -1,6 +1,6 @@
 #pragma once
 
-// 这几个类互相依赖，需要事先给一个空定义  
+// 杩欏嚑涓被浜掔浉渚濊禆锛岄渶瑕佷簨鍏堢粰涓�涓┖瀹氫箟  
 class HierarchyModel;
 class HierarchyObject;
 class Widget;

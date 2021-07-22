@@ -21,22 +21,23 @@ void SkyboxRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::ma
 
     assert(shader != NULL);
 
-    // °ó¶¨shader
+    // ç»‘å®šshader
     shader->bind();
     m_vertexBuffer->bind();
     // offset=0 size=2 stride=default
     shader->setAttributeBuffer(0, GL_FLOAT, 0, 2, 0);
 
-    // ×¼±¸shaderÖÐµÄ¾ØÕó 
+
+    // ×¼ï¿½ï¿½shaderï¿½ÐµÄ¾ï¿½ï¿½ï¿½ 
 
     float temptime;
     /*   glm::vec3 skycolorchange = { 0.0, 0.4, 0.7 };
        glm::vec3 groundcolorchange= { 0.5, 0.5, 0.5 };*/
-       //ÈÕ³öÑÕÉ« { 0,0.22,0.58 } { 0.4, 0.4, 0.4 } { 0.3,0.4,0.9 } { 0.8, 0.9, 1.0 }
-       //ÔçÉÏÑÕÉ« { 0.0, 0.4, 0.7 } { 0.5, 0.5, 0.5 } { 0.5, 0.5, 0.9 } { 0.8, 1.0, 1.0 } 
-       //ÖÐÎçÑÕÉ« {0.0£¬0.37,1.0} {0.6,0.6,0.6}  { 0.5, 0.5, 0.9 } { 0.8, 1.0, 1.0 } 
-       //°øÍíÑÕÉ« {}  {}  {}  {}
-       //Ò¹ÍíÑÕÉ« {0,0.0,0.13} {0.2,0.2,0.2} {0,0.0,0.25}  { 0.0, 0.0, 0.3}  
+       //ï¿½Õ³ï¿½ï¿½ï¿½É« { 0,0.22,0.58 } { 0.4, 0.4, 0.4 } { 0.3,0.4,0.9 } { 0.8, 0.9, 1.0 }
+       //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É« { 0.0, 0.4, 0.7 } { 0.5, 0.5, 0.5 } { 0.5, 0.5, 0.9 } { 0.8, 1.0, 1.0 } 
+       //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É« {0.0ï¿½ï¿½0.37,1.0} {0.6,0.6,0.6}  { 0.5, 0.5, 0.9 } { 0.8, 1.0, 1.0 } 
+       //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É« {}  {}  {}  {}
+       //Ò¹ï¿½ï¿½ï¿½ï¿½É« {0,0.0,0.13} {0.2,0.2,0.2} {0,0.0,0.25}  { 0.0, 0.0, 0.3}  
     glm::vec3 skycolorchange = { 0,0.0,0.13 };
     glm::vec3 groundcolorchange = { 0.2,0.2,0.2 };
     glm::vec3 sladderchange = { 0,0.0,0.25 };
@@ -44,14 +45,14 @@ void SkyboxRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::ma
 
 
     temptime = timetime / 10.0;
-    //Ò¹Íí-ÀèÃ÷  
+    //Ò¹ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½  
     if (temptime <= 6) {
         skycolorchange = glm::vec3(0, 0.0, 0.0) + glm::vec3(0, temptime * 0.0092, temptime * 0.0188);
         sladderchange = glm::vec3(0.0, 0.0, 0.25) + glm::vec3(temptime * 0.0125, temptime * 0.0167, temptime * 0.0271);
         gladderchange = glm::vec3(0.0, 0.0, 0.3) + glm::vec3(temptime * 0.0443, temptime * 0.05, temptime * 0.0390);
         groundcolorchange = glm::vec3(0.2, 0.2, 0.2) + glm::vec3(temptime * 0.0083, temptime * 0.0083, temptime * 0.0083);
     }
-    //ÈÕ³ö 
+    //ï¿½Õ³ï¿½ 
     else if (temptime <= 8) {
         skycolorchange = glm::vec3(0, 0.0552, 0.1128) + glm::vec3(0, (temptime - 6.0) * 0.0824, (temptime - 6.0) * 0.2336);
         sladderchange = glm::vec3(0.0750, 0.1002, 0.4126) + glm::vec3((temptime - 6.0) * 0.1125, (temptime - 6.0) * 0.1499, (temptime - 6.0) * 0.2437);
@@ -59,14 +60,14 @@ void SkyboxRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::ma
         groundcolorchange = glm::vec3(0.2498, 0.2498, 0.2498) + glm::vec3((temptime - 6.0) * 0.0751, (temptime - 6.0) * 0.0751, (temptime - 6.0) * 0.0751);
     }
 
-    //ÌìÁÁ 
+    //ï¿½ï¿½ï¿½ï¿½ 
     else if (temptime <= 10) {
         skycolorchange = glm::vec3(0, 0.22, 0.58) + glm::vec3(0.0, (temptime - 8.0) * 0.09, (temptime - 8.0) * 0.06);
         groundcolorchange = glm::vec3(0.4, 0.4, 0.4) + glm::vec3((temptime - 8.0) * 0.05, (temptime - 8.0) * 0.05, (temptime - 8.0) * 0.05);
         sladderchange = glm::vec3(0.3, 0.4, 0.9) + glm::vec3((temptime - 8.0) * 0.1, (temptime - 8.0) * 0.05, 0.0);
         gladderchange = glm::vec3(0.8, 0.9, 1.0) + glm::vec3(0.0, (temptime - 8.0) * 0.05, 0.0);
     }
-    //°×Ìì 
+    //ï¿½ï¿½ï¿½ï¿½ 
     else if (temptime <= 16) {
         skycolorchange = glm::vec3(0.0, 0.4, 0.7);
         groundcolorchange = glm::vec3(0.5, 0.5, 0.5);
@@ -75,7 +76,7 @@ void SkyboxRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::ma
 
     }
 
-    //ÈÕÂä 
+    //ï¿½ï¿½ï¿½ï¿½ 
     else if (temptime <= 18) {
 
         skycolorchange = glm::vec3(0.0, 0.4, 0.7) - glm::vec3(0.0, (temptime - 16.0) * 0.09, (temptime - 16.0) * 0.06);
@@ -84,7 +85,7 @@ void SkyboxRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::ma
         gladderchange = glm::vec3(0.8, 1.0, 1.0) - glm::vec3((temptime - 16.0) * 0.05, (temptime - 16.0) * 0.2, (temptime - 16.0) * 0.2);
     }
 
-    //ÌìºÚ 
+    //ï¿½ï¿½ï¿½ 
     else if (temptime <= 20) {
 
         skycolorchange = glm::vec3(0, 0.22, 0.58) - glm::vec3(0, (temptime - 18.0) * 0.0824, (temptime - 18.0) * 0.2336);
@@ -94,13 +95,14 @@ void SkyboxRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::ma
 
     }
 
-    //Ò¹Íí
+    //Ò¹ï¿½ï¿½
     else {
         skycolorchange = glm::vec3(0, 0.0552, 0.1128) - glm::vec3(0, (temptime - 20.0) * 0276 / 2, (temptime - 20.0) * 0.0564 / 2);
         sladderchange = glm::vec3(0.0750, 0.1002, 0.4126) - glm::vec3((temptime - 20.0) * 0.0375 / 2, (temptime - 20.0) * 0.0501 / 2, (temptime - 20.0) * 0.0813 / 2);
         gladderchange = glm::vec3(0.2658, 0.3, 0.534) - glm::vec3((temptime - 20.0) * 0.1342 / 2, (temptime - 20.0) * 0.15 / 2, (temptime - 20.0) * 0.117 / 2);
         groundcolorchange = glm::vec3(0.2498, 0.2498, 0.2498) - glm::vec3((temptime - 20.0) * 0.0299 / 2, (temptime - 20.0) * 0.0299 / 2, (temptime - 20.0) * 0.0299 / 2);
     }
+
 
 
     glm::mat4 projInv = glm::inverse(projection);
@@ -119,7 +121,7 @@ void SkyboxRenderer::onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::ma
     gl->glDepthMask(GL_TRUE);
 
 
-    // ÊÍ·Å 
+    // é‡Šæ”¾ 
     m_vertexBuffer->release();
     shader->release();
 
