@@ -6,7 +6,7 @@ in vec3 worldDir;
 
 #define pi 3.1415926535
 #define CONDITION_LERP(cond,res,t1,t2,c1,c2) \
-(cond > t1 && cond < t2) {\
+(cond >= t1 && cond <= t2) {\
     res = ((c2) - (c1)) * ((cond) - (t1)) / ((t2) - (t1)) + (c1);\
 }
 

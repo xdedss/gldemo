@@ -22,11 +22,13 @@ private:
 
 public:
     bool highlight = false;
-    // äÖÈ¾ÊÂ¼ş£¬Ã¿Ö¡»á±»µ÷ÓÃ   
+    /**
+    * @brief  æ¸²æŸ“äº‹ä»¶ï¼Œæ¯å¸§ä¼šè¢«è°ƒç”¨      
+    */
     virtual void onRender(OpenGLFunctions* gl, glm::mat4 projection, glm::mat4 view, glm::mat4 model) = 0;
 
-    void onInit() override;
-    void onUpdate() override;
+    virtual void onInit() override;
+    virtual void onUpdate() override;
 
 };
 

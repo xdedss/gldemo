@@ -1,6 +1,12 @@
 #include "HierarchyObject.h"
 #include "HierarchyModel.h"
 #include "Component.h"
+#include <qdebug.h>
+#include <qvector3d.h>
+
+// 允许编辑的property类型   
+const std::set<int> editableTypes = { QVariant::Bool, QVariant::String, QVariant::Int, QVariant::Double, QMetaType::Float };
+
 
 HierarchyObject * HierarchyObject::getChildren(const QString & name)
 {
@@ -24,7 +30,7 @@ HierarchyObject::HierarchyObject(const QString & name, HierarchyObject* parent)
 {
     transform = glm::identity<glm::mat4>();
     this->name = name;
-    this->parent = parent;
+    this->parentObj = parent;
     this->enabled = true;
 }
 
@@ -55,14 +61,14 @@ HierarchyObject* HierarchyObject::popChild(int index) {
     Q_ASSERT(index < children.size() && index >= 0);
     HierarchyObject* child = children[index];
     children.erase(children.begin() + index);
-    child->parent = NULL;
+    child->parentObj = NULL;
     return child;
 }
 
 void HierarchyObject::insertChild(int index, HierarchyObject* child) {
     Q_ASSERT(index <= children.size() && index >= 0);
     children.insert(children.begin() + index, child);
-    child->parent = this;
+    child->parentObj = this;
 }
 
 void HierarchyObject::moveChild(int oldIndex, int newIndex) {
@@ -89,7 +95,9 @@ void HierarchyObject::updateRecursively()
     if (!enabled) return;
     for (auto component : components) {
         assert(component);
-        component->onUpdate();
+        if (component->getProp("enabled").toBool()) {
+            component->onUpdate();
+        }
     }
     for (auto child : children) {
         assert(child);
@@ -117,6 +125,104 @@ void HierarchyObject::callRecursively(const std::function<void(HierarchyObject*)
     }
 }
 
+
+
+// ---------abstract item model--------------------
+
+
+QModelIndex HierarchyObject::index(int row, int column, const QModelIndex & parent) const
+{
+    if (!parent.isValid()) {
+        // 根节点index，返回component标题项   
+        if (row >= components.size() || row < 0) return QModelIndex();
+        return createIndex(row, column, nullptr);
+    }
+    else {
+        // 根节点就是component，返回属性项  
+        if (parent.row() >= components.size() || parent.row() < 0) return QModelIndex();
+        return createIndex(row, column, components[parent.row()]);
+    }
+}
+
+QModelIndex HierarchyObject::parent(const QModelIndex & index) const
+{
+    if (!index.isValid()) //传入节点是根节点  
+        return QModelIndex();
+
+    if (index.internalPointer() == nullptr) {
+        // 是component
+        return QModelIndex();
+    }
+
+    // 剩余情况一定是属性项  
+    Component* p = static_cast<Component*>(index.internalPointer());
+    int row = std::find(components.begin(), components.end(), p) - components.begin();
+    return createIndex(row, 0, nullptr);
+}
+
+int HierarchyObject::rowCount(const QModelIndex & parent) const
+{
+    if (!parent.isValid()) //传入节点是根节点  
+        return components.size();
+
+    if (parent.internalPointer() == nullptr) {
+        // 是component 
+        return components[parent.row()]->getPropKeys().size();
+    }
+    // property本身没有子节点  
+    return 0;
+}
+
+int HierarchyObject::columnCount(const QModelIndex & parent) const
+{
+    return 2;
+    //if (!parent.isValid()) //传入节点是根节点  
+    //    return 1;
+
+    //if (parent.internalPointer() == nullptr) {
+    //    // 是component， 下面的property有两列  
+    //    return 2;
+    //}
+    //// property  
+    //return 0;
+}
+
+QVariant HierarchyObject::data(const QModelIndex & index, int role) const
+{
+    if (!index.isValid()) //传入节点是根节点  
+        return QVariant();
+
+    if (role != Qt::DisplayRole && role != Qt::EditRole)
+        return QVariant();
+
+    if (index.internalPointer() == nullptr) {
+        // 是component 返回其名称   
+        if (index.column() == 0) return QVariant(components[index.row()]->name());
+        else return QVariant();
+    }
+    // property  
+    Component* c = static_cast<Component*>(index.internalPointer());
+    if (index.column() == 0) {
+        // 返回属性名   
+        return c->getPropKeys()[index.row()];
+    }
+    else {
+        // 返回属性值   
+        QVariant value = c->getProp(c->getPropKeys()[index.row()]);
+        if (editableTypes.count((int)value.type())) {
+            return value;
+        }
+        else {
+            QString res;
+            if (value.type() == QVariant::Vector3D) {
+                QDebug(&res) << value.value<QVector3D>();
+                return res;
+            }
+            return value.toString();
+        }
+    }
+}
+
 HierarchyObject::~HierarchyObject()
 {
     for (auto component : components) {
@@ -127,4 +233,56 @@ HierarchyObject::~HierarchyObject()
         assert(child);
         delete child;
     }
+}
+
+bool HierarchyObject::setData(const QModelIndex & index, const QVariant & value, int role)
+{
+    if (!index.isValid()) return false;
+
+    if (index.internalPointer() == nullptr) {
+        // 是component 不允许修改    
+        return false;
+    }
+    // property  
+    Component* c = static_cast<Component*>(index.internalPointer());
+    if (index.column() == 0) {
+        // 属性名不允许修改   
+        return false;
+    }
+    else {
+        // 修改属性值 
+        qDebug() << "setData: " << value << "|" << role;
+        c->setProp(c->getPropKeys()[index.row()], value);
+        return true;
+    }
+}
+
+Qt::ItemFlags HierarchyObject::flags(const QModelIndex & index) const
+{
+    if (!index.isValid()) return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+
+    if (index.internalPointer() == nullptr) {
+        // 是component 不允许修改    
+        return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+    }
+    // property  
+    Component* c = static_cast<Component*>(index.internalPointer());
+    if (index.column() == 0) {
+        // 属性名不允许修改   
+        return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+    }
+    else {
+        // 属性值 
+        QVariant v = c->getProp(c->getPropKeys()[index.row()]);
+        //qDebug() << "type of " << c->name() << "." << c->getPropKeys()[index.row()] << " is " << v.type() << " | " << v.typeName();
+        if (editableTypes.count((int)v.type())) {
+            return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+        }
+        return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+    }
+}
+
+QVariant HierarchyObject::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    return QVariant(QString("123"));
 }

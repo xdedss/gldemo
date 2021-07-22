@@ -1,0 +1,26 @@
+os: linux
+
+branches:
+  only:
+    - main
+
+addons:
+  apt:
+    packages:
+      - texlive
+      - doxygen
+
+script:
+  - doxygen Doxyfile
+  - touch docs/html/.nojekyll
+  - ls -l -a -r
+  - ls -l -a -r docs/html
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: docs/html
+  github_token: $GH_REPO_TOKEN
+  keep_history: true
+  on:
+    branch: main

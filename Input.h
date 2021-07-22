@@ -3,7 +3,16 @@
 #include <vector>
 #include <map>
 #include <qapplication.h>
+#include <qpoint.h>
 
+
+/**
+* @class Input 
+* @brief 统一处理鼠标、键盘等各种输入
+* @details 仿照Unity的Input类实现的一个统一获取鼠标键盘输入的静态类
+* @note
+* 按帧更新,需要widget类配合每帧调用beforeUpdate。所有getXXXDown或getXXXUp或getXXXDelta得到的值均是当前帧内有效。
+*/
 static class Input {
 
 private:
@@ -11,6 +20,7 @@ private:
     static std::map<Qt::MouseButton, bool> mouseButtonState, mouseButtonStateCache, mouseButtonStatePrevCache;
     static std::map<Qt::Key, bool> keyState, keyStateCache, keyStatePrevCache;
     static float mouseDelta, mouseDeltaCache;
+    static std::map<QString, float> axisValues, axisValuesCache, axisValuesPrevCache;
 
     template <class TKey, class TValue>
     static TValue mapDefaultGet(std::map<TKey, TValue>& m, TKey key, TValue defaultValue) {
@@ -45,7 +55,7 @@ public:
         return (!mapDefaultGet(mouseButtonStateCache, i, false)) && mapDefaultGet(mouseButtonStatePrevCache, i, false);
     }
     static void setMouseButton(Qt::MouseButton i, bool down) {
-        assert(i >= 0 && i < 3);
+        //assert(i >= 0 && i < 3);
         mouseButtonState[i] = down;
     }
 
@@ -58,15 +68,25 @@ public:
     }
 
     // ----axis-----
-
+    static float getAxis(const QString& name) {
+        return mapDefaultGet(axisValuesCache, name, 0.0f);
+    }
+    static float getAxisDelta(const QString& name) {
+        return mapDefaultGet(axisValuesCache, name, 0.0f) - mapDefaultGet(axisValuesPrevCache, name, 0.0f);
+    }
+    static void setAxis(const QString& name, float value) {
+        axisValues[name] = value;
+    }
 
 
     static void beforeUpdate() {
         // copy
         keyStatePrevCache = keyStateCache;
         mouseButtonStatePrevCache = mouseButtonStateCache;
+        axisValuesPrevCache = axisValuesCache;
         keyStateCache = keyState;
         mouseButtonStateCache = mouseButtonState;
+        axisValuesCache = axisValues;
         // mouse wheel
         mouseDeltaCache = mouseDelta;
         mouseDelta = 0; // clear

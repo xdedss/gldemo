@@ -16,23 +16,43 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    main.cpp \
-    mainwindow.cpp \
-    widget.cpp \
+    Component.cpp \
     HierarchyModel.cpp \
     HierarchyObject.cpp \
     Input.cpp \
-    Renderer.cpp \
     LineRenderer.cpp \
+    main.cpp \
+    mainwindow.cpp \
     PointCloudRenderer.cpp \
+    recordwindow.cpp \
+    Renderer.cpp \
     SkyboxRenderer.cpp \
+    Trail.cpp \
+    widget.cpp \
+    qttoopencv.cpp
+
 
 
 HEADERS += \
-    mainwindow.h \
-    widget.h \
+    commondefs.h \
+    Component.h \
+    futils.h \
     HierarchyModel.h \
     HierarchyObject.h \
+    Input.h \
+    LineRenderer.h \
+    mainwindow.h \
+    nanoflann.hpp \
+    nesteddefs.h \
+    pointcloud.h \
+    PointCloudRenderer.h \
+    recordwindow.h \
+    Renderer.h \
+    SkyboxRenderer.h \
+    Trail.h \
+    vertex.h \
+    widget.h
+
 
 
 # Default rules for deployment.
@@ -41,7 +61,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    recordwindow.ui \
 
 RESOURCES += \
     Resources.qrc
