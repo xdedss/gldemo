@@ -82,4 +82,50 @@ void main()
 }
 ~~~
 
+## 昼夜更替
+
+昼夜更替是通过将天空各段的颜色值在时间维度上进行插值实现的。设定好各个关键时间点的天空颜色之后，插值得到待求时间的天空颜色，并通过uniform传入天空的着色器中。
+
+[SkyboxRenderer.cpp](https://github.com/xdedss/gldemo/blob/main/SkyboxRenderer.cpp#L47):
+~~~{.cpp}
+    temptime = timetime / 10.0;
+    //夜晚-黎明 
+    if (temptime <= 6) {
+        skycolorchange = glm::vec3(0, 0.0, 0.0) + glm::vec3(0, temptime * 0.0092, temptime * 0.0188);
+        sladderchange = glm::vec3(0.0, 0.0, 0.25) + glm::vec3(temptime * 0.0125, temptime * 0.0167, temptime * 0.0271);
+        gladderchange = glm::vec3(0.0, 0.0, 0.3) + glm::vec3(temptime * 0.0443, temptime * 0.05, temptime * 0.0390);
+        groundcolorchange = glm::vec3(0.2, 0.2, 0.2) + glm::vec3(temptime * 0.0083, temptime * 0.0083, temptime * 0.0083);
+    }
+    //日出 
+    else if (temptime <= 8) {
+        skycolorchange = ...
+        ...
+    }
+
+    //天亮 
+    else if (temptime <= 10) {
+        ...
+    }
+    //白天 
+    else if (temptime <= 16) {
+        ...
+    }
+
+    //日落 
+    else if (temptime <= 18) {
+        ...
+    }
+
+    //天黑 
+    else if (temptime <= 20) {
+        ...
+    }
+
+    //夜晚
+    else {
+        ...
+    }
+~~~
+
+
 */
