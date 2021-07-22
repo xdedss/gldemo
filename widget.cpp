@@ -535,7 +535,10 @@ void Widget::dragEnterEvent(QDragEnterEvent * e) {				//接收所有的拖拽事
 	e->acceptProposedAction();
 }
 
-
+void Widget::changedaytime(int value) {
+    qDebug() << "123";
+    skybox->timetime = value;
+}
 
 void Widget::onRecordVideo1Wigdet(float speed, bool RecordOrPreview){
     currentTrail = hierarchy->root->getChildren("trailTest")->getComponent<Trail>();

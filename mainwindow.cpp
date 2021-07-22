@@ -142,8 +142,9 @@ MainWindow::MainWindow(QWidget *parent) :
     // 保存结束信号，mainwindow传回recordWindow
     connect(this, SIGNAL(offSaveVideo2recordWindow()), record, SLOT(offSaveVideo()));
 
-
-
+    connect(ui->daytime, SIGNAL(valueChanged(int)), this, SLOT(toskybox(int)));
+    connect(this, SIGNAL(mainwindow2skybox(int)), ui->openGLWidget, SLOT(changedaytime(int)));
+ 
     // 测试用：加载模型   
     auto buildingRoot = hierarchy->createObject("building");
     buildingRoot->transform = glm::rotate(
@@ -192,7 +193,9 @@ qDebug() << t[1][0] << t[1][1] << t[1][2] << t[1][3];\
 qDebug() << t[2][0] << t[2][1] << t[2][2] << t[2][3];\
 qDebug() << t[3][0] << t[3][1] << t[3][2] << t[3][3];
 
-
+void MainWindow::day_time() {
+    ui->label_5->setText(QString::number((ui->daytime->value()) / 10) + ":00");
+}
 void MainWindow::showObjectInfo(HierarchyObject * obj)
 {
     glm::vec3 scale, translation, skew;
@@ -553,3 +556,7 @@ void MainWindow::on_actionCursor_toggled(bool arg1)
     qDebug() << "cursor";
 }
 
+void MainWindow::toskybox(int value) {
+    qDebug() << "1111";
+    emit(mainwindow2skybox(value));
+}
